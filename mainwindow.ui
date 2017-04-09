@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>623</width>
-    <height>600</height>
+    <width>1079</width>
+    <height>880</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -18,8 +18,8 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>623</width>
-    <height>600</height>
+    <width>2000</width>
+    <height>2000</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -30,9 +30,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>230</y>
-      <width>601</width>
-      <height>301</height>
+      <y>660</y>
+      <width>1051</width>
+      <height>151</height>
      </rect>
     </property>
    </widget>
@@ -204,7 +204,7 @@
      <set>Qt::TextBrowserInteraction</set>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>331</x>
@@ -233,13 +233,13 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>11</y>
       <width>171</width>
-      <height>213</height>
+      <height>216</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -341,33 +341,70 @@
      </item>
     </layout>
    </widget>
+   <widget class="QTabWidget" name="twEditor">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>250</y>
+      <width>1051</width>
+      <height>401</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>Tab 1</string>
+     </attribute>
+     <widget class="QTextBrowser" name="tbEditor">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1041</width>
+        <height>361</height>
+       </rect>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextEditorInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_4">
+     <attribute name="title">
+      <string>Tab 2</string>
+     </attribute>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>2</width>
+      <height>2</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_9"/>
+   </widget>
+   <zorder>layoutWidget</zorder>
+   <zorder>layoutWidget</zorder>
    <zorder>cOutput</zorder>
    <zorder>layoutWidget</zorder>
-   <zorder>bAddFile</zorder>
    <zorder>lWD</zorder>
    <zorder>label_3</zorder>
    <zorder>label_4</zorder>
    <zorder>cCfiles</zorder>
-   <zorder>bRemove</zorder>
-   <zorder>bNew</zorder>
-   <zorder>bOpen</zorder>
-   <zorder>verticalSpacer</zorder>
-   <zorder>lLF</zorder>
-   <zorder>lHF</zorder>
-   <zorder>lEF</zorder>
-   <zorder>bFuses</zorder>
-   <zorder>label_5</zorder>
-   <zorder>label_6</zorder>
-   <zorder>label_7</zorder>
-   <zorder>label_6</zorder>
-   <zorder>lHF</zorder>
+   <zorder>groupBox</zorder>
+   <zorder>twEditor</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>623</width>
+     <width>1079</width>
      <height>22</height>
     </rect>
    </property>
