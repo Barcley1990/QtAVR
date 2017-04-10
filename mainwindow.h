@@ -9,6 +9,8 @@
 #include <qdiriterator.h>
 #include <qmessagebox.h>
 #include <qsyntaxhighlighter.h>
+#include <qtextedit.h>
+
 #include "mysyntaxhighlighter.h"
 
 namespace Ui {
@@ -44,6 +46,9 @@ private:
     QString BuildFilePath="/Users/tobias/Desktop/Build.sh";
     QString FlashFilePath="/Users/tobias/Desktop/Flash.sh";
     QString FFlashFilePath="/Users/tobias/Desktop/FFlash.sh";
+
+    QTabBar *TabBar;
+    QTextEdit *mainEditor;
 
 private slots:
     void rightMessage();

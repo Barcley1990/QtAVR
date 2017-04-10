@@ -37,8 +37,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->cbController, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineUC()));
     connect(ui->cbFlashtool, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineFD()));
 
+    // delete initialized tabs
+    ui->twMainTab->removeTab(0);
+    ui->twMainTab->removeTab(0);
+    TabBar = new QTabBar(this);
+
     // Syntax highlighter
-    mySyntaxHighLighter* highlighter = new mySyntaxHighLighter(ui->tbEditor->document());
+    //mySyntaxHighLighter* highlighter = new mySyntaxHighLighter(ui->tbEditor->document());
 
     /*-------------------------------------------------------------------------------*/
 
@@ -54,6 +59,8 @@ MainWindow::~MainWindow()
         FlashFile.remove();
     if(FFlashFile.exists())
         FFlashFile.remove();
+    if(mainFile->exists())
+        mainFile->deleteLater();
 }
 
 void MainWindow::NewProject(){
@@ -125,10 +132,16 @@ void MainWindow::NewProject(){
             ui->cCfiles->append(cFileNames[i]);
         }
 
+        // create QTextEdit in Main Tabwindow
+        mainEditor = new QTextEdit(this);
+        mySyntaxHighLighter* highlighter = new mySyntaxHighLighter(mainEditor->document());
+        ui->twMainTab->setTabText(0,filename);
+        ui->twMainTab->addTab(mainEditor, fi.fileName());
+
         // Open File in Editor
         mainFile->open(QFile::ReadOnly | QFile::Text);
         QTextStream ReadFile(mainFile);
-        ui->tbEditor->setText(ReadFile.readAll());
+        mainEditor->setText(ReadFile.readAll());
         mainFile->close();
 
      }
@@ -482,7 +495,8 @@ void MainWindow::SaveFile(){
     // Open File in Editor
     mainFile->open(QFile::WriteOnly | QFile::Text);
     QTextStream stream( mainFile );
-    stream << ui->tbEditor->toPlainText();
+    //stream << ui->tbEditor->toPlainText();
+    stream << mainEditor->toPlainText();
     mainFile->close();
 }
 

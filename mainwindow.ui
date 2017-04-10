@@ -49,12 +49,12 @@
     <property name="title">
      <string>Workspace</string>
     </property>
-    <widget class="QTabWidget" name="tabWidget">
+    <widget class="QTabWidget" name="twMainTab">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>240</x>
        <y>20</y>
-       <width>1011</width>
+       <width>791</width>
        <height>481</height>
       </rect>
      </property>
@@ -83,19 +83,12 @@
       <bool>false</bool>
      </property>
      <widget class="QWidget" name="tab">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <attribute name="title">
        <string>Tab 1</string>
       </attribute>
-      <widget class="QTextEdit" name="tbEditor">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>981</width>
-         <height>431</height>
-        </rect>
-       </property>
-      </widget>
      </widget>
      <widget class="QWidget" name="tab_2">
       <property name="enabled">
@@ -117,7 +110,7 @@
      </property>
     </widget>
     <zorder>cOutput</zorder>
-    <zorder>tabWidget</zorder>
+    <zorder>twMainTab</zorder>
    </widget>
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
@@ -546,11 +539,18 @@
     <property name="title">
      <string>Data</string>
     </property>
+    <widget class="QMenu" name="menuAdd">
+     <property name="title">
+      <string>Add</string>
+     </property>
+     <addaction name="actionNew_FIle"/>
+     <addaction name="actionExisting_File"/>
+    </widget>
     <addaction name="actionNew_Project"/>
     <addaction name="actionOpen_Project"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_All"/>
-    <addaction name="actionLoad"/>
+    <addaction name="menuAdd"/>
    </widget>
    <widget class="QMenu" name="menuDevice">
     <property name="title">
@@ -620,9 +620,14 @@
     <string>Save All</string>
    </property>
   </action>
-  <action name="actionLoad">
+  <action name="actionNew_FIle">
    <property name="text">
-    <string>Load</string>
+    <string>New FIle</string>
+   </property>
+  </action>
+  <action name="actionExisting_File">
+   <property name="text">
+    <string>Existing File</string>
    </property>
   </action>
  </widget>
