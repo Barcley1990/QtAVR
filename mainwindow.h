@@ -12,6 +12,7 @@
 #include <qtextedit.h>
 
 #include "mysyntaxhighlighter.h"
+#include "settings.h"
 
 namespace Ui {
 class MainWindow;
@@ -34,6 +35,9 @@ private:
     QStringList oFileNames;
     QString Workingdir;
     bool is_error=false;
+
+    // Settings
+    Settings* userSettings;
 
     // uC and Programmer
     QString uc = "-p m32", fd = "-c avrisp2";
@@ -67,6 +71,7 @@ private slots:
     void on_actionFlash_triggered();
     void on_actionRun_triggered();
     void on_actionNew_Project_triggered();
+    void on_actionOpen_Settings_triggered();
 };
 
 #endif // MAINWINDOW_H

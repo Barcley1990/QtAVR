@@ -533,6 +533,7 @@
      </widget>
     </widget>
    </widget>
+   <zorder>splitter_4</zorder>
    <zorder>splitter_2</zorder>
    <zorder>splitter</zorder>
    <zorder>layoutWidget</zorder>
@@ -540,11 +541,8 @@
    <zorder>layoutWidget</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>layoutWidget</zorder>
-   <zorder>groupBox</zorder>
    <zorder>groupBox_2</zorder>
    <zorder>groupBox_3</zorder>
-   <zorder>groupBox_4</zorder>
-   <zorder>groupBox_5</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -552,7 +550,7 @@
      <x>0</x>
      <y>0</y>
      <width>1079</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuData">
@@ -586,6 +584,7 @@
     <property name="title">
      <string>Settings</string>
     </property>
+    <addaction name="actionOpen_Settings"/>
    </widget>
    <addaction name="menuData"/>
    <addaction name="menuDevice"/>
@@ -663,6 +662,11 @@
   <action name="actionExisting_File">
    <property name="text">
     <string>Existing File</string>
+   </property>
+  </action>
+  <action name="actionOpen_Settings">
+   <property name="text">
+    <string>Open Settings</string>
    </property>
   </action>
  </widget>

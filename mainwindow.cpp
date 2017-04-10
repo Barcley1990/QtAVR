@@ -15,6 +15,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    userSettings = new Settings();
+    if(userSettings->load()){
+        // Settings successfully loaded
+    }else{
+        // TODO: There are no user settings, maybe show a welcome screen or a "first-steps" instruction
+    }
+
     /* create QProcess object */
     proc1 = new QProcess();
 
@@ -526,3 +533,9 @@ void MainWindow::on_actionRun_triggered()
 }
 
 
+
+void MainWindow::on_actionOpen_Settings_triggered(){
+    if(userSettings->exec()){
+        // TODO: Reload the server settings
+    }
+}
