@@ -15,16 +15,18 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowIcon(QIcon(":/images/images/chip03_small.png"));
-
-    this->setWindowState(Qt::WindowMaximized);
-
+<<<<<<< HEAD
     userSettings = new Settings();
     if(userSettings->load()){
         // Settings successfully loaded
     }else{
         // TODO: There are no user settings, maybe show a welcome screen or a "first-steps" instruction
     }
+=======
+    setWindowIcon(QIcon(":/images/images/chip03_small.png"));
+
+    this->setWindowState(Qt::WindowMaximized);
+>>>>>>> layout
 
     /* create QProcess object */
     proc1 = new QProcess();
@@ -508,13 +510,6 @@ void MainWindow::SaveFile(){
 }
 
 
-
-
-
-
-
-
-
 // Action Bar
 void MainWindow::on_actionNew_Project_triggered()
 {
@@ -537,15 +532,18 @@ void MainWindow::on_actionRun_triggered()
     Run();
 }
 
-void MainWindow::on_actionAbout_triggered(){
-    QMessageBox::about(this, tr("About QtAVR"),
-        tr("<h2>QtAVR</h2>"
-        "<p>Copyright &copy; 2017 Tobias Nuss, Dennis Greguhn"
-        "<p>Crude Build and Flash Tool for AVR Microcontroller"));
-}
+
+<<<<<<< HEAD
 
 void MainWindow::on_actionOpen_Settings_triggered(){
     if(userSettings->exec()){
         // TODO: Reload the server settings
     }
+=======
+void MainWindow::on_actionAbout_triggered(){
+    QMessageBox::about(this, tr("About QtAVR"),
+        tr("<h2>QtAVR</h2>"
+        "<p>Copyright &copy; 2017 Tobias Nuss, Dennis Greguhn"
+        "<p>Crude Build and Flash Tool for AVR Microcontroller"));
+>>>>>>> layout
 }
