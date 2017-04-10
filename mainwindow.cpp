@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->bNew, SIGNAL(clicked()), this, SLOT(NewProject()));
     connect(ui->bOpen, SIGNAL(clicked()), this, SLOT(OpenProject()));
     connect(ui->bFuses, SIGNAL(clicked()), this, SLOT(FlashFuses()));
+    connect(ui->bSave, SIGNAL(clicked()), this, SLOT(SaveFile()));
 
     connect(ui->cbController, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineUC()));
     connect(ui->cbFlashtool, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineFD()));
@@ -64,14 +65,16 @@ void MainWindow::NewProject(){
                                                     "c-Files (*.c)"
                                                     );
     if(filename.length() > 0){
-        QFile f(filename);
+        // Create new MainFile
+        mainFile = new QFile(this);
+        mainFile->setFileName(filename);
         // get actual working dir
         d = QFileInfo(filename).absoluteDir();
         Workingdir = d.absolutePath();
         ui->lWD->setText(Workingdir);
-        f.open( QIODevice::WriteOnly );
+        mainFile->open( QIODevice::WriteOnly );
 
-        QTextStream stream( &f );
+        QTextStream stream( mainFile );
         stream << "#define F_CPU x000000UL"     << endl
                << endl
                << "#include <stdlib.h>"         << endl
@@ -88,8 +91,10 @@ void MainWindow::NewProject(){
                << endl
                << "}"                            << endl
                << endl;
-        f.close();
+        mainFile->close();
 
+
+        /*  Create Filelist (ToDo)    */
         cFilePaths.clear();
         cFileNames.clear();
         // append filepath to list
@@ -119,6 +124,12 @@ void MainWindow::NewProject(){
         for(uint8_t i=0; i<cFilePaths.length(); i++){
             ui->cCfiles->append(cFileNames[i]);
         }
+
+        // Open File in Editor
+        mainFile->open(QFile::ReadOnly | QFile::Text);
+        QTextStream ReadFile(mainFile);
+        ui->tbEditor->setText(ReadFile.readAll());
+        mainFile->close();
 
      }
 }
@@ -465,3 +476,21 @@ void MainWindow::errorMessage()
     else
         ui->cOutput->append(error);
 }
+
+void MainWindow::SaveFile(){
+    qDebug() << "Save File" << endl;
+    // Open File in Editor
+    mainFile->open(QFile::WriteOnly | QFile::Text);
+    QTextStream stream( mainFile );
+    stream << ui->tbEditor->toPlainText();
+    mainFile->close();
+}
+
+
+
+
+
+
+
+
+

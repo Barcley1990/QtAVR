@@ -40,6 +40,7 @@ private:
     QFile BuildFile;
     QFile FlashFile;
     QFile FFlashFile;
+    QFile *mainFile;
     QString BuildFilePath="/Users/tobias/Desktop/Build.sh";
     QString FlashFilePath="/Users/tobias/Desktop/Flash.sh";
     QString FFlashFilePath="/Users/tobias/Desktop/FFlash.sh";
@@ -56,6 +57,7 @@ private slots:
     void FlashFuses();
     void DefineUC();
     void DefineFD();
+    void SaveFile();
 };
 
 #endif // MAINWINDOW_H

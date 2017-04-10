@@ -86,22 +86,16 @@
       <attribute name="title">
        <string>Tab 1</string>
       </attribute>
-      <widget class="QTextBrowser" name="tbEditor">
+      <widget class="QTextEdit" name="tbEditor">
        <property name="geometry">
         <rect>
-         <x>0</x>
-         <y>-10</y>
-         <width>1031</width>
-         <height>451</height>
+         <x>10</x>
+         <y>10</y>
+         <width>981</width>
+         <height>431</height>
         </rect>
        </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextEditorInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-       </property>
       </widget>
-      <zorder>tbEditor</zorder>
-      <zorder>cOutput</zorder>
-      <zorder>cOutput</zorder>
      </widget>
      <widget class="QWidget" name="tab_2">
       <property name="enabled">
@@ -122,8 +116,7 @@
       </rect>
      </property>
     </widget>
-    <zorder>splitter_3</zorder>
-    <zorder>lWD</zorder>
+    <zorder>cOutput</zorder>
     <zorder>tabWidget</zorder>
    </widget>
    <widget class="QGroupBox" name="groupBox_2">
@@ -138,7 +131,7 @@
     <property name="title">
      <string>Project</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -181,12 +174,6 @@
       </item>
      </layout>
     </widget>
-    <zorder></zorder>
-    <zorder></zorder>
-    <zorder>groupBox</zorder>
-    <zorder></zorder>
-    <zorder>bLoad</zorder>
-    <zorder></zorder>
    </widget>
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
@@ -200,7 +187,7 @@
     <property name="title">
      <string>Device</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -406,7 +393,7 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -430,7 +417,7 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -454,7 +441,7 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -480,7 +467,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>640</x>
@@ -535,48 +522,16 @@
      </item>
     </layout>
    </widget>
+   <zorder>splitter_2</zorder>
+   <zorder>splitter</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>layoutWidget</zorder>
-   <zorder>lWD</zorder>
-   <zorder>cCfiles</zorder>
-   <zorder>cCfiles</zorder>
-   <zorder>verticalSpacer_2</zorder>
-   <zorder>lWD</zorder>
-   <zorder>lWD</zorder>
+   <zorder>layoutWidget</zorder>
    <zorder>groupBox</zorder>
    <zorder>groupBox_2</zorder>
-   <zorder></zorder>
-   <zorder>label_3</zorder>
-   <zorder>cOutput</zorder>
-   <zorder>tbEditor</zorder>
-   <zorder>groupBox</zorder>
-   <zorder>groupBox_2</zorder>
-   <zorder>label</zorder>
-   <zorder>bRun</zorder>
-   <zorder>lHF</zorder>
-   <zorder>cCfiles</zorder>
-   <zorder>cbFlashtool</zorder>
-   <zorder>bRemove</zorder>
-   <zorder>label_2</zorder>
-   <zorder>label_5</zorder>
-   <zorder>bFuses</zorder>
-   <zorder>label_6</zorder>
-   <zorder>lLF</zorder>
-   <zorder>bFlash</zorder>
-   <zorder>cbController</zorder>
-   <zorder>label_7</zorder>
-   <zorder>bAddFile</zorder>
-   <zorder>lEF</zorder>
-   <zorder>bBuild</zorder>
-   <zorder>bNew</zorder>
-   <zorder>bOpen</zorder>
-   <zorder>bSave</zorder>
-   <zorder>bLoad</zorder>
    <zorder>groupBox_3</zorder>
-   <zorder>bAddFile</zorder>
-   <zorder>tabWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -607,8 +562,14 @@
     <addaction name="actionRun"/>
     <addaction name="actionFuses"/>
    </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+   </widget>
    <addaction name="menuData"/>
    <addaction name="menuDevice"/>
+   <addaction name="menuSettings"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
