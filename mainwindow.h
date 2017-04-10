@@ -67,6 +67,7 @@ private slots:
     void on_actionFlash_triggered();
     void on_actionRun_triggered();
     void on_actionNew_Project_triggered();
+    void on_actionAbout_triggered();
 };
 
 #endif // MAINWINDOW_H

@@ -15,6 +15,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    setWindowIcon(QIcon(":/images/images/chip03_small.png"));
+
+    this->setWindowState(Qt::WindowMaximized);
+
     /* create QProcess object */
     proc1 = new QProcess();
 
@@ -496,13 +500,6 @@ void MainWindow::SaveFile(){
 }
 
 
-
-
-
-
-
-
-
 // Action Bar
 void MainWindow::on_actionNew_Project_triggered()
 {
@@ -526,3 +523,9 @@ void MainWindow::on_actionRun_triggered()
 }
 
 
+void MainWindow::on_actionAbout_triggered(){
+    QMessageBox::about(this, tr("About QtAVR"),
+        tr("<h2>QtAVR</h2>"
+        "<p>Copyright &copy; 2017 Tobias Nuss, Dennis Greguhn"
+        "<p>Crude Build and Flash Tool for AVR Microcontroller"));
+}
