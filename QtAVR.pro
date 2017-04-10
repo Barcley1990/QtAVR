@@ -27,8 +27,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    mysyntaxhighlighter.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    mysyntaxhighlighter.h
 
 FORMS    += mainwindow.ui

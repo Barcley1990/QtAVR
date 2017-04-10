@@ -5,7 +5,7 @@
 // TODO:
 // Dateipfade ändern.
 // Comboboxen schreiben
-// flashen schreiben
+
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -35,6 +35,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->cbController, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineUC()));
     connect(ui->cbFlashtool, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineFD()));
+
+    // Syntax highlighter
+    mySyntaxHighLighter* highlighter = new mySyntaxHighLighter(ui->tbEditor->document());
 
     /*-------------------------------------------------------------------------------*/
 
@@ -340,11 +343,11 @@ void MainWindow::Flash()
 void MainWindow::FlashFuses() {
     qDebug() << "Flashing Fuses" << endl;
     QString LF = ui->lLF->text();
-    uint8_t lf = LF.toInt();
+    //uint8_t lf = LF.toInt();
     QString HF = ui->lHF->text();
-    uint8_t hf = HF.toInt();
+    //uint8_t hf = HF.toInt();
     QString EF = ui->lEF->text();
-    uint8_t ef = EF.toInt();
+    //uint8_t ef = EF.toInt();
 
     // open qmessage box (warning)
     QMessageBox::StandardButton reply;

@@ -8,6 +8,8 @@
 #include <qfiledialog.h>
 #include <qdiriterator.h>
 #include <qmessagebox.h>
+#include <qsyntaxhighlighter.h>
+#include "mysyntaxhighlighter.h"
 
 namespace Ui {
 class MainWindow;

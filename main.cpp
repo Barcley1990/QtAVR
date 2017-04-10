@@ -1,4 +1,6 @@
 #include "mainwindow.h"
+#include "mysyntaxhighlighter.h"
+
 #include <QApplication>
 #include <qprocess.h>
 
