@@ -3,8 +3,9 @@
 
 
 // TODO:
-// Dateipfade ändern.
+// Dateipfade aendern.
 // Comboboxen schreiben
+// Eigene Klasse fue Editor
 
 
 
@@ -40,7 +41,6 @@ MainWindow::MainWindow(QWidget *parent) :
     // delete initialized tabs
     ui->twMainTab->removeTab(0);
     ui->twMainTab->removeTab(0);
-    TabBar = new QTabBar(this);
 
     // Syntax highlighter
     //mySyntaxHighLighter* highlighter = new mySyntaxHighLighter(ui->tbEditor->document());
@@ -59,7 +59,7 @@ MainWindow::~MainWindow()
         FlashFile.remove();
     if(FFlashFile.exists())
         FFlashFile.remove();
-    if(mainFile->exists())
+    if(mainFile->exists())      // TODO: Programm crasht an dieser Stelle wenn mainFile nicht erzeugt wird
         mainFile->deleteLater();
 }
 
@@ -92,10 +92,9 @@ void MainWindow::NewProject(){
            }
            defaultTemplate.close();
         }
-
         mainFile->close();
 
-        /*  Create Filelist (ToDo)    */
+        /*  Create Filelist (TODO: auslagern)    */
         cFilePaths.clear();
         cFileNames.clear();
         // append filepath to list
@@ -126,7 +125,7 @@ void MainWindow::NewProject(){
             ui->cCfiles->append(cFileNames[i]);
         }
 
-        // create QTextEdit in Main Tabwindow
+        // create QTextEdit in new tab on Tabwindow and enable syntax highlighting
         mainEditor = new QTextEdit(this);
         mySyntaxHighLighter* highlighter = new mySyntaxHighLighter(mainEditor->document());
         ui->twMainTab->setTabText(0,filename);
@@ -487,11 +486,13 @@ void MainWindow::errorMessage()
 void MainWindow::SaveFile(){
     qDebug() << "Save File" << endl;
     // Open File in Editor
-    mainFile->open(QFile::WriteOnly | QFile::Text);
-    QTextStream stream( mainFile );
-    //stream << ui->tbEditor->toPlainText();
-    stream << mainEditor->toPlainText();
-    mainFile->close();
+    if(mainFile->exists()){
+        mainFile->open(QFile::WriteOnly | QFile::Text);
+        QTextStream stream( mainFile );
+        //stream << ui->tbEditor->toPlainText();
+        stream << mainEditor->toPlainText();
+        mainFile->close();
+    }
 }
 
 
@@ -500,5 +501,28 @@ void MainWindow::SaveFile(){
 
 
 
+
+
+// Action Bar
+void MainWindow::on_actionNew_Project_triggered()
+{
+    NewProject();
+}
+void MainWindow::on_actionSave_triggered()
+{
+    SaveFile();
+}
+void MainWindow::on_actionBuild_triggered()
+{
+    Build();
+}
+void MainWindow::on_actionFlash_triggered()
+{
+    Flash();
+}
+void MainWindow::on_actionRun_triggered()
+{
+    Run();
+}
 
 

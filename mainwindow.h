@@ -47,7 +47,6 @@ private:
     QString FlashFilePath="/Users/tobias/Desktop/Flash.sh";
     QString FFlashFilePath="/Users/tobias/Desktop/FFlash.sh";
 
-    QTabBar *TabBar;
     QTextEdit *mainEditor;
 
 private slots:
@@ -63,6 +62,11 @@ private slots:
     void DefineUC();
     void DefineFD();
     void SaveFile();
+    void on_actionSave_triggered();
+    void on_actionBuild_triggered();
+    void on_actionFlash_triggered();
+    void on_actionRun_triggered();
+    void on_actionNew_Project_triggered();
 };
 
 #endif // MAINWINDOW_H
