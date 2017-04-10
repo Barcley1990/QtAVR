@@ -63,7 +63,7 @@ void MainWindow::NewProject(){
                                                     d.path(),
                                                     "c-Files (*.c)"
                                                     );
-    if(filename>1){
+    if(filename.length() > 0){
         QFile f(filename);
         // get actual working dir
         d = QFileInfo(filename).absoluteDir();
@@ -131,7 +131,7 @@ void MainWindow::OpenProject(){
                                                      d.path(),
                                                      "c-Files (*.c)"
                                                      );
-    if(filename>1){
+    if(filename.length() > 0){
         cFilePaths.clear();
         cFileNames.clear();
         // get actual working dir
@@ -194,7 +194,7 @@ void MainWindow::AddCFile()
                                                      d.path(),
                                                      "c-Files (*.c)"
                                                      );
-    if(filename>1){
+    if(filename.length() > 0){
         // get actual working dir
         d = QFileInfo(filename).absoluteDir();
         Workingdir = d.absolutePath();
