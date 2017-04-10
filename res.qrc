@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/templates">
+        <file>templates/default.txt</file>
+    </qresource>
+</RCC>

@@ -34,3 +34,8 @@ HEADERS  += mainwindow.h \
     mysyntaxhighlighter.h
 
 FORMS    += mainwindow.ui
+
+DISTFILES +=
+
+RESOURCES += \
+    res.qrc

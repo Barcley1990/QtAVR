@@ -74,25 +74,19 @@ void MainWindow::NewProject(){
         ui->lWD->setText(Workingdir);
         mainFile->open( QIODevice::WriteOnly );
 
-        QTextStream stream( mainFile );
-        stream << "#define F_CPU x000000UL"     << endl
-               << endl
-               << "#include <stdlib.h>"         << endl
-               << "#include <avr/io.h>"         << endl
-               << "#include <util/delay.h>"     << endl
-               << endl
-               << endl
-               << "void setup(){"                << endl
-               << endl
-               << "}"                            << endl
-               << endl
-               << endl
-               << "void main(){"                 << endl
-               << endl
-               << "}"                            << endl
-               << endl;
-        mainFile->close();
+        // Copy the default ressource file to the new generated source file
+        QFile defaultTemplate(":/templates/templates/default.txt");
+        if (defaultTemplate.open(QIODevice::ReadOnly)){
+           QTextStream in(&defaultTemplate);
+           while (!in.atEnd()){
+              //QString line = in.readLine();
+              mainFile->write(in.readLine().toLatin1());
+              mainFile->write("\r\n");
+           }
+           defaultTemplate.close();
+        }
 
+        mainFile->close();
 
         /*  Create Filelist (ToDo)    */
         cFilePaths.clear();
