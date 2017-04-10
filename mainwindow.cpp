@@ -259,9 +259,9 @@ void MainWindow::Build()
     qDebug() << "Build" << endl;
 
     //********** Strings für avr-gcc vorbereiten **********/
-    QString compile = "/usr/local/Cellar/avr-gcc/6.2.0/bin/avr-gcc -g -Os -mmcu=attiny2313 -c ";
-    QString link    = "/usr/local/Cellar/avr-gcc/6.2.0/bin/avr-gcc -g -mmcu=attiny2313 -o ";
-    QString hex     = "/usr/local/Cellar/avr-binutils/2.25/bin/avr-objcopy -j .text -j .data -O ihex ";
+    QString compile = userSettings->getToolchainRootPath() + "/bin/avr-gcc -g -Os -mmcu=attiny2313 -c ";
+    QString link    = userSettings->getToolchainRootPath() + "/bin/avr-gcc -g -mmcu=attiny2313 -o ";
+    QString hex     = userSettings->getToolchainRootPath() + "/bin/avr-objcopy -j .text -j .data -O ihex ";
 
     // Compile
     for(uint8_t i=0; i<cFileNames.length(); i++){
@@ -323,7 +323,8 @@ void MainWindow::Flash()
 {
     qDebug() << "Flash"<< endl;
     qDebug() << "uC: " << uc << " programer: " << fd << endl;
-    QString avrdude = "/usr/local/Cellar/avrdude/6.3/bin/avrdude " ;
+
+    QString avrdude = userSettings->getAvrdudePath() + "/avrdude " ;
     QString write = "-U flash:w:main.hex";
     avrdude.append(fd).append(" ").append(uc).append(" ").append(write);
     qDebug() << avrdude << endl;
@@ -384,8 +385,8 @@ void MainWindow::FlashFuses() {
 
         // create strings to send
         qDebug() << "uC: " << uc << " programer: " << fd << endl;
-        QString avrdude = "/usr/local/Cellar/avrdude/6.3/bin/avrdude " ;
-        QString s1 = "-U lfuse:w:";
+    QString avrdude = userSettings->getAvrdudePath() + "/avrdude " ;
+    QString s1 = "-U lfuse:w:";
         QString s2 = "-U hfuse:w:";
         QString s3 = "-U efuse:w:";
         QString s4 = ":m ";

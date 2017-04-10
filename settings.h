@@ -19,13 +19,16 @@ public:
     bool load();
     // Getters
     QString getAvrdudePath();
+    QString getToolchainRootPath();
 
 private slots:
     void on_toolButtonPathAvrdude_clicked();
+    void on_toolButtonPathToolchainRoot_clicked();
     void on_pushButtonSaveSettings_clicked();
 
 private:
     Ui::Settings *ui;
+    QString settingsFile;
 };
 
 #endif // SETTINGS_H
