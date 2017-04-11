@@ -71,8 +71,8 @@ MainWindow::~MainWindow()
         FlashFile.remove();
     if(FFlashFile.exists())
         FFlashFile.remove();
-    if(mainFile->exists())      // TODO: Programm crasht an dieser Stelle wenn mainFile nicht erzeugt wird
-        mainFile->deleteLater();
+    //if(mainFile->exists())      // TODO: Programm crasht an dieser Stelle wenn mainFile nicht erzeugt wird
+       // mainFile->deleteLater();
 }
 
 // show prompt when user wants to close app
@@ -92,12 +92,21 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::NewProject(){
     qDebug() << "Create new project" << endl;
 
-    QString filename = QFileDialog::getSaveFileName(this,
+    QString file = QFileDialog::getSaveFileName(this,
                                                     tr("Save File"),
                                                     d.path(),
                                                     "c-Files (*.c)"
                                                     );
-    if(filename.length() > 0){
+    if(file.length() > 0){
+
+        QString filename = QFileInfo(file).fileName();
+        QString filepath = QFileInfo(file).filePath();
+
+        // New File in tab-bar
+        ui->twMainTab->addTab( new Editor(this, filepath), filename );
+
+
+/*
         // Create new MainFile
         mainFile = new QFile(this);
         mainFile->setFileName(filename);
@@ -120,7 +129,7 @@ void MainWindow::NewProject(){
         }
         mainFile->close();
 
-        /*  Create Filelist (TODO: auslagern)    */
+        //  Create Filelist (TODO: auslagern)
         cFilePaths.clear();
         cFileNames.clear();
         // append filepath to list
@@ -152,6 +161,9 @@ void MainWindow::NewProject(){
         }
 
         // create Editor instance in new tab on Tabwindow and enable syntax highlighting
+
+*/
+        /*
         mainEditor = new Editor(this);
 
         mySyntaxHighLighter* highlighter = new mySyntaxHighLighter(mainEditor->document());
@@ -163,7 +175,7 @@ void MainWindow::NewProject(){
         QTextStream ReadFile(mainFile);
         mainEditor->document()->setPlainText(ReadFile.readAll());
         mainFile->close();
-
+        */
      }
 }
 
@@ -558,4 +570,17 @@ void MainWindow::on_actionOpen_Settings_triggered(){
     if(userSettings->exec()){
         // TODO: Reload the server settings
     }
+}
+
+void MainWindow::on_actionNew_File_triggered()
+{
+    qDebug() << "Create new File" << endl;
+
+    QString filename = QFileDialog::getSaveFileName(this,
+                                                    tr("New File"),
+                                                    d.path(),
+                                                    tr("c-Files (*.c);;h-Files (*.h)")
+                                                    );
+
+
 }
