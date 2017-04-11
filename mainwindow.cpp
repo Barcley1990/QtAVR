@@ -6,6 +6,7 @@
 // Dateipfade aendern.
 // Comboboxen schreiben
 // Eigene Klasse fue Editor
+// Checken ob ungespeicherte Dateien vorhanden sind und im closeHandle abfragen.
 
 
 
@@ -74,8 +75,8 @@ MainWindow::~MainWindow()
         mainFile->deleteLater();
 }
 
-
-void MainWindow::closeEvent(QCloseEvent *event)  // show prompt when user wants to close app
+// show prompt when user wants to close app
+void MainWindow::closeEvent(QCloseEvent *event)
 {
     event->ignore();
     QMessageBox question;
