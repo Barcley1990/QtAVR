@@ -8,4 +8,8 @@
         <file>images/chip03.png</file>
         <file>images/chip03_small.png</file>
     </qresource>
+    <qresource prefix="/xml">
+        <file>xml/processors.xml</file>
+        <file>xml/programmers.xml</file>
+    </qresource>
 </RCC>

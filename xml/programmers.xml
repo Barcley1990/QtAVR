@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<programmers>
+	<programmer>
+		<name>Atmel AVR ISP mkII</name>
+		<command>avrisp2</command>
+	</programmer>
+	<programmer>
+		<name>Atmel AVR JTAGICE3 in ISP mode</name>
+		<command>jtag3isp</command>
+	</programmer>
+</programmers>

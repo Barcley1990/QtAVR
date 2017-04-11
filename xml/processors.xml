@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<processors>
+	<processor>
+		<name>ATmega32</name>
+		<command>m32</command>
+	</processor>
+	<processor>
+		<name>ATmega328</name>
+		<command>m328</command>
+	</processor>
+	<processor>
+		<name>ATtiny2313</name>
+		<command>t2313</command>
+	</processor>
+	<processor>
+		<name>ATtiny4313</name>
+		<command>t4313</command>
+	</processor>
+</processors>
