@@ -29,11 +29,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     mysyntaxhighlighter.cpp \
-    settings.cpp
+    settings.cpp \
+    editor.cpp
 
 HEADERS  += mainwindow.h \
     mysyntaxhighlighter.h \
-    settings.h
+    settings.h \
+    editor.h
 
 FORMS    += mainwindow.ui \
     settings.ui

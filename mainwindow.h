@@ -13,6 +13,7 @@
 
 #include "mysyntaxhighlighter.h"
 #include "settings.h"
+#include "editor.h"
 
 namespace Ui {
 class MainWindow;
@@ -51,7 +52,7 @@ private:
     QString FlashFilePath="/Users/tobias/Desktop/Flash.sh";
     QString FFlashFilePath="/Users/tobias/Desktop/FFlash.sh";
 
-    QTextEdit *mainEditor;
+    Editor *mainEditor;
 
 private slots:
     void rightMessage();

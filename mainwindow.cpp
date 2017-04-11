@@ -136,8 +136,9 @@ void MainWindow::NewProject(){
             ui->cCfiles->append(cFileNames[i]);
         }
 
-        // create QTextEdit in new tab on Tabwindow and enable syntax highlighting
-        mainEditor = new QTextEdit(this);
+        // create Editor instance in new tab on Tabwindow and enable syntax highlighting
+        mainEditor = new Editor(this);
+
         mySyntaxHighLighter* highlighter = new mySyntaxHighLighter(mainEditor->document());
         ui->twMainTab->setTabText(0,filename);
         ui->twMainTab->addTab(mainEditor, fi.fileName());
@@ -145,7 +146,7 @@ void MainWindow::NewProject(){
         // Open File in Editor
         mainFile->open(QFile::ReadOnly | QFile::Text);
         QTextStream ReadFile(mainFile);
-        mainEditor->setText(ReadFile.readAll());
+        mainEditor->document()->setPlainText(ReadFile.readAll());
         mainFile->close();
 
      }
@@ -501,7 +502,6 @@ void MainWindow::SaveFile(){
     if(mainFile->exists()){
         mainFile->open(QFile::WriteOnly | QFile::Text);
         QTextStream stream( mainFile );
-        //stream << ui->tbEditor->toPlainText();
         stream << mainEditor->toPlainText();
         mainFile->close();
     }
