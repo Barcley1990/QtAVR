@@ -1,3 +1,10 @@
+/****************************************************************************
+**
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the examples of the Qt Toolkit.
+****************************************************************************/
 #ifndef EDITOR_H
 #define EDITOR_H
 

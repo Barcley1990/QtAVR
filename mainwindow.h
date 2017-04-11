@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QCloseEvent>
 #include <qprocess.h>
 #include <qdebug.h>
 #include <qfile.h>
@@ -10,6 +11,7 @@
 #include <qmessagebox.h>
 #include <qsyntaxhighlighter.h>
 #include <qtextedit.h>
+
 
 #include "mysyntaxhighlighter.h"
 #include "settings.h"
@@ -26,6 +28,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void closeEvent(QCloseEvent *event);
 
 
     QProcess *proc1;

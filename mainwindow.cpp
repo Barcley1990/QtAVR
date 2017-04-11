@@ -74,6 +74,20 @@ MainWindow::~MainWindow()
         mainFile->deleteLater();
 }
 
+
+void MainWindow::closeEvent(QCloseEvent *event)  // show prompt when user wants to close app
+{
+    event->ignore();
+    QMessageBox question;
+    question.setText("There are unsaved Files \n\n Exit anyway?");
+    question.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    question.show();
+    if(question.exec() == QMessageBox::Yes) {
+        event->accept();
+    }
+
+}
+
 void MainWindow::NewProject(){
     qDebug() << "Create new project" << endl;
 
@@ -506,11 +520,6 @@ void MainWindow::SaveFile(){
         mainFile->close();
     }
 }
-
-
-
-
-
 
 
 
