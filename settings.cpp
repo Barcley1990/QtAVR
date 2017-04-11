@@ -7,8 +7,7 @@
 Settings::Settings(QWidget *parent) : QDialog(parent), ui(new Ui::Settings){
     ui->setupUi(this);
 
-    // TODO: Create a program directory in home folder!
-    settingsFile = "~/QtAVR/user_settings.ini";
+    settingsFile = QDir::homePath() + "/QtAVR/user_settings.ini";
     qDebug() << "Settings file: " << settingsFile;
 }
 
@@ -23,8 +22,8 @@ bool Settings::load(){
         QSettings settings(settingsFile, QSettings::NativeFormat);
         ui->lineEditPathAvrdude->setText(settings.value("path.avrdude", "").toString());
         ui->lineEditPathToolchainRoot->setText(settings.value("path.toolchain_root", "").toString());
+        return true;
     }
-
     return false;
 }
 
@@ -37,8 +36,7 @@ QString Settings::getToolchainRootPath(){
 }
 
 void Settings::on_toolButtonPathAvrdude_clicked(){
-    // TODO: Get the current operating system and use default start folder instead of /home
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Select AVRDUDE directory"), "~/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Select AVRDUDE directory"), QDir::homePath(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     if (dir.isEmpty() == false) {
         ui->lineEditPathAvrdude->setText(dir);
@@ -46,8 +44,7 @@ void Settings::on_toolButtonPathAvrdude_clicked(){
 }
 
 void Settings::on_toolButtonPathToolchainRoot_clicked(){
-    // TODO: Get the current operating system and use default start folder instead of /home
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Select Toolchain root directory"), "~/", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Select AVR Toolchain root directory"), QDir::homePath(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     if (dir.isEmpty() == false) {
         ui->lineEditPathToolchainRoot->setText(dir);
