@@ -30,7 +30,6 @@ public:
     ~MainWindow();
     void closeEvent(QCloseEvent *event);
 
-
     QProcess *proc1;
 private:
     Ui::MainWindow *ui;
@@ -46,16 +45,12 @@ private:
     // uC and Programmer
     QString uc = "-p m32", fd = "-c avrisp2";
 
-    QDir d;
     QFile BuildFile;
     QFile FlashFile;
     QFile FFlashFile;
-    QFile *mainFile;
     QString BuildFilePath="/Users/tobias/Desktop/Build.sh";
     QString FlashFilePath="/Users/tobias/Desktop/Flash.sh";
     QString FFlashFilePath="/Users/tobias/Desktop/FFlash.sh";
-
-    Editor *mainEditor;
 
 private slots:
     void rightMessage();
