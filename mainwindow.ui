@@ -119,33 +119,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QComboBox" name="cbController">
-                     <item>
-                      <property name="text">
-                       <string>AtMega32</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>AtMega328</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>AtTiny2313</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>AtTiny4313</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>other</string>
-                      </property>
-                     </item>
-                    </widget>
+                    <widget class="QComboBox" name="cbController"/>
                    </item>
                   </layout>
                  </item>
@@ -162,18 +136,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QComboBox" name="cbFlashtool">
-                     <item>
-                      <property name="text">
-                       <string>AVR MKll</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>other</string>
-                      </property>
-                     </item>
-                    </widget>
+                    <widget class="QComboBox" name="cbFlashtool"/>
                    </item>
                   </layout>
                  </item>

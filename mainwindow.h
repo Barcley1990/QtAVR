@@ -11,6 +11,7 @@
 #include <qmessagebox.h>
 #include <qsyntaxhighlighter.h>
 #include <qtextedit.h>
+#include "QtXml/qdom.h"
 
 
 #include "mysyntaxhighlighter.h"
@@ -57,6 +58,13 @@ private:
 
     Editor *mainEditor;
 
+    QStringList processors;
+    QStringList processorCommands;
+    QString currentProcessorCommand;
+    QStringList programmers;
+    QStringList programmerCommands;
+    QString currentProgrammerCommand;
+
 private slots:
     void rightMessage();
     void errorMessage();
@@ -77,6 +85,8 @@ private slots:
     void on_actionNew_Project_triggered();
     void on_actionAbout_triggered();
     void on_actionOpen_Settings_triggered();
+    void on_cbController_currentIndexChanged(int index);
+    void on_cbFlashtool_currentIndexChanged(int index);
 };
 
 #endif // MAINWINDOW_H
