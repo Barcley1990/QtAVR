@@ -68,6 +68,9 @@ void Editor::saveContent()
         stream << this->toPlainText();
         file->close();
     }
+    else {
+        qDebug() << "Error: File not found!" << endl;
+    }
 }
 
 int Editor::lineNumberAreaWidth()
