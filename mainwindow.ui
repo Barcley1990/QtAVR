@@ -469,7 +469,7 @@
      <x>0</x>
      <y>0</y>
      <width>1183</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuData">
@@ -480,7 +480,7 @@
      <property name="title">
       <string>Add</string>
      </property>
-     <addaction name="actionNew_FIle"/>
+     <addaction name="actionNew_File"/>
      <addaction name="actionExisting_File"/>
     </widget>
     <addaction name="actionNew_Project"/>
@@ -572,9 +572,9 @@
     <string>Save All</string>
    </property>
   </action>
-  <action name="actionNew_FIle">
+  <action name="actionNew_File">
    <property name="text">
-    <string>New FIle</string>
+    <string>New File</string>
    </property>
   </action>
   <action name="actionExisting_File">

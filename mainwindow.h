@@ -31,7 +31,6 @@ public:
     ~MainWindow();
     void closeEvent(QCloseEvent *event);
 
-
     QProcess *proc1;
 private:
     Ui::MainWindow *ui;
@@ -47,16 +46,14 @@ private:
     // uC and Programmer
     QString uc = "-p m32", fd = "-c avrisp2";
 
-    QDir d;
     QFile BuildFile;
     QFile FlashFile;
     QFile FFlashFile;
-    QFile *mainFile;
     QString BuildFilePath="/Users/tobias/Desktop/Build.sh";
     QString FlashFilePath="/Users/tobias/Desktop/Flash.sh";
     QString FFlashFilePath="/Users/tobias/Desktop/FFlash.sh";
 
-    Editor *mainEditor;
+    int curTabIndex;
 
     QStringList processors;
     QStringList processorAvrdudeCommands;
@@ -87,6 +84,7 @@ private slots:
     void on_actionNew_Project_triggered();
     void on_actionAbout_triggered();
     void on_actionOpen_Settings_triggered();
+    void on_actionNew_File_triggered();
     void on_cbController_currentIndexChanged(int index);
     void on_cbFlashtool_currentIndexChanged(int index);
 };

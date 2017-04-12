@@ -8,7 +8,7 @@
 #include "editor.h"
 #include <QtWidgets>
 
-Editor::Editor(QWidget *parent) : QPlainTextEdit(parent)
+Editor::Editor(QWidget *parent, QString directory) : QPlainTextEdit(parent)
 {
     lineNumberArea = new LineNumberArea(this);
 
@@ -18,13 +18,49 @@ Editor::Editor(QWidget *parent) : QPlainTextEdit(parent)
 
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
+
+    // create new file from template
+    file = new QFile(this);
+    file->setFileName(directory);
+    file->open(QIODevice::WriteOnly);
+    // Copy the default ressource file to the new generated source file
+    QFile defaultTemplate(":/templates/templates/default.txt");
+    if (defaultTemplate.open(QIODevice::ReadOnly)){
+       QTextStream in(&defaultTemplate);
+       while (!in.atEnd()){
+          file->write(in.readLine().toLatin1());
+          file->write("\r\n");
+       }
+       defaultTemplate.close();
+    }
+    file->close();
+
+    // start syntaxhighlithning
+    highlighter = new mySyntaxHighLighter(this->document());
+
+    // Open File in Editor
+    file->open(QFile::ReadOnly | QFile::Text);
+    QTextStream ReadFile(file);
+    this->document()->setPlainText(ReadFile.readAll());
+    file->close();
 }
 
 Editor::~Editor(){
-
+    highlighter->deleteLater();
+    file->deleteLater();
 }
 
+QFile Editor::getter()
+{
+    //file->open();
 
+    //file->close();
+}
+
+void Editor::setter()
+{
+
+}
 
 int Editor::lineNumberAreaWidth()
 {

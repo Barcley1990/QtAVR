@@ -10,6 +10,9 @@
 
 #include <QPlainTextEdit>
 #include <QObject>
+#include <QFile>
+
+#include "mysyntaxhighlighter.h"
 
 class QPaintEvent;
 class QResizeEvent;
@@ -23,8 +26,12 @@ class Editor : public QPlainTextEdit
     Q_OBJECT
 
 public:
-    Editor(QWidget *parent = 0);
+    //Editor(QWidget *parent = 0);
+    Editor(QWidget *parent = 0, QString directory = 0);
     ~Editor();
+
+    QFile getter();
+    void setter();
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
@@ -39,6 +46,8 @@ private slots:
 
 private:
     QWidget *lineNumberArea;
+    mySyntaxHighLighter *highlighter;
+    QFile *file;
 };
 
 

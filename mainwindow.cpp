@@ -31,8 +31,8 @@ MainWindow::MainWindow(QWidget *parent) :
     proc1 = new QProcess();
 
     // default file path at start
-    d.setPath("/Users/tobias/Desktop/");
-    ui->lWD->setText(d.path());
+    Workingdir= "/Users/tobias/Desktop/";
+    ui->lWD->setText(Workingdir);
 
     /* show output */
     connect(proc1, SIGNAL(readyReadStandardOutput()),this, SLOT(rightMessage()) );
@@ -49,6 +49,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->cbController, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineUC()));
     connect(ui->cbFlashtool, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineFD()));
+
+    // Get selected tab
+    connect(ui->twMainTab, SIGNAL(currentChanged(curTabIndex)), this, SLOT());
 
     // delete initialized tabs
     ui->twMainTab->removeTab(0);
@@ -131,8 +134,6 @@ MainWindow::~MainWindow()
         FlashFile.remove();
     if(FFlashFile.exists())
         FFlashFile.remove();
-    if(mainFile->exists())      // TODO: Programm crasht an dieser Stelle wenn mainFile nicht erzeugt wird
-        mainFile->deleteLater();
 }
 
 // show prompt when user wants to close app
@@ -152,35 +153,25 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::NewProject(){
     qDebug() << "Create new project" << endl;
 
-    QString filename = QFileDialog::getSaveFileName(this,
+    QString file = QFileDialog::getSaveFileName(this,
                                                     tr("Save File"),
-                                                    d.path(),
+                                                    Workingdir,
                                                     "c-Files (*.c)"
                                                     );
-    if(filename.length() > 0){
-        // Create new MainFile
-        mainFile = new QFile(this);
-        mainFile->setFileName(filename);
+    if(file.length() > 0){
+
+        QString filename        = QFileInfo(file).fileName();
+        QString filepathname    = QFileInfo(file).filePath();
+        QString filepath        = QFileInfo(file).path();
+
+        // New File in tab-bar
+        ui->twMainTab->addTab( new Editor(this, filepathname), filename );
+
         // get actual working dir
-        d = QFileInfo(filename).absoluteDir();
-        Workingdir = d.absolutePath();
+        Workingdir = filepath;
         ui->lWD->setText(Workingdir);
-        mainFile->open( QIODevice::WriteOnly );
 
-        // Copy the default ressource file to the new generated source file
-        QFile defaultTemplate(":/templates/templates/default.txt");
-        if (defaultTemplate.open(QIODevice::ReadOnly)){
-           QTextStream in(&defaultTemplate);
-           while (!in.atEnd()){
-              //QString line = in.readLine();
-              mainFile->write(in.readLine().toLatin1());
-              mainFile->write("\r\n");
-           }
-           defaultTemplate.close();
-        }
-        mainFile->close();
-
-        /*  Create Filelist (TODO: auslagern)    */
+        //  Create Filelist (TODO: auslagern)
         cFilePaths.clear();
         cFileNames.clear();
         // append filepath to list
@@ -210,20 +201,6 @@ void MainWindow::NewProject(){
         for(uint8_t i=0; i<cFilePaths.length(); i++){
             ui->cCfiles->append(cFileNames[i]);
         }
-
-        // create Editor instance in new tab on Tabwindow and enable syntax highlighting
-        mainEditor = new Editor(this);
-
-        mySyntaxHighLighter* highlighter = new mySyntaxHighLighter(mainEditor->document());
-        ui->twMainTab->setTabText(0,filename);
-        ui->twMainTab->addTab(mainEditor, fi.fileName());
-
-        // Open File in Editor
-        mainFile->open(QFile::ReadOnly | QFile::Text);
-        QTextStream ReadFile(mainFile);
-        mainEditor->document()->setPlainText(ReadFile.readAll());
-        mainFile->close();
-
      }
 }
 
@@ -232,9 +209,10 @@ void MainWindow::OpenProject(){
 
     QString filename = QFileDialog::getOpenFileName(this,
                                                      tr("Open File"),
-                                                     d.path(),
+                                                     Workingdir,
                                                      "c-Files (*.c)"
                                                      );
+    /*
     if(filename.length() > 0){
         cFilePaths.clear();
         cFileNames.clear();
@@ -287,7 +265,7 @@ void MainWindow::OpenProject(){
 
 
 
-    }
+    }*/
 }
 
 void MainWindow::AddCFile()
@@ -295,9 +273,10 @@ void MainWindow::AddCFile()
     qDebug() << "Add File" << endl;
     QString filename = QFileDialog::getOpenFileName(this,
                                                      tr("Open File"),
-                                                     d.path(),
+                                                     Workingdir,
                                                      "c-Files (*.c)"
                                                      );
+    /*
     if(filename.length() > 0){
         // get actual working dir
         d = QFileInfo(filename).absoluteDir();
@@ -332,6 +311,7 @@ void MainWindow::AddCFile()
             ui->cCfiles->append(cFileNames[i]);
         }
     }
+    */
 }
 
 void MainWindow::Build()
@@ -364,7 +344,7 @@ void MainWindow::Build()
     //********** Script-File erstellen **********/
     // Edit Build.sh
     // Create SHELL Files
-    BuildFilePath = d.path().append("/Build.sh");
+    BuildFilePath = Workingdir.append("/Build.sh");
     BuildFile.setFileName(BuildFilePath);
     if (BuildFile.open(QIODevice::ReadWrite)){
         QTextStream stream( &BuildFile );
@@ -412,7 +392,7 @@ void MainWindow::Flash()
     //********** Script-File erstellen **********/
     // Edit Build.sh
     // Create SHELL Files
-    FlashFilePath = d.path().append("/Flash.sh");
+    FlashFilePath = Workingdir.append("/Flash.sh");
     FlashFile.setFileName(FlashFilePath);
     if (FlashFile.open(QIODevice::ReadWrite)){
         QTextStream stream( &FlashFile );
@@ -480,7 +460,7 @@ void MainWindow::FlashFuses() {
         //********** Script-File erstellen **********/
         // Edit Build.sh
         // Create SHELL Files
-        FFlashFilePath = d.path().append("/FFlash.sh");
+        FFlashFilePath = Workingdir.append("/FFlash.sh");
         FFlashFile.setFileName(FFlashFilePath);
         if (FFlashFile.open(QIODevice::ReadWrite)){
             QTextStream stream( &FFlashFile );
@@ -573,13 +553,17 @@ void MainWindow::errorMessage()
 
 void MainWindow::SaveFile(){
     qDebug() << "Save File" << endl;
-    // Open File in Editor
+    qDebug() << "current selected Tab: " << curTabIndex << endl;
+
+    Editor *editor = (Editor*)(ui->twMainTab->widget(curTabIndex));
+    QTextStream stream();
+    /*
     if(mainFile->exists()){
         mainFile->open(QFile::WriteOnly | QFile::Text);
         QTextStream stream( mainFile );
         stream << mainEditor->toPlainText();
         mainFile->close();
-    }
+    }*/
 }
 
 
@@ -618,18 +602,4 @@ void MainWindow::on_actionOpen_Settings_triggered(){
     if(userSettings->exec()){
         // TODO: Reload the server settings
     }
-}
-
-void MainWindow::on_cbController_currentIndexChanged(int index){
-    qDebug() << QString::number(index) << "Selected: " << processors.at(index) << " with command: " << processorAvrdudeCommands.at(index);
-    currentProcessorAvrdudeCommand = processorAvrdudeCommands.at(index);
-    currentProcessorGccCommand = processorGccCommands.at(index);
-    if(currentProcessorGccCommand.length() == 0){
-        // TODO: Warning, this processor is currently not supported!
-    }
-}
-
-void MainWindow::on_cbFlashtool_currentIndexChanged(int index){
-    qDebug() << QString::number(index) << "Selected: " << programmers.at(index) << " with command: " << programmerAvrdudeCommands.at(index);
-    currentProgrammerAvrdudeCommand = programmerAvrdudeCommands.at(index);
 }
