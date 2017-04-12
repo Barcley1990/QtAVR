@@ -319,8 +319,8 @@ void MainWindow::Build()
     qDebug() << "Build" << endl;
 
     //********** Strings für avr-gcc vorbereiten **********/
-    QString compile = userSettings->getToolchainRootPath() + "/bin/avr-gcc -g -Os -mmcu=attiny2313 -c ";
-    QString link    = userSettings->getToolchainRootPath() + "/bin/avr-gcc -g -mmcu=attiny2313 -o ";
+    QString compile = userSettings->getToolchainRootPath() + "/bin/avr-gcc -g -Os -mmcu=" + currentProcessorGccCommand + " -c ";
+    QString link    = userSettings->getToolchainRootPath() + "/bin/avr-gcc -g -mmcu=" + currentProcessorGccCommand + " -o ";
     QString hex     = userSettings->getToolchainRootPath() + "/bin/avr-objcopy -j .text -j .data -O ihex ";
 
     // Compile
@@ -519,7 +519,9 @@ void MainWindow::DefineFD()
 {
     uint8_t curInd = ui->cbFlashtool->currentIndex();
     switch (curInd){
-        case 0: fd = "-c avrisp2"; break;
+        case 0:
+            fd = "-c " + currentProgrammerAvrdudeCommand;
+        break;
         default: qDebug("something went wrong \n"); break;
     }
 }
@@ -602,4 +604,20 @@ void MainWindow::on_actionOpen_Settings_triggered(){
     if(userSettings->exec()){
         // TODO: Reload the server settings
     }
+}
+
+void MainWindow::on_cbController_currentIndexChanged(int index)
+{
+    qDebug() << QString::number(index) << "Selected: " << processors.at(index) << " with command: " << processorAvrdudeCommands.at(index);
+    currentProcessorAvrdudeCommand = processorAvrdudeCommands.at(index);
+    currentProcessorGccCommand = processorGccCommands.at(index);
+    if(currentProcessorGccCommand.length() == 0){
+        // TODO: Warning, this processor is currently not supported!
+    }
+}
+
+void MainWindow::on_cbFlashtool_currentIndexChanged(int index)
+{
+    qDebug() << QString::number(index) << "Selected: " << programmers.at(index) << " with command: " << programmerAvrdudeCommands.at(index);
+    currentProgrammerAvrdudeCommand = programmerAvrdudeCommands.at(index);
 }

@@ -84,7 +84,6 @@ private slots:
     void on_actionNew_Project_triggered();
     void on_actionAbout_triggered();
     void on_actionOpen_Settings_triggered();
-    void on_actionNew_File_triggered();
     void on_cbController_currentIndexChanged(int index);
     void on_cbFlashtool_currentIndexChanged(int index);
 };
