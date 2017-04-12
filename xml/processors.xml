@@ -1,603 +1,753 @@
 <?xml version="1.0" encoding="utf-8"?>
 <processors>	
 	<processor>
-		<command>uc3a0512</command>
+		<avrdude>uc3a0512</avrdude>
 		<name>AT32UC3A0512</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>c128</command>
+		<avrdude>c128</avrdude>
 		<name>AT90CAN128</name>
+		<gcc>at90can128</gcc>
 	</processor>
 	<processor>
-		<command>c32</command>
+		<avrdude>c32</avrdude>
 		<name>AT90CAN32</name>
+		<gcc>at90can32</gcc>
 	</processor>
 	<processor>
-		<command>c64</command>
+		<avrdude>c64</avrdude>
 		<name>AT90CAN64</name>
+		<gcc>at90can64</gcc>
 	</processor>
 	<processor>
-		<command>pwm2</command>
+		<avrdude>pwm2</avrdude>
 		<name>AT90PWM2</name>
+		<gcc>at90pwm2</gcc>
 	</processor>
 	<processor>
-		<command>pwm2b</command>
+		<avrdude>pwm2b</avrdude>
 		<name>AT90PWM2B</name>
+		<gcc>at90pwm2b</gcc>
 	</processor>
 	<processor>
-		<command>pwm3</command>
+		<avrdude>pwm3</avrdude>
 		<name>AT90PWM3</name>
+		<gcc>at90pwm3</gcc>
 	</processor>
 	<processor>
-		<command>pwm316</command>
+		<avrdude>pwm316</avrdude>
 		<name>AT90PWM316</name>
+		<gcc>at90pwm316</gcc>
 	</processor>
 	<processor>
-		<command>pwm3b</command>
+		<avrdude>pwm3b</avrdude>
 		<name>AT90PWM3B</name>
+		<gcc>at90pwm3b</gcc>
 	</processor>
 	<processor>
-		<command>1200</command>
+		<avrdude>1200</avrdude>
 		<name>AT90S1200</name>
+		<gcc>at90s1200</gcc>
 	</processor>
 	<processor>
-		<command>2313</command>
+		<avrdude>2313</avrdude>
 		<name>AT90S2313</name>
+		<gcc>at90s2313</gcc>
 	</processor>
 	<processor>
-		<command>2333</command>
+		<avrdude>2333</avrdude>
 		<name>AT90S2333</name>
+		<gcc>at90s2333</gcc>
 	</processor>
 	<processor>
-		<command>2343</command>
+		<avrdude>2343</avrdude>
 		<name>AT90S2343</name>
+		<gcc>at90s2343</gcc>
 	</processor>
 	<processor>
-		<command>4414</command>
+		<avrdude>4414</avrdude>
 		<name>AT90S4414</name>
+		<gcc>at90s4414</gcc>
 	</processor>
 	<processor>
-		<command>4433</command>
+		<avrdude>4433</avrdude>
 		<name>AT90S4433</name>
+		<gcc>at90s4433</gcc>
 	</processor>
 	<processor>
-		<command>4434</command>
+		<avrdude>4434</avrdude>
 		<name>AT90S4434</name>
+		<gcc>at90s4434</gcc>
 	</processor>
 	<processor>
-		<command>8515</command>
+		<avrdude>8515</avrdude>
 		<name>AT90S8515</name>
+		<gcc>at90s8515</gcc>
 	</processor>
 	<processor>
-		<command>8535</command>
+		<avrdude>8535</avrdude>
 		<name>AT90S8535</name>
+		<gcc>at90s8535</gcc>
 	</processor>
 	<processor>
-		<command>usb1286</command>
+		<avrdude>usb1286</avrdude>
 		<name>AT90USB1286</name>
+		<gcc>at90usb1286</gcc>
 	</processor>
 	<processor>
-		<command>usb1287</command>
+		<avrdude>usb1287</avrdude>
 		<name>AT90USB1287</name>
+		<gcc>at90usb1287</gcc>
 	</processor>
 	<processor>
-		<command>usb162</command>
+		<avrdude>usb162</avrdude>
 		<name>AT90USB162</name>
+		<gcc>at90usb162</gcc>
 	</processor>
 	<processor>
-		<command>usb646</command>
+		<avrdude>usb646</avrdude>
 		<name>AT90USB646</name>
+		<gcc>at90usb646</gcc>
 	</processor>
 	<processor>
-		<command>usb647</command>
+		<avrdude>usb647</avrdude>
 		<name>AT90USB647</name>
+		<gcc>at90usb647</gcc>
 	</processor>
 	<processor>
-		<command>usb82</command>
+		<avrdude>usb82</avrdude>
 		<name>AT90USB82</name>
+		<gcc>at90usb82</gcc>
 	</processor>
 	<processor>
-		<command>m103</command>
+		<avrdude>m103</avrdude>
 		<name>ATmega103</name>
+		<gcc>atmega103</gcc>
 	</processor>
 	<processor>
-		<command>m128</command>
+		<avrdude>m128</avrdude>
 		<name>ATmega128</name>
+		<gcc>atmega128</gcc>
 	</processor>
 	<processor>
-		<command>m1280</command>
+		<avrdude>m1280</avrdude>
 		<name>ATmega1280</name>
+		<gcc>atmega1280</gcc>
 	</processor>
 	<processor>
-		<command>m1281</command>
+		<avrdude>m1281</avrdude>
 		<name>ATmega1281</name>
+		<gcc>atmega1281</gcc>
 	</processor>
 	<processor>
-		<command>m1284p</command>
+		<avrdude>m1284p</avrdude>
 		<name>ATmega1284P</name>
+		<gcc>atmega1284p</gcc>
 	</processor>
 	<processor>
-		<command>m1284rfr2</command>
+		<avrdude>m1284rfr2</avrdude>
 		<name>ATmega1284RFR2</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>m128rfa1</command>
+		<avrdude>m128rfa1</avrdude>
 		<name>ATmega128RFA1</name>
+		<gcc>atmega128rfa1</gcc>
 	</processor>
 	<processor>
-		<command>m128rfr2</command>
+		<avrdude>m128rfr2</avrdude>
 		<name>ATmega128RFR2</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>m16</command>
+		<avrdude>m16</avrdude>
 		<name>ATmega16</name>
+		<gcc>atmega16</gcc>
 	</processor>
 	<processor>
-		<command>m161</command>
+		<avrdude>m161</avrdude>
 		<name>ATmega161</name>
+		<gcc>atmega161</gcc>
 	</processor>
 	<processor>
-		<command>m162</command>
+		<avrdude>m162</avrdude>
 		<name>ATmega162</name>
+		<gcc>atmega162</gcc>
 	</processor>
 	<processor>
-		<command>m163</command>
+		<avrdude>m163</avrdude>
 		<name>ATmega163</name>
+		<gcc>atmega163</gcc>
 	</processor>
 	<processor>
-		<command>m164p</command>
+		<avrdude>m164p</avrdude>
 		<name>ATmega164P</name>
+		<gcc>atmega164p</gcc>
 	</processor>
 	<processor>
-		<command>m168</command>
+		<avrdude>m168</avrdude>
 		<name>ATmega168</name>
+		<gcc>atmega168</gcc>
 	</processor>
 	<processor>
-		<command>m168p</command>
+		<avrdude>m168p</avrdude>
 		<name>ATmega168P</name>
+		<gcc>atmega168p</gcc>
 	</processor>
 	<processor>
-		<command>m169</command>
+		<avrdude>m169</avrdude>
 		<name>ATmega169</name>
+		<gcc>atmega169</gcc>
 	</processor>
 	<processor>
-		<command>m16u2</command>
+		<avrdude>m16u2</avrdude>
 		<name>ATmega16U2</name>
+		<gcc>atmega16u2</gcc>
 	</processor>
 	<processor>
-		<command>m2560</command>
+		<avrdude>m2560</avrdude>
 		<name>ATmega2560</name>
+		<gcc>atmega2560</gcc>
 	</processor>
 	<processor>
-		<command>m2561</command>
+		<avrdude>m2561</avrdude>
 		<name>ATmega2561</name>
+		<gcc>atmega2561</gcc>
 	</processor>
 	<processor>
-		<command>m2564rfr2</command>
+		<avrdude>m2564rfr2</avrdude>
 		<name>ATmega2564RFR2</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>m256rfr2</command>
+		<avrdude>m256rfr2</avrdude>
 		<name>ATmega256RFR2</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>m32</command>
+		<avrdude>m32</avrdude>
 		<name>ATmega32</name>
+		<gcc>atmega32</gcc>
 	</processor>
 	<processor>
-		<command>m324p</command>
+		<avrdude>m324p</avrdude>
 		<name>ATmega324P</name>
+		<gcc>atmega324p</gcc>
 	</processor>
 	<processor>
-		<command>m324pa</command>
+		<avrdude>m324pa</avrdude>
 		<name>ATmega324PA</name>
+		<gcc>atmega324pa</gcc>
 	</processor>
 	<processor>
-		<command>m325</command>
+		<avrdude>m325</avrdude>
 		<name>ATmega325</name>
+		<gcc>atmega325</gcc>
 	</processor>
 	<processor>
-		<command>m3250</command>
+		<avrdude>m3250</avrdude>
 		<name>ATmega3250</name>
+		<gcc>atmega3250</gcc>
 	</processor>
 	<processor>
-		<command>m328</command>
+		<avrdude>m328</avrdude>
 		<name>ATmega328</name>
+		<gcc>atmega328</gcc>
 	</processor>
 	<processor>
-		<command>m328p</command>
+		<avrdude>m328p</avrdude>
 		<name>ATmega328P</name>
+		<gcc>atmega328p</gcc>
 	</processor>
 	<processor>
-		<command>m329</command>
+		<avrdude>m329</avrdude>
 		<name>ATmega329</name>
+		<gcc>atmega329</gcc>
 	</processor>
 	<processor>
-		<command>m3290</command>
+		<avrdude>m3290</avrdude>
 		<name>ATmega3290</name>
+		<gcc>atmega3290</gcc>
 	</processor>
 	<processor>
-		<command>m3290p</command>
+		<avrdude>m3290p</avrdude>
 		<name>ATmega3290P</name>
+		<gcc>atmega3290p</gcc>
 	</processor>
 	<processor>
-		<command>m329p</command>
+		<avrdude>m329p</avrdude>
 		<name>ATmega329P</name>
+		<gcc>atmega329p</gcc>
 	</processor>
 	<processor>
-		<command>m32u2</command>
+		<avrdude>m32u2</avrdude>
 		<name>ATmega32U2</name>
+		<gcc>atmega32u2</gcc>
 	</processor>
 	<processor>
-		<command>m32u4</command>
+		<avrdude>m32u4</avrdude>
 		<name>ATmega32U4</name>
+		<gcc>atmega32u4</gcc>
 	</processor>
 	<processor>
-		<command>m406</command>
+		<avrdude>m406</avrdude>
 		<name>ATMEGA406</name>
+		<gcc>atmega406</gcc>
 	</processor>
 	<processor>
-		<command>m48</command>
+		<avrdude>m48</avrdude>
 		<name>ATmega48</name>
+		<gcc>atmega48</gcc>
 	</processor>
 	<processor>
-		<command>m48p</command>
+		<avrdude>m48p</avrdude>
 		<name>ATmega48P</name>
+		<gcc>atmega48p</gcc>
 	</processor>
 	<processor>
-		<command>m64</command>
+		<avrdude>m64</avrdude>
 		<name>ATmega64</name>
+		<gcc>atmega64</gcc>
 	</processor>
 	<processor>
-		<command>m640</command>
+		<avrdude>m640</avrdude>
 		<name>ATmega640</name>
+		<gcc>atmega640</gcc>
 	</processor>
 	<processor>
-		<command>m644</command>
+		<avrdude>m644</avrdude>
 		<name>ATmega644</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>m644p</command>
+		<avrdude>m644p</avrdude>
 		<name>ATmega644P</name>
+		<gcc>atmega644</gcc>
 	</processor>
 	<processor>
-		<command>m644rfr2</command>
+		<avrdude>m644rfr2</avrdude>
 		<name>ATmega644RFR2</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>m645</command>
+		<avrdude>m645</avrdude>
 		<name>ATmega645</name>
+		<gcc>atmega645</gcc>
 	</processor>
 	<processor>
-		<command>m6450</command>
+		<avrdude>m6450</avrdude>
 		<name>ATmega6450</name>
+		<gcc>atmega6450</gcc>
 	</processor>
 	<processor>
-		<command>m649</command>
+		<avrdude>m649</avrdude>
 		<name>ATmega649</name>
+		<gcc>atmega649</gcc>
 	</processor>
 	<processor>
-		<command>m6490</command>
+		<avrdude>m6490</avrdude>
 		<name>ATmega6490</name>
+		<gcc>atmega6490</gcc>
 	</processor>
 	<processor>
-		<command>m64rfr2</command>
+		<avrdude>m64rfr2</avrdude>
 		<name>ATmega64RFR2</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>m8</command>
+		<avrdude>m8</avrdude>
 		<name>ATmega8</name>
+		<gcc>atmega8</gcc>
 	</processor>
 	<processor>
-		<command>m8515</command>
+		<avrdude>m8515</avrdude>
 		<name>ATmega8515</name>
+		<gcc>atmega8515</gcc>
 	</processor>
 	<processor>
-		<command>m8535</command>
+		<avrdude>m8535</avrdude>
 		<name>ATmega8535</name>
+		<gcc>atmega8535</gcc>
 	</processor>
 	<processor>
-		<command>m88</command>
+		<avrdude>m88</avrdude>
 		<name>ATmega88</name>
+		<gcc>atmega88</gcc>
 	</processor>
 	<processor>
-		<command>m88p</command>
+		<avrdude>m88p</avrdude>
 		<name>ATmega88P</name>
+		<gcc>atmega88p</gcc>
 	</processor>
 	<processor>
-		<command>m8u2</command>
+		<avrdude>m8u2</avrdude>
 		<name>ATmega8U2</name>
+		<gcc>atmega8u2</gcc>
 	</processor>
 	<processor>
-		<command>t10</command>
+		<avrdude>t10</avrdude>
 		<name>ATtiny10</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>t11</command>
+		<avrdude>t11</avrdude>
 		<name>ATtiny11</name>
+		<gcc>attiny11</gcc>
 	</processor>
 	<processor>
-		<command>t12</command>
+		<avrdude>t12</avrdude>
 		<name>ATtiny12</name>
+		<gcc>attiny12</gcc>
 	</processor>
 	<processor>
-		<command>t13</command>
+		<avrdude>t13</avrdude>
 		<name>ATtiny13</name>
+		<gcc>attiny13</gcc>
 	</processor>
 	<processor>
-		<command>t15</command>
+		<avrdude>t15</avrdude>
 		<name>ATtiny15</name>
+		<gcc>attiny15</gcc>
 	</processor>
 	<processor>
-		<command>t1634</command>
+		<avrdude>t1634</avrdude>
 		<name>ATtiny1634</name>
+		<gcc>attiny1634</gcc>
 	</processor>
 	<processor>
-		<command>t20</command>
+		<avrdude>t20</avrdude>
 		<name>ATtiny20</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>t2313</command>
+		<avrdude>t2313</avrdude>
 		<name>ATtiny2313</name>
+		<gcc>attiny2313</gcc>
 	</processor>
 	<processor>
-		<command>t24</command>
+		<avrdude>t24</avrdude>
 		<name>ATtiny24</name>
+		<gcc>attiny24</gcc>
 	</processor>
 	<processor>
-		<command>t25</command>
+		<avrdude>t25</avrdude>
 		<name>ATtiny25</name>
+		<gcc>attiny25</gcc>
 	</processor>
 	<processor>
-		<command>t26</command>
+		<avrdude>t26</avrdude>
 		<name>ATtiny26</name>
+		<gcc>attiny26</gcc>
 	</processor>
 	<processor>
-		<command>t261</command>
+		<avrdude>t261</avrdude>
 		<name>ATtiny261</name>
+		<gcc>attiny261</gcc>
 	</processor>
 	<processor>
-		<command>t4</command>
+		<avrdude>t4</avrdude>
 		<name>ATtiny4</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>t40</command>
+		<avrdude>t40</avrdude>
 		<name>ATtiny40</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>t4313</command>
+		<avrdude>t4313</avrdude>
 		<name>ATtiny4313</name>
+		<gcc>attiny4313</gcc>
 	</processor>
 	<processor>
-		<command>t43u</command>
+		<avrdude>t43u</avrdude>
 		<name>ATtiny43u</name>
+		<gcc>attiny43u</gcc>
 	</processor>
 	<processor>
-		<command>t44</command>
+		<avrdude>t44</avrdude>
 		<name>ATtiny44</name>
+		<gcc>attiny44</gcc>
 	</processor>
 	<processor>
-		<command>t45</command>
+		<avrdude>t45</avrdude>
 		<name>ATtiny45</name>
+		<gcc>attiny45</gcc>
 	</processor>
 	<processor>
-		<command>t461</command>
+		<avrdude>t461</avrdude>
 		<name>ATtiny461</name>
+		<gcc>attiny461</gcc>
 	</processor>
 	<processor>
-		<command>t5</command>
+		<avrdude>t5</avrdude>
 		<name>ATtiny5</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>t84</command>
+		<avrdude>t84</avrdude>
 		<name>ATtiny84</name>
+		<gcc>attiny84</gcc>
 	</processor>
 	<processor>
-		<command>t85</command>
+		<avrdude>t85</avrdude>
 		<name>ATtiny85</name>
+		<gcc>attiny85</gcc>
 	</processor>
 	<processor>
-		<command>t861</command>
+		<avrdude>t861</avrdude>
 		<name>ATtiny861</name>
+		<gcc>attiny861</gcc>
 	</processor>
 	<processor>
-		<command>t88</command>
+		<avrdude>t88</avrdude>
 		<name>ATtiny88</name>
+		<gcc>attiny88</gcc>
 	</processor>
 	<processor>
-		<command>t9</command>
+		<avrdude>t9</avrdude>
 		<name>ATtiny9</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>x128a1</command>
+		<avrdude>x128a1</avrdude>
 		<name>ATxmega128A1</name>
+		<gcc>atxmega128a1</gcc>
 	</processor>
 	<processor>
-		<command>x128a1d</command>
+		<avrdude>x128a1d</avrdude>
 		<name>ATxmega128A1revD</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>x128a1u</command>
+		<avrdude>x128a1u</avrdude>
 		<name>ATxmega128A1U</name>
+		<gcc>atxmega128a1u</gcc>
 	</processor>
 	<processor>
-		<command>x128a3</command>
+		<avrdude>x128a3</avrdude>
 		<name>ATxmega128A3</name>
+		<gcc>atxmega128a3</gcc>
 	</processor>
 	<processor>
-		<command>x128a3u</command>
+		<avrdude>x128a3u</avrdude>
 		<name>ATxmega128A3U</name>
+		<gcc>atxmega128a3u</gcc>
 	</processor>
 	<processor>
-		<command>x128a4</command>
+		<avrdude>x128a4</avrdude>
 		<name>ATxmega128A4</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>x128a4u</command>
+		<avrdude>x128a4u</avrdude>
 		<name>ATxmega128A4U</name>
+		<gcc>atxmega128a4u</gcc>
 	</processor>
 	<processor>
-		<command>x128b1</command>
+		<avrdude>x128b1</avrdude>
 		<name>ATxmega128B1</name>
+		<gcc>atxmega128b1</gcc>
 	</processor>
 	<processor>
-		<command>x128b3</command>
+		<avrdude>x128b3</avrdude>
 		<name>ATxmega128B3</name>
+		<gcc>atxmega128b3</gcc>
 	</processor>
 	<processor>
-		<command>x128c3</command>
+		<avrdude>x128c3</avrdude>
 		<name>ATxmega128C3</name>
+		<gcc>atxmega128c3</gcc>
 	</processor>
 	<processor>
-		<command>x128d3</command>
+		<avrdude>x128d3</avrdude>
 		<name>ATxmega128D3</name>
+		<gcc>atxmega128d3</gcc>
 	</processor>
 	<processor>
-		<command>x128d4</command>
+		<avrdude>x128d4</avrdude>
 		<name>ATxmega128D4</name>
+		<gcc>atxmega128d4</gcc>
 	</processor>
 	<processor>
-		<command>x16a4</command>
+		<avrdude>x16a4</avrdude>
 		<name>ATxmega16A4</name>
+		<gcc>atxmega16a4</gcc>
 	</processor>
 	<processor>
-		<command>x16a4u</command>
+		<avrdude>x16a4u</avrdude>
 		<name>ATxmega16A4U</name>
+		<gcc>atxmega16a4u</gcc>
 	</processor>
 	<processor>
-		<command>x16c4</command>
+		<avrdude>x16c4</avrdude>
 		<name>ATxmega16C4</name>
+		<gcc>atxmega16c4</gcc>
 	</processor>
 	<processor>
-		<command>x16d4</command>
+		<avrdude>x16d4</avrdude>
 		<name>ATxmega16D4</name>
+		<gcc>atxmega16d4</gcc>
 	</processor>
 	<processor>
-		<command>x16e5</command>
+		<avrdude>x16e5</avrdude>
 		<name>ATxmega16E5</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>x192a1</command>
+		<avrdude>x192a1</avrdude>
 		<name>ATxmega192A1</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>x192a3</command>
+		<avrdude>x192a3</avrdude>
 		<name>ATxmega192A3</name>
+		<gcc>atxmega192a3</gcc>
 	</processor>
 	<processor>
-		<command>x192a3u</command>
+		<avrdude>x192a3u</avrdude>
 		<name>ATxmega192A3U</name>
+		<gcc>atxmega192a3u</gcc>
 	</processor>
 	<processor>
-		<command>x192c3</command>
+		<avrdude>x192c3</avrdude>
 		<name>ATxmega192C3</name>
+		<gcc>atxmega192c3</gcc>
 	</processor>
 	<processor>
-		<command>x192d3</command>
+		<avrdude>x192d3</avrdude>
 		<name>ATxmega192D3</name>
+		<gcc>atxmega192d3</gcc>
 	</processor>
 	<processor>
-		<command>x256a1</command>
+		<avrdude>x256a1</avrdude>
 		<name>ATxmega256A1</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>x256a3</command>
+		<avrdude>x256a3</avrdude>
 		<name>ATxmega256A3</name>
+		<gcc>atxmega256a3</gcc>
 	</processor>
 	<processor>
-		<command>x256a3b</command>
+		<avrdude>x256a3b</avrdude>
 		<name>ATxmega256A3B</name>
+		<gcc>atxmega256a3b</gcc>
 	</processor>
 	<processor>
-		<command>x256a3bu</command>
+		<avrdude>x256a3bu</avrdude>
 		<name>ATxmega256A3BU</name>
+		<gcc>atxmega256a3bu</gcc>
 	</processor>
 	<processor>
-		<command>x256a3u</command>
+		<avrdude>x256a3u</avrdude>
 		<name>ATxmega256A3U</name>
+		<gcc>atxmega256a3u</gcc>
 	</processor>
 	<processor>
-		<command>x256c3</command>
+		<avrdude>x256c3</avrdude>
 		<name>ATxmega256C3</name>
+		<gcc>atxmega256c3</gcc>
 	</processor>
 	<processor>
-		<command>x256d3</command>
+		<avrdude>x256d3</avrdude>
 		<name>ATxmega256D3</name>
+		<gcc>atxmega256d3</gcc>
 	</processor>
 	<processor>
-		<command>x32a4</command>
+		<avrdude>x32a4</avrdude>
 		<name>ATxmega32A4</name>
+		<gcc>atxmega32a4</gcc>
 	</processor>
 	<processor>
-		<command>x32a4u</command>
+		<avrdude>x32a4u</avrdude>
 		<name>ATxmega32A4U</name>
+		<gcc>atxmega32a4u</gcc>
 	</processor>
 	<processor>
-		<command>x32c4</command>
+		<avrdude>x32c4</avrdude>
 		<name>ATxmega32C4</name>
+		<gcc>atxmega32c4</gcc>
 	</processor>
 	<processor>
-		<command>x32d4</command>
+		<avrdude>x32d4</avrdude>
 		<name>ATxmega32D4</name>
+		<gcc>atxmega32d4</gcc>
 	</processor>
 	<processor>
-		<command>x32e5</command>
+		<avrdude>x32e5</avrdude>
 		<name>ATxmega32E5</name>
+		<gcc>atxmega32e5</gcc>
 	</processor>
 	<processor>
-		<command>x384c3</command>
+		<avrdude>x384c3</avrdude>
 		<name>ATxmega384C3</name>
+		<gcc>atxmega384c3</gcc>
 	</processor>
 	<processor>
-		<command>x384d3</command>
+		<avrdude>x384d3</avrdude>
 		<name>ATxmega384D3</name>
+		<gcc>atxmega384d3</gcc>
 	</processor>
 	<processor>
-		<command>x64a1</command>
+		<avrdude>x64a1</avrdude>
 		<name>ATxmega64A1</name>
+		<gcc>atxmega64a1</gcc>
 	</processor>
 	<processor>
-		<command>x64a1u</command>
+		<avrdude>x64a1u</avrdude>
 		<name>ATxmega64A1U</name>
+		<gcc>atxmega64a1u</gcc>
 	</processor>
 	<processor>
-		<command>x64a3</command>
+		<avrdude>x64a3</avrdude>
 		<name>ATxmega64A3</name>
+		<gcc>atxmega64a3</gcc>
 	</processor>
 	<processor>
-		<command>x64a3u</command>
+		<avrdude>x64a3u</avrdude>
 		<name>ATxmega64A3U</name>
+		<gcc>atxmega64a3u</gcc>
 	</processor>
 	<processor>
-		<command>x64a4</command>
+		<avrdude>x64a4</avrdude>
 		<name>ATxmega64A4</name>
+		<gcc></gcc>
 	</processor>
 	<processor>
-		<command>x64a4u</command>
+		<avrdude>x64a4u</avrdude>
 		<name>ATxmega64A4U</name>
+		<gcc>atxmega64a4u</gcc>
 	</processor>
 	<processor>
-		<command>x64b1</command>
+		<avrdude>x64b1</avrdude>
 		<name>ATxmega64B1</name>
+		<gcc>atxmega64b1</gcc>
 	</processor>
 	<processor>
-		<command>x64b3</command>
+		<avrdude>x64b3</avrdude>
 		<name>ATxmega64B3</name>
+		<gcc>atxmega64b3</gcc>
 	</processor>
 	<processor>
-		<command>x64c3</command>
+		<avrdude>x64c3</avrdude>
 		<name>ATxmega64C3</name>
+		<gcc>atxmega64c3</gcc>
 	</processor>
 	<processor>
-		<command>x64d3</command>
+		<avrdude>x64d3</avrdude>
 		<name>ATxmega64D3</name>
+		<gcc>atxmega64d3</gcc>
 	</processor>
 	<processor>
-		<command>x64d4</command>
+		<avrdude>x64d4</avrdude>
 		<name>ATxmega64D4</name>
+		<gcc>atxmega64d4</gcc>
 	</processor>
 	<processor>
-		<command>x8e5</command>
+		<avrdude>x8e5</avrdude>
 		<name>ATxmega8E5</name>
+		<gcc></gcc>
 	</processor>
 </processors>

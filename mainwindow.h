@@ -59,11 +59,13 @@ private:
     Editor *mainEditor;
 
     QStringList processors;
-    QStringList processorCommands;
-    QString currentProcessorCommand;
+    QStringList processorAvrdudeCommands;
+    QStringList processorGccCommands;
+    QString currentProcessorAvrdudeCommand;
+    QString currentProcessorGccCommand;
     QStringList programmers;
-    QStringList programmerCommands;
-    QString currentProgrammerCommand;
+    QStringList programmerAvrdudeCommands;
+    QString currentProgrammerAvrdudeCommand;
 
 private slots:
     void rightMessage();

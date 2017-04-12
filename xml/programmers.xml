@@ -2,342 +2,342 @@
 <programmers>
 	<programmer>
 		<name>FT2232H based generic programmer</name>
-		<command>2232HIO</command>
+		<avrdude>2232HIO</avrdude>
 	</programmer>
 	<programmer>
 		<name>FT4232H based generic programmer</name>
-		<command>4232h</command>
+		<avrdude>4232h</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel at89isp cable</name>
-		<command>89isp</command>
+		<avrdude>89isp</avrdude>
 	</programmer>
 	<programmer>
 		<name>ABCmini Board, aka Dick Smith HOTCHIP</name>
-		<command>abcmini</command>
+		<avrdude>abcmini</avrdude>
 	</programmer>
 	<programmer>
 		<name>Nightshade ALF-PgmAVR, http://nightshade.homeip.net/</name>
-		<command>alf</command>
+		<avrdude>alf</avrdude>
 	</programmer>
 	<programmer>
 		<name>Arduino</name>
-		<command>arduino</command>
+		<avrdude>arduino</avrdude>
 	</programmer>
 	<programmer>
 		<name>Arduino: FT232R connected to ISP</name>
-		<command>arduino-ft232r</command>
+		<avrdude>arduino-ft232r</avrdude>
 	</programmer>
 	<programmer>
 		<name>AT-ISP V1.1 programming cable for AVR-SDK1 from http://micro-research.co.th</name>
-		<command>atisp</command>
+		<avrdude>atisp</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel AppNote AVR109 Boot Loader</name>
-		<command>avr109</command>
+		<avrdude>avr109</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel Low Cost Serial Programmer</name>
-		<command>avr910</command>
+		<avrdude>avr910</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel AppNote AVR911 AVROSP</name>
-		<command>avr911</command>
+		<avrdude>avr911</avrdude>
 	</programmer>
 	<programmer>
 		<name>FT2232D based generic programmer</name>
-		<command>avrftdi</command>
+		<avrdude>avrftdi</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel AVR ISP</name>
-		<command>avrisp</command>
+		<avrdude>avrisp</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel AVR ISP mkII</name>
-		<command>avrisp2</command>
+		<avrdude>avrisp2</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel AVR ISP mkII</name>
-		<command>avrispmkII</command>
+		<avrdude>avrispmkII</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel AVR ISP V2</name>
-		<command>avrispv2</command>
+		<avrdude>avrispv2</avrdude>
 	</programmer>
 	<programmer>
 		<name>Bascom SAMPLE programming cable</name>
-		<command>bascom</command>
+		<avrdude>bascom</avrdude>
 	</programmer>
 	<programmer>
 		<name>Altera ByteBlaster</name>
-		<command>blaster</command>
+		<avrdude>blaster</avrdude>
 	</programmer>
 	<programmer>
 		<name>Brian Dean's Programmer, http://www.bsdhome.com/avrdude/</name>
-		<command>bsd</command>
+		<avrdude>bsd</avrdude>
 	</programmer>
 	<programmer>
 		<name>The Bus Pirate</name>
-		<command>buspirate</command>
+		<avrdude>buspirate</avrdude>
 	</programmer>
 	<programmer>
 		<name>The Bus Pirate (bitbang interface, supports TPI)</name>
-		<command>buspirate_bb</command>
+		<avrdude>buspirate_bb</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel Butterfly Development Board</name>
-		<command>butterfly</command>
+		<avrdude>butterfly</avrdude>
 	</programmer>
 	<programmer>
 		<name>Mikrokopter.de Butterfly</name>
-		<command>butterfly_mk</command>
+		<avrdude>butterfly_mk</avrdude>
 	</programmer>
 	<programmer>
 		<name>BitWizard ftdi_atmega builtin programmer</name>
-		<command>bwmega</command>
+		<avrdude>bwmega</avrdude>
 	</programmer>
 	<programmer>
 		<name>serial port banging, reset=dtr sck=!rts mosi=!txd miso=!cts</name>
-		<command>c2n232i</command>
+		<avrdude>c2n232i</avrdude>
 	</programmer>
 	<programmer>
 		<name>Direct AVR Parallel Access cable</name>
-		<command>dapa</command>
+		<avrdude>dapa</avrdude>
 	</programmer>
 	<programmer>
 		<name>serial port banging, reset=rts sck=dtr mosi=txd miso=cts</name>
-		<command>dasa</command>
+		<avrdude>dasa</avrdude>
 	</programmer>
 	<programmer>
 		<name>serial port banging, reset=!dtr sck=rts mosi=txd miso=cts</name>
-		<command>dasa3</command>
+		<avrdude>dasa3</avrdude>
 	</programmer>
 	<programmer>
 		<name>alias for arduino-ft232r</name>
-		<command>diecimila</command>
+		<avrdude>diecimila</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel AVR Dragon in debugWire mode</name>
-		<command>dragon_dw</command>
+		<avrdude>dragon_dw</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel AVR Dragon in HVSP mode</name>
-		<command>dragon_hvsp</command>
+		<avrdude>dragon_hvsp</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel AVR Dragon in ISP mode</name>
-		<command>dragon_isp</command>
+		<avrdude>dragon_isp</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel AVR Dragon in JTAG mode</name>
-		<command>dragon_jtag</command>
+		<avrdude>dragon_jtag</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel AVR Dragon in PDI mode</name>
-		<command>dragon_pdi</command>
+		<avrdude>dragon_pdi</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel AVR Dragon in PP mode</name>
-		<command>dragon_pp</command>
+		<avrdude>dragon_pp</avrdude>
 	</programmer>
 	<programmer>
 		<name>Dontronics DT006</name>
-		<command>dt006</command>
+		<avrdude>dt006</avrdude>
 	</programmer>
 	<programmer>
 		<name>ERE ISP-AVR http://www.ere.co.th/download/sch050713.pdf</name>
-		<command>ere-isp-avr</command>
+		<avrdude>ere-isp-avr</avrdude>
 	</programmer>
 	<programmer>
 		<name>Frank STK200</name>
-		<command>frank-stk200</command>
+		<avrdude>frank-stk200</avrdude>
 	</programmer>
 	<programmer>
 		<name>FT232R Synchronous BitBang</name>
-		<command>ft232r</command>
+		<avrdude>ft232r</avrdude>
 	</programmer>
 	<programmer>
 		<name>FT245R Synchronous BitBang</name>
-		<command>ft245r</command>
+		<avrdude>ft245r</avrdude>
 	</programmer>
 	<programmer>
 		<name>Futurlec.com programming cable</name>
-		<command>futurlec</command>
+		<avrdude>futurlec</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel JTAG ICE (mkI)</name>
-		<command>jtag1</command>
+		<avrdude>jtag1</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel JTAG ICE (mkI)</name>
-		<command>jtag1slow</command>
+		<avrdude>jtag1slow</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel JTAG ICE mkII</name>
-		<command>jtag2</command>
+		<avrdude>jtag2</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel JTAG ICE mkII im AVR32 mode</name>
-		<command>jtag2avr32</command>
+		<avrdude>jtag2avr32</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel JTAG ICE mkII in debugWire mode</name>
-		<command>jtag2dw</command>
+		<avrdude>jtag2dw</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel JTAG ICE mkII</name>
-		<command>jtag2fast</command>
+		<avrdude>jtag2fast</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel JTAG ICE mkII in ISP mode</name>
-		<command>jtag2isp</command>
+		<avrdude>jtag2isp</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel JTAG ICE mkII PDI mode</name>
-		<command>jtag2pdi</command>
+		<avrdude>jtag2pdi</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel JTAG ICE mkII</name>
-		<command>jtag2slow</command>
+		<avrdude>jtag2slow</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel AVR JTAGICE3 in JTAG mode</name>
-		<command>jtag3</command>
+		<avrdude>jtag3</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel AVR JTAGICE3 in debugWIRE mode</name>
-		<command>jtag3dw</command>
+		<avrdude>jtag3dw</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel AVR JTAGICE3 in ISP mode</name>
-		<command>jtag3isp</command>
+		<avrdude>jtag3isp</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel AVR JTAGICE3 in PDI mode</name>
-		<command>jtag3pdi</command>
+		<avrdude>jtag3pdi</avrdude>
 	</programmer>
 	<programmer>
 		<name>Amontec JTAGKey, JTAGKey-Tiny and JTAGKey2</name>
-		<command>jtagkey</command>
+		<avrdude>jtagkey</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel JTAG ICE (mkI)</name>
-		<command>jtagmkI</command>
+		<avrdude>jtagmkI</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel JTAG ICE mkII</name>
-		<command>jtagmkII</command>
+		<avrdude>jtagmkII</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel JTAG ICE mkII im AVR32 mode</name>
-		<command>jtagmkII_avr32</command>
+		<avrdude>jtagmkII_avr32</avrdude>
 	</programmer>
 	<programmer>
 		<name>Luminary Micro LM3S811 Eval Board (Rev. A)</name>
-		<command>lm3s811</command>
+		<avrdude>lm3s811</avrdude>
 	</programmer>
 	<programmer>
 		<name>Crossbow MIB510 programming board</name>
-		<command>mib510</command>
+		<avrdude>mib510</avrdude>
 	</programmer>
 	<programmer>
 		<name>Mikrokopter.de Butterfly</name>
-		<command>mkbutterfly</command>
+		<avrdude>mkbutterfly</avrdude>
 	</programmer>
 	<programmer>
 		<name>NIBObee</name>
-		<command>nibobee</command>
+		<avrdude>nibobee</avrdude>
 	</programmer>
 	<programmer>
 		<name>O-Link, OpenJTAG from www.100ask.net</name>
-		<command>o-link</command>
+		<avrdude>o-link</avrdude>
 	</programmer>
 	<programmer>
 		<name>Openmoko debug board (v3)</name>
-		<command>openmoko</command>
+		<avrdude>openmoko</avrdude>
 	</programmer>
 	<programmer>
 		<name>Jason Kyle's pAVR Serial Programmer</name>
-		<command>pavr</command>
+		<avrdude>pavr</avrdude>
 	</programmer>
 	<programmer>
 		<name>MicroChip's PICkit2 Programmer</name>
-		<command>pickit2</command>
+		<avrdude>pickit2</avrdude>
 	</programmer>
 	<programmer>
 		<name>Picoweb Programming Cable, http://www.picoweb.net/</name>
-		<command>picoweb</command>
+		<avrdude>picoweb</avrdude>
 	</programmer>
 	<programmer>
 		<name>Pony Prog STK200</name>
-		<command>pony-stk200</command>
+		<avrdude>pony-stk200</avrdude>
 	</programmer>
 	<programmer>
 		<name>design ponyprog serial, reset=!txd sck=rts mosi=dtr miso=cts</name>
-		<command>ponyser</command>
+		<avrdude>ponyser</avrdude>
 	</programmer>
 	<programmer>
 		<name>Lancos SI-Prog http://www.lancos.com/siprogsch.html</name>
-		<command>siprog</command>
+		<avrdude>siprog</avrdude>
 	</programmer>
 	<programmer>
 		<name>Steve Bolt's Programmer</name>
-		<command>sp12</command>
+		<avrdude>sp12</avrdude>
 	</programmer>
 	<programmer>
 		<name>STK200</name>
-		<command>stk200</command>
+		<avrdude>stk200</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel STK500</name>
-		<command>stk500</command>
+		<avrdude>stk500</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel STK500 V2 in high-voltage serial programming mode</name>
-		<command>stk500hvsp</command>
+		<avrdude>stk500hvsp</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel STK500 V2 in parallel programming mode</name>
-		<command>stk500pp</command>
+		<avrdude>stk500pp</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel STK500 Version 1.x firmware</name>
-		<command>stk500v1</command>
+		<avrdude>stk500v1</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel STK500 Version 2.x firmware</name>
-		<command>stk500v2</command>
+		<avrdude>stk500v2</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel STK600</name>
-		<command>stk600</command>
+		<avrdude>stk600</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel STK600 in high-voltage serial programming mode</name>
-		<command>stk600hvsp</command>
+		<avrdude>stk600hvsp</avrdude>
 	</programmer>
 	<programmer>
 		<name>Atmel STK600 in parallel programming mode</name>
-		<command>stk600pp</command>
+		<avrdude>stk600pp</avrdude>
 	</programmer>
 	<programmer>
 		<name>USBasp, http://www.fischl.de/usbasp/</name>
-		<command>usbasp</command>
+		<avrdude>usbasp</avrdude>
 	</programmer>
 	<programmer>
 		<name>Any usbasp clone with correct VID/PID</name>
-		<command>usbasp-clone</command>
+		<avrdude>usbasp-clone</avrdude>
 	</programmer>
 	<programmer>
 		<name>USBtiny simple USB programmer, http://www.ladyada.net/make/usbtinyisp/</name>
-		<command>usbtiny</command>
+		<avrdude>usbtiny</avrdude>
 	</programmer>
 	<programmer>
 		<name>Wiring</name>
-		<command>wiring</command>
+		<avrdude>wiring</avrdude>
 	</programmer>
 	<programmer>
 		<name>Xilinx JTAG cable</name>
-		<command>xil</command>
+		<avrdude>xil</avrdude>
 	</programmer>
 </programmers>

@@ -69,13 +69,22 @@ MainWindow::MainWindow(QWidget *parent) :
     for (int i = 0; i < cpus.size(); i++) {
         QDomNode n = cpus.item(i);
         QDomElement name = n.firstChildElement("name");
-        QDomElement command = n.firstChildElement("command");
-        if (name.isNull() == false && command.isNull() == false){
+        QDomElement avrdude = n.firstChildElement("avrdude");
+        QDomElement gcc = n.firstChildElement("gcc");
+        if(name.isNull() == false && avrdude.isNull() == false){
             QString cpuName = name.firstChild().nodeValue();
-            QString cpuCommand = command.firstChild().nodeValue();
+            QString cpuCommand = avrdude.firstChild().nodeValue();
             qDebug() << "Loaded CPU: " << cpuName << " with command: " << cpuCommand;
             processors += cpuName;
-            processorCommands += cpuCommand;
+            processorAvrdudeCommands += cpuCommand;
+        }
+        // Add the AVR-GCC parameters
+        if(gcc.isNull() == false && gcc.firstChild().nodeValue().length()>0){
+            // Parameter available, processor supported
+            processorGccCommands += gcc.firstChild().nodeValue();
+        }else{
+            // TODO: Processor currently not supported
+            processorGccCommands += "";
         }
     }
     // Add all items to the ComboBox
@@ -95,13 +104,13 @@ MainWindow::MainWindow(QWidget *parent) :
     for (int i = 0; i < progs.size(); i++) {
         QDomNode n = progs.item(i);
         QDomElement name = n.firstChildElement("name");
-        QDomElement command = n.firstChildElement("command");
-        if (name.isNull() == false && command.isNull() == false){
+        QDomElement avrdude = n.firstChildElement("avrdude");
+        if (name.isNull() == false && avrdude.isNull() == false){
             QString progName = name.firstChild().nodeValue();
-            QString progCommand = command.firstChild().nodeValue();
+            QString progCommand = avrdude.firstChild().nodeValue();
             qDebug() << "Loaded programmer: " << progName << " with command: " << progCommand;
             programmers += progName;
-            programmerCommands += progCommand;
+            programmerAvrdudeCommands += progCommand;
         }
     }
     // Add all items to the ComboBox
@@ -612,11 +621,15 @@ void MainWindow::on_actionOpen_Settings_triggered(){
 }
 
 void MainWindow::on_cbController_currentIndexChanged(int index){
-    qDebug() << QString::number(index) << "Selected: " << processors.at(index) << " with command: " << processorCommands.at(index);
-    currentProcessorCommand = processorCommands.at(index);
+    qDebug() << QString::number(index) << "Selected: " << processors.at(index) << " with command: " << processorAvrdudeCommands.at(index);
+    currentProcessorAvrdudeCommand = processorAvrdudeCommands.at(index);
+    currentProcessorGccCommand = processorGccCommands.at(index);
+    if(currentProcessorGccCommand.length() == 0){
+        // TODO: Warning, this processor is currently not supported!
+    }
 }
 
 void MainWindow::on_cbFlashtool_currentIndexChanged(int index){
-    qDebug() << QString::number(index) << "Selected: " << programmers.at(index) << " with command: " << programmerCommands.at(index);
-    currentProgrammerCommand = programmerCommands.at(index);
+    qDebug() << QString::number(index) << "Selected: " << programmers.at(index) << " with command: " << programmerAvrdudeCommands.at(index);
+    currentProgrammerAvrdudeCommand = programmerAvrdudeCommands.at(index);
 }
