@@ -10,7 +10,7 @@
 
 #include <QPlainTextEdit>
 #include <QObject>
-#include <QFile.h>
+#include <QFile>
 
 #include "mysyntaxhighlighter.h"
 
@@ -30,7 +30,8 @@ public:
     Editor(QWidget *parent = 0, QString directory = 0);
     ~Editor();
 
-    QFile *file;
+    QFile getter();
+    void setter();
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
@@ -46,6 +47,7 @@ private slots:
 private:
     QWidget *lineNumberArea;
     mySyntaxHighLighter *highlighter;
+    QFile *file;
 };
 
 

@@ -45,16 +45,22 @@ Editor::Editor(QWidget *parent, QString directory) : QPlainTextEdit(parent)
     file->close();
 }
 
-
-
-
-
 Editor::~Editor(){
     highlighter->deleteLater();
     file->deleteLater();
 }
 
+QFile Editor::getter()
+{
+    //file->open();
 
+    //file->close();
+}
+
+void Editor::setter()
+{
+
+}
 
 int Editor::lineNumberAreaWidth()
 {

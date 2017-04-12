@@ -50,6 +50,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->cbController, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineUC()));
     connect(ui->cbFlashtool, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineFD()));
 
+    // Get selected tab
+    connect(ui->twMainTab, SIGNAL(currentChanged(curTabIndex)), this, SLOT());
+
     // delete initialized tabs
     ui->twMainTab->removeTab(0);
     ui->twMainTab->removeTab(0);
@@ -490,7 +493,10 @@ void MainWindow::errorMessage()
 
 void MainWindow::SaveFile(){
     qDebug() << "Save File" << endl;
-    // Open File in Editor
+    qDebug() << "current selected Tab: " << curTabIndex << endl;
+
+    Editor *editor = (Editor*)(ui->twMainTab->widget(curTabIndex));
+    QTextStream stream();
     /*
     if(mainFile->exists()){
         mainFile->open(QFile::WriteOnly | QFile::Text);

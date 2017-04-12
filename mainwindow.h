@@ -52,6 +52,8 @@ private:
     QString FlashFilePath="/Users/tobias/Desktop/Flash.sh";
     QString FFlashFilePath="/Users/tobias/Desktop/FFlash.sh";
 
+    int curTabIndex;
+
 private slots:
     void rightMessage();
     void errorMessage();
