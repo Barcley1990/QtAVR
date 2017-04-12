@@ -583,7 +583,7 @@ void MainWindow::on_actionNew_File_triggered()
     QString file = QFileDialog::getSaveFileName(this,
                                                     tr("Save File"),
                                                     Workingdir,
-                                                    "c-files (*.c) h-files *.h)"
+                                                    tr("source (*.c);;header (*.h)")
                                                     );
     if(file.length() > 0){
 
