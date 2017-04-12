@@ -34,10 +34,15 @@ public:
     QProcess *proc1;
 private:
     Ui::MainWindow *ui;
+
+
+    QString Workingdir;
+
+
     QStringList cFilePaths;
     QStringList cFileNames;
     QStringList oFileNames;
-    QString Workingdir;
+
     bool is_error=false;
 
     // Settings
@@ -53,7 +58,8 @@ private:
     QString FlashFilePath="/Users/tobias/Desktop/Flash.sh";
     QString FFlashFilePath="/Users/tobias/Desktop/FFlash.sh";
 
-    int curTabIndex;
+
+    int curTabIndex;    // hold current Tab index of MainTabWidget
 
     QStringList processors;
     QStringList processorAvrdudeCommands;
@@ -67,7 +73,6 @@ private:
 private slots:
     void rightMessage();
     void errorMessage();
-    void AddCFile();
     void Build();
     void Flash();
     void Run();
@@ -86,6 +91,7 @@ private slots:
     void on_actionOpen_Settings_triggered();
     void on_cbController_currentIndexChanged(int index);
     void on_cbFlashtool_currentIndexChanged(int index);
+    void on_actionNew_File_triggered();
 };
 
 #endif // MAINWINDOW_H
