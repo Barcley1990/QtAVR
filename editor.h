@@ -27,7 +27,7 @@ class Editor : public QPlainTextEdit
 
 public:
     //Editor(QWidget *parent = 0);
-    Editor(QWidget *parent = 0, QString directory = 0);
+    Editor(QWidget *parent = 0, QString directory = 0, uint8_t fileType=0);
     ~Editor();
 
     QFile getter();
@@ -49,6 +49,7 @@ private:
     QWidget *lineNumberArea;
     mySyntaxHighLighter *highlighter;
     QFile *file;
+    uint8_t fileType;
 };
 
 

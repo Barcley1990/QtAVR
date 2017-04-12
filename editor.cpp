@@ -8,7 +8,7 @@
 #include "editor.h"
 #include <QtWidgets>
 
-Editor::Editor(QWidget *parent, QString directory) : QPlainTextEdit(parent)
+Editor::Editor(QWidget *parent, QString directory, uint8_t fileType) : QPlainTextEdit(parent)
 {
     lineNumberArea = new LineNumberArea(this);
 
@@ -19,12 +19,26 @@ Editor::Editor(QWidget *parent, QString directory) : QPlainTextEdit(parent)
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
 
+
     // create new file from template
+    QString templatePath = "";
+    if(fileType==0){
+        templatePath = ":/templates/templates/default.txt";
+    }
+    else if(fileType==1){
+        templatePath = ":/templates/templates/default_c.txt";
+    }
+    else if(fileType==2){
+        templatePath = ":/templates/templates/default_h.txt";
+    }
+    else
+        qDebug() << "Error: Unknows Filetype" << endl;
+
     file = new QFile(this);
     file->setFileName(directory);
     file->open(QIODevice::WriteOnly);
     // Copy the default ressource file to the new generated source file
-    QFile defaultTemplate(":/templates/templates/default.txt");
+    QFile defaultTemplate(templatePath);
     if (defaultTemplate.open(QIODevice::ReadOnly)){
        QTextStream in(&defaultTemplate);
        while (!in.atEnd()){
@@ -33,6 +47,8 @@ Editor::Editor(QWidget *parent, QString directory) : QPlainTextEdit(parent)
        }
        defaultTemplate.close();
     }
+
+
     file->close();
 
     // start syntaxhighlithning

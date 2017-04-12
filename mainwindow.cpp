@@ -160,7 +160,7 @@ void MainWindow::NewProject(){
         QString filepath        = QFileInfo(file).path();
 
         // New File in tab-bar
-        ui->twMainTab->addTab( new Editor(this, filepathname), filename );
+        ui->twMainTab->addTab( new Editor(this, filepathname, 0), filename );
         // get actual working dir
         Workingdir = filepath;
         ui->lWD->setText(Workingdir);
@@ -555,7 +555,7 @@ void MainWindow::on_actionAbout_triggered(){
         "<p>Crude Build and Flash Tool for AVR Microcontroller"));
 }
 
-void MainWindow::on_actionOpen_Settings_triggered(){
+void MainWindow::on_actionOpen_Settings_triggered() {
     if(userSettings->exec()){
         // TODO: Reload the server settings
     }
@@ -590,9 +590,14 @@ void MainWindow::on_actionNew_File_triggered()
             QString filename        = QFileInfo(file).fileName();
             QString filepathname    = QFileInfo(file).filePath();
             QString filepath        = QFileInfo(file).path();
+
             // New File in tab-bar
-            ui->twMainTab->addTab( new Editor(this, filepathname), filename );
-            // get actual working dir
+            if(QFileInfo(file).suffix() == 'c')
+                ui->twMainTab->addTab( new Editor(this, filepathname, 1), filename );
+            else if(QFileInfo(file).suffix() == 'h')
+                ui->twMainTab->addTab( new Editor(this, filepathname, 2), filename );
+            else
+                qDebug() << "Error: Unknows Filetype" << endl;
 
     }
 
