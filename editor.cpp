@@ -52,14 +52,22 @@ Editor::~Editor(){
 
 QFile Editor::getter()
 {
-    //file->open();
 
-    //file->close();
 }
 
 void Editor::setter()
 {
 
+}
+
+void Editor::saveContent()
+{
+    if(file->exists()){
+        file->open(QFile::WriteOnly | QFile::Text);
+        QTextStream stream(file);
+        stream << this->toPlainText();
+        file->close();
+    }
 }
 
 int Editor::lineNumberAreaWidth()
