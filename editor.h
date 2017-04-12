@@ -32,6 +32,7 @@ public:
 
     QFile getter();
     void setter();
+    void saveContent();
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();

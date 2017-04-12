@@ -555,17 +555,10 @@ void MainWindow::errorMessage()
 
 void MainWindow::SaveFile(){
     qDebug() << "Save File" << endl;
+    curTabIndex = ui->twMainTab->currentIndex();
     qDebug() << "current selected Tab: " << curTabIndex << endl;
-
     Editor *editor = (Editor*)(ui->twMainTab->widget(curTabIndex));
-    QTextStream stream();
-    /*
-    if(mainFile->exists()){
-        mainFile->open(QFile::WriteOnly | QFile::Text);
-        QTextStream stream( mainFile );
-        stream << mainEditor->toPlainText();
-        mainFile->close();
-    }*/
+    editor->saveContent();
 }
 
 
