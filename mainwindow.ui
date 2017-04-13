@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1183</width>
-    <height>870</height>
+    <width>1191</width>
+    <height>874</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -30,412 +30,346 @@
     <normaloff>:/images/images/chip03.png</normaloff>:/images/images/chip03.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_14">
-    <item>
-     <layout class="QVBoxLayout" name="verticalLayout_14">
+   <widget class="QGroupBox" name="groupBox_6">
+    <property name="geometry">
+     <rect>
+      <x>950</x>
+      <y>10</y>
+      <width>181</width>
+      <height>143</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Maximum" vsizetype="Ignored">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="title">
+     <string>File List</string>
+    </property>
+    <widget class="QTextBrowser" name="cCfiles">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>34</y>
+       <width>151</width>
+       <height>92</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="midLineWidth">
+      <number>1</number>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::TextBrowserInteraction</set>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QSplitter" name="splitter_2">
+    <property name="geometry">
+     <rect>
+      <x>14</x>
+      <y>166</y>
+      <width>1161</width>
+      <height>651</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Workspace</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_7">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_9">
-        <item>
-         <widget class="QGroupBox" name="groupBox_2">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="title">
-           <string>Project</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_8">
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QPushButton" name="bNew">
-               <property name="text">
-                <string>New Project</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="bOpen">
-               <property name="text">
-                <string>Open Project</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="bSave">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>Save</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="bLoad">
-               <property name="text">
-                <string>Load</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGroupBox" name="groupBox_3">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Ignored">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="title">
-           <string>File</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_12">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout_4">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_2">
-                 <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_3">
-                   <property name="spacing">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <widget class="QLabel" name="label">
-                     <property name="text">
-                      <string>Microcontroller:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QComboBox" name="cbController"/>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_2">
-                   <property name="spacing">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <widget class="QLabel" name="label_2">
-                     <property name="text">
-                      <string>Programer:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QComboBox" name="cbFlashtool"/>
-                   </item>
-                  </layout>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout">
-                 <property name="spacing">
-                  <number>2</number>
-                 </property>
-                 <item>
-                  <widget class="QPushButton" name="bBuild">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="text">
-                    <string>Build</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="bFlash">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="text">
-                    <string>Flash</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="bRun">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="text">
-                    <string>Run</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGroupBox" name="groupBox_7">
-          <property name="title">
-           <string>Fuses</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_11">
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_5">
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
-               <item>
-                <widget class="QLabel" name="label_6">
-                 <property name="text">
-                  <string>LF</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_5">
-                 <property name="text">
-                  <string>HF</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_7">
-                 <property name="text">
-                  <string>EF</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_5">
-               <item>
-                <widget class="QLineEdit" name="lLF">
-                 <property name="text">
-                  <string>0x62</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="lHF">
-                 <property name="text">
-                  <string>0xD9</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="lEF">
-                 <property name="text">
-                  <string>0xFF</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <widget class="QPushButton" name="bFuses">
-               <property name="text">
-                <string>Set Fuses</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGroupBox" name="groupBox_6">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Ignored">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="title">
-           <string>File List</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_10">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QTextBrowser" name="cCfiles">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Sunken</enum>
-               </property>
-               <property name="midLineWidth">
-                <number>1</number>
-               </property>
-               <property name="textInteractionFlags">
-                <set>Qt::TextBrowserInteraction</set>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_8">
-        <item>
-         <widget class="QGroupBox" name="groupBox">
-          <property name="title">
-           <string>Workspace</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_7">
-           <item>
-            <widget class="QTreeView" name="treeView">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_13">
-          <item>
-           <widget class="QGroupBox" name="groupBox_4">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="title">
-             <string>Editor</string>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_7">
-             <item>
-              <widget class="QTabWidget" name="twMainTab">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="inputMethodHints">
-                <set>Qt::ImhPreferUppercase</set>
-               </property>
-               <property name="tabPosition">
-                <enum>QTabWidget::North</enum>
-               </property>
-               <property name="tabShape">
-                <enum>QTabWidget::Rounded</enum>
-               </property>
-               <property name="currentIndex">
-                <number>0</number>
-               </property>
-               <property name="usesScrollButtons">
-                <bool>false</bool>
-               </property>
-               <property name="tabsClosable">
-                <bool>true</bool>
-               </property>
-               <property name="movable">
-                <bool>false</bool>
-               </property>
-               <property name="tabBarAutoHide">
-                <bool>false</bool>
-               </property>
-               <widget class="QWidget" name="tab">
-                <property name="enabled">
-                 <bool>true</bool>
-                </property>
-                <attribute name="title">
-                 <string>Tab 1</string>
-                </attribute>
-               </widget>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="QGroupBox" name="groupBox_5">
-            <property name="title">
-             <string>Console</string>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_13">
-             <item>
-              <widget class="QTextBrowser" name="cOutput">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QFormLayout" name="formLayout_2">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>Working dir:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="lWD">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QTreeView" name="treeView">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
       </item>
      </layout>
-    </item>
-   </layout>
+    </widget>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="title">
+       <string>Editor</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QTabWidget" name="twMainTab">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="inputMethodHints">
+          <set>Qt::ImhPreferUppercase</set>
+         </property>
+         <property name="tabPosition">
+          <enum>QTabWidget::North</enum>
+         </property>
+         <property name="tabShape">
+          <enum>QTabWidget::Rounded</enum>
+         </property>
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <property name="usesScrollButtons">
+          <bool>false</bool>
+         </property>
+         <property name="tabsClosable">
+          <bool>true</bool>
+         </property>
+         <property name="movable">
+          <bool>false</bool>
+         </property>
+         <property name="tabBarAutoHide">
+          <bool>false</bool>
+         </property>
+         <widget class="QWidget" name="tab">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <attribute name="title">
+           <string>Tab 1</string>
+          </attribute>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_5">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="title">
+       <string>Console</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_13">
+       <item>
+        <widget class="QTextBrowser" name="cOutput">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>911</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QGroupBox" name="groupBox_3">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="title">
+        <string>File</string>
+       </property>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>20</y>
+          <width>371</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="0" colspan="2">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Microcontroller:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2" colspan="2">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Programer:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="2">
+          <widget class="QComboBox" name="cbController"/>
+         </item>
+         <item row="1" column="2" colspan="2">
+          <widget class="QComboBox" name="cbFlashtool"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QPushButton" name="bBuild">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Build</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QPushButton" name="bFlash">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Flash</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QPushButton" name="bRun">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Run</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <zorder>cbController</zorder>
+       <zorder>bFlash</zorder>
+       <zorder>bBuild</zorder>
+       <zorder>label_2</zorder>
+       <zorder>cbFlashtool</zorder>
+       <zorder>bRun</zorder>
+       <zorder>groupBox_7</zorder>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_7">
+       <property name="title">
+        <string>Fuses</string>
+       </property>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>15</x>
+          <y>35</y>
+          <width>406</width>
+          <height>86</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="1" column="0" colspan="3">
+          <widget class="QLineEdit" name="lLF">
+           <property name="text">
+            <string>0x62</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QLineEdit" name="lHF">
+           <property name="text">
+            <string>0xD9</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="4">
+          <widget class="QLineEdit" name="lEF">
+           <property name="text">
+            <string>0xFF</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="5">
+          <widget class="QPushButton" name="bFuses">
+           <property name="text">
+            <string>Set Fuses</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>HF</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>EF</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" colspan="3">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>LF</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <zorder></zorder>
+   <zorder>groupBox_7</zorder>
+   <zorder>groupBox_7</zorder>
+   <zorder>groupBox_6</zorder>
+   <zorder>groupBox_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1183</width>
+     <width>1191</width>
      <height>22</height>
     </rect>
    </property>

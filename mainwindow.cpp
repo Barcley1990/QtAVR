@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // default file path at start
     Workingdir= "/Users/tobias/Desktop/";
-    ui->lWD->setText(Workingdir);
+    ui->statusBar->showMessage(Workingdir);
 
     /* show output */
     connect(proc1, SIGNAL(readyReadStandardOutput()),this, SLOT(rightMessage()) );
@@ -41,10 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->bBuild, SIGNAL(clicked()), this, SLOT(Build()));
     connect(ui->bFlash, SIGNAL(clicked()), this, SLOT(Flash()));
     connect(ui->bRun, SIGNAL(clicked()), this, SLOT(Run()));
-    connect(ui->bNew, SIGNAL(clicked()), this, SLOT(NewProject()));
-    connect(ui->bOpen, SIGNAL(clicked()), this, SLOT(OpenProject()));
     connect(ui->bFuses, SIGNAL(clicked()), this, SLOT(FlashFuses()));
-    connect(ui->bSave, SIGNAL(clicked()), this, SLOT(SaveFile()));
 
     connect(ui->cbController, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineUC()));
     connect(ui->cbFlashtool, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineFD()));
@@ -117,6 +114,18 @@ MainWindow::MainWindow(QWidget *parent) :
     if(ui->cbFlashtool->count() >= 14){
         ui->cbFlashtool->setCurrentIndex(13);
     }
+
+
+    model = new QDirModel();
+    model->setReadOnly(false);
+    model->setSorting(QDir::DirsFirst | QDir::IgnoreCase | QDir::Name);
+
+    ui->treeView->setModel( model );
+    QModelIndex index = model->index(Workingdir);
+    ui->treeView->expand(index);
+    ui->treeView->scrollTo(index);
+    ui->treeView->setCurrentIndex(index);
+    ui->treeView->resizeColumnToContents(0);
 }
 
 MainWindow::~MainWindow()
@@ -143,137 +152,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
         event->accept();
     }
 
-}
-
-void MainWindow::NewProject(){
-    qDebug() << "Create new project" << endl;
-
-    QString file = QFileDialog::getSaveFileName(this,
-                                                    tr("Save File"),
-                                                    Workingdir,
-                                                    "c-Files (*.c)"
-                                                    );
-    if(file.length() > 0){
-
-        QString filename        = QFileInfo(file).fileName();
-        QString filepathname    = QFileInfo(file).filePath();
-        QString filepath        = QFileInfo(file).path();
-
-        // New File in tab-bar
-        ui->twMainTab->addTab( new Editor(this, filepathname, 0), filename );
-        // get actual working dir
-        Workingdir = filepath;
-        ui->lWD->setText(Workingdir);
-
-        //  Create Filelist (TODO: auslagern)
-        cFilePaths.clear();
-        cFileNames.clear();
-        // append filepath to list
-        cFilePaths.append(filename);
-        // get filname from filepath
-        QFileInfo fi(filename);
-        cFileNames.append(fi.fileName());
-
-        qDebug() << "Filepath: " << filename << endl;
-        qDebug() << "Number of Paths in List: " << cFilePaths.length() <<endl;
-        for(uint8_t i=0; i<cFilePaths.length(); i++){
-            qDebug() << i << ": " << cFilePaths[i] << endl;
-        }
-        for(uint8_t i=0; i<cFileNames.length(); i++){
-            qDebug() << i << ": " << cFileNames[i] << endl;
-        }
-        // create o-files
-        oFileNames.clear();
-        for(volatile uint8_t i=0; i<cFileNames.length(); i++){
-            QString fn = cFileNames[i];
-            int dot = fn.indexOf(".")+1;
-            oFileNames.append(fn.replace(dot,1,"o"));
-            qDebug() << oFileNames[i] << endl;
-        }
-        // set on label
-        ui->cCfiles->clear();
-        for(uint8_t i=0; i<cFilePaths.length(); i++){
-            ui->cCfiles->append(cFileNames[i]);
-        }
-
-
-        // Enable Action- and other buttons (Add-File)
-        ui->actionNew_File->setEnabled(true);
-        ui->actionExisting_File->setEnabled(true);
-        ui->actionSave->setEnabled(true);
-        ui->actionSave_All->setEnabled(true);
-        ui->actionBuild->setEnabled(true);
-        ui->actionFlash->setEnabled(true);
-        ui->actionRun->setEnabled(true);
-        ui->bBuild->setEnabled(true);
-        ui->bFlash->setEnabled(true);
-        ui->bRun->setEnabled(true);
-        ui->bSave->setEnabled(true);
-     }
-}
-
-void MainWindow::OpenProject(){
-    qDebug() << "Open project" << endl;
-
-    QString filename = QFileDialog::getOpenFileName(this,
-                                                     tr("Open File"),
-                                                     Workingdir,
-                                                     "c-Files (*.c)"
-                                                     );
-    /*
-    if(filename.length() > 0){
-        cFilePaths.clear();
-        cFileNames.clear();
-        // get actual working dir
-        d = QFileInfo(filename).absoluteDir();
-        Workingdir = d.absolutePath();
-        ui->lWD->setText(Workingdir);
-
-        // append filepath to list
-        cFilePaths.append(filename);
-        // get filname from filepath
-        QFileInfo fi(filename);
-        cFileNames.append(fi.fileName());
-
-        // find other c-files and append
-        QDirIterator it(d.path(), QStringList() << "*.c", QDir::Files, QDirIterator::Subdirectories);
-        while (it.hasNext()){
-            qDebug() << it.next();
-            qDebug() << it.fileName();
-            if(it.fileName()!=fi.fileName()){
-                cFileNames.append(it.fileName());
-            }
-        }
-        // output cFile List in debugger
-        qDebug() << "Filepath: " << filename << endl;
-        qDebug() << "Number of Paths in List: " << cFilePaths.length() <<endl;
-        for(uint8_t i=0; i<cFilePaths.length(); i++){
-            qDebug() << i << ": " << cFilePaths[i] << endl;
-        }
-        for(uint8_t i=0; i<cFileNames.length(); i++){
-            qDebug() << i << ": " << cFileNames[i] << endl;
-        }
-        // create o-files
-        oFileNames.clear();
-        for(volatile uint8_t i=0; i<cFileNames.length(); i++){
-            QString fn = cFileNames[i];
-            int dot = fn.indexOf(".")+1;
-            oFileNames.append(fn.replace(dot,1,"o"));
-            qDebug() << oFileNames[i] << endl;
-        }
-        // set on label
-        ui->cCfiles->clear();
-        for(uint8_t i=0; i<cFileNames.length(); i++){
-            //if(i==0)
-            //   ui->cCfiles->setTextColor(QColor(220,220,220));
-            //else
-            //    ui->cCfiles->setTextColor(QColor(0,0,0));
-            ui->cCfiles->append(cFileNames[i]);
-        }
-
-
-
-    }*/
 }
 
 void MainWindow::Build()
@@ -515,25 +393,81 @@ void MainWindow::errorMessage()
         ui->cOutput->append(error);
 }
 
-void MainWindow::SaveFile(){
+
+// Action Bar
+void MainWindow::on_actionNew_Project_triggered()
+{
+    qDebug() << "Create new project" << endl;
+
+    QString file = QFileDialog::getSaveFileName(this,
+                                                    tr("Save File"),
+                                                    Workingdir,
+                                                    "c-Files (*.c)"
+                                                    );
+    if(file.length() > 0){
+
+        QString filename        = QFileInfo(file).fileName();
+        QString filepathname    = QFileInfo(file).filePath();
+        QString filepath        = QFileInfo(file).path();
+
+        // New File in tab-bar
+        ui->twMainTab->addTab( new Editor(this, filepathname, 0), filename );
+        // get actual working dir
+        Workingdir = filepath;
+        ui->statusBar->showMessage(Workingdir);
+
+        //  Create Filelist (TODO: auslagern)
+        cFilePaths.clear();
+        cFileNames.clear();
+        // append filepath to list
+        cFilePaths.append(filename);
+        // get filname from filepath
+        QFileInfo fi(filename);
+        cFileNames.append(fi.fileName());
+
+        qDebug() << "Filepath: " << filename << endl;
+        qDebug() << "Number of Paths in List: " << cFilePaths.length() <<endl;
+        for(uint8_t i=0; i<cFilePaths.length(); i++){
+            qDebug() << i << ": " << cFilePaths[i] << endl;
+        }
+        for(uint8_t i=0; i<cFileNames.length(); i++){
+            qDebug() << i << ": " << cFileNames[i] << endl;
+        }
+        // create o-files
+        oFileNames.clear();
+        for(volatile uint8_t i=0; i<cFileNames.length(); i++){
+            QString fn = cFileNames[i];
+            int dot = fn.indexOf(".")+1;
+            oFileNames.append(fn.replace(dot,1,"o"));
+            qDebug() << oFileNames[i] << endl;
+        }
+        // set on label
+        ui->cCfiles->clear();
+        for(uint8_t i=0; i<cFilePaths.length(); i++){
+            ui->cCfiles->append(cFileNames[i]);
+        }
+
+
+        // Enable Action- and other buttons (Add-File)
+        ui->actionNew_File->setEnabled(true);
+        ui->actionExisting_File->setEnabled(true);
+        ui->actionSave->setEnabled(true);
+        ui->actionSave_All->setEnabled(true);
+        ui->actionBuild->setEnabled(true);
+        ui->actionFlash->setEnabled(true);
+        ui->actionRun->setEnabled(true);
+        ui->bBuild->setEnabled(true);
+        ui->bFlash->setEnabled(true);
+        ui->bRun->setEnabled(true);
+     }
+}
+void MainWindow::on_actionSave_triggered()
+{
     qDebug() << "Save File" << endl;
     curTabIndex = ui->twMainTab->currentIndex();
     qDebug() << "current selected Tab: " << curTabIndex << endl;
     Editor *editor = (Editor*)(ui->twMainTab->widget(curTabIndex));
     editor->saveContent();
-}
-
-
-
-
-// Action Bar
-void MainWindow::on_actionNew_Project_triggered()
-{
-    NewProject();
-}
-void MainWindow::on_actionSave_triggered()
-{
-    SaveFile();
 }
 void MainWindow::on_actionBuild_triggered()
 {

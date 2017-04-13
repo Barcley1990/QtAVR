@@ -11,6 +11,7 @@
 #include <qmessagebox.h>
 #include <qsyntaxhighlighter.h>
 #include <qtextedit.h>
+#include <QDirModel>
 #include "QtXml/qdom.h"
 
 
@@ -70,18 +71,19 @@ private:
     QStringList programmerAvrdudeCommands;
     QString currentProgrammerAvrdudeCommand;
 
+    QDirModel *model;
+
 private slots:
     void rightMessage();
     void errorMessage();
     void Build();
     void Flash();
     void Run();
-    void NewProject();
-    void OpenProject();
+
+
     void FlashFuses();
     void DefineUC();
     void DefineFD();
-    void SaveFile();
     void on_actionSave_triggered();
     void on_actionBuild_triggered();
     void on_actionFlash_triggered();
