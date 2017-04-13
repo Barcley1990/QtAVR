@@ -66,16 +66,6 @@ Editor::~Editor(){
     file->deleteLater();
 }
 
-QFile Editor::getter()
-{
-
-}
-
-void Editor::setter()
-{
-
-}
-
 void Editor::saveContent()
 {
     if(file->exists()){
@@ -121,6 +111,16 @@ void Editor::updateLineNumberArea(const QRect &rect, int dy)
 
     if (rect.contains(viewport()->rect()))
         updateLineNumberAreaWidth(0);
+}
+
+QFile *Editor::getFile() const
+{
+    return file;
+}
+
+void Editor::setFile(QFile *value)
+{
+    file = value;
 }
 
 

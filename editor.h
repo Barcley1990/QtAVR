@@ -30,12 +30,13 @@ public:
     Editor(QWidget *parent = 0, QString directory = 0, uint8_t fileType=0);
     ~Editor();
 
-    QFile getter();
-    void setter();
     void saveContent();
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
+
+    QFile *getFile() const;
+    void setFile(QFile *value);
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
