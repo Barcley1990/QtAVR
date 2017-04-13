@@ -15,25 +15,22 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    // create QProcess object
+    proc1 = new QProcess();
+    // Set Window Icon
     setWindowIcon(QIcon(":/images/images/chip03_small.png"));
-
+    // Set Window Size in Startup
     this->setWindowState(Qt::WindowMaximized);
-
+    // Settings Dialog
     userSettings = new Settings();
     if(userSettings->load()){
         // Settings successfully loaded
     }else{
         // TODO: There are no user settings, maybe show a welcome screen or a "first-steps" instruction
     }
-
-    /* create QProcess object */
-    proc1 = new QProcess();
-
-    // default file path at start
+    // show default file path at start on statusbar
     Workingdir= "/Users/tobias/Desktop/";
     ui->statusBar->showMessage(Workingdir);
-
     /* show output */
     connect(proc1, SIGNAL(readyReadStandardOutput()),this, SLOT(rightMessage()) );
     connect(proc1, SIGNAL(readyReadStandardError()), this, SLOT(errorMessage()) );
@@ -42,25 +39,20 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->bFlash, SIGNAL(clicked()), this, SLOT(Flash()));
     connect(ui->bRun, SIGNAL(clicked()), this, SLOT(Run()));
     connect(ui->bFuses, SIGNAL(clicked()), this, SLOT(FlashFuses()));
-
     connect(ui->cbController, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineUC()));
     connect(ui->cbFlashtool, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineFD()));
-
-    // Get selected tab
+    // Get selected tab of main tabwidget
     connect(ui->twMainTab, SIGNAL(currentChanged(curTabIndex)), this, SLOT());
-
     // delete initialized tabs
     ui->twMainTab->removeTab(0);
     ui->twMainTab->removeTab(0);
     /*-------------------------------------------------------------------------------*/
-
 
     QDomDocument doc;
     QFile processorsFile(":/xml/xml/processors.xml");
     if (!processorsFile.open(QIODevice::ReadOnly) || !doc.setContent(&processorsFile)){
         // TODO: ERROR!
     }
-
     QDomNodeList cpus = doc.elementsByTagName("processor");
     for (int i = 0; i < cpus.size(); i++) {
         QDomNode n = cpus.item(i);
@@ -89,12 +81,10 @@ MainWindow::MainWindow(QWidget *parent) :
     if(ui->cbController->count() >= 46){
         ui->cbController->setCurrentIndex(45);
     }
-
     QFile programmersFile(":/xml/xml/programmers.xml");
     if (!programmersFile.open(QIODevice::ReadOnly) || !doc.setContent(&programmersFile)){
         // TODO: ERROR!
     }
-
     QDomNodeList progs = doc.elementsByTagName("programmer");
     for (int i = 0; i < progs.size(); i++) {
         QDomNode n = progs.item(i);
@@ -116,10 +106,10 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
 
+    // Set Workingtree in TreeView Widget
     model = new QDirModel();
     model->setReadOnly(false);
     model->setSorting(QDir::DirsFirst | QDir::IgnoreCase | QDir::Name);
-
     ui->treeView->setModel( model );
     QModelIndex index = model->index(Workingdir);
     ui->treeView->expand(index);
@@ -395,8 +385,7 @@ void MainWindow::errorMessage()
 
 
 // Action Bar
-void MainWindow::on_actionNew_Project_triggered()
-{
+void MainWindow::on_actionNew_Project_triggered(){
     qDebug() << "Create new project" << endl;
 
     QString file = QFileDialog::getSaveFileName(this,
@@ -461,22 +450,23 @@ void MainWindow::on_actionNew_Project_triggered()
         ui->bRun->setEnabled(true);
      }
 }
-void MainWindow::on_actionSave_triggered()
-{
+
+void MainWindow::on_actionSave_triggered(){
     qDebug() << "Save File" << endl;
     curTabIndex = ui->twMainTab->currentIndex();
     qDebug() << "current selected Tab: " << curTabIndex << endl;
     Editor *editor = (Editor*)(ui->twMainTab->widget(curTabIndex));
     editor->saveContent();
 }
-void MainWindow::on_actionBuild_triggered()
-{
+
+void MainWindow::on_actionBuild_triggered(){
     Build();
 }
-void MainWindow::on_actionFlash_triggered()
-{
+
+void MainWindow::on_actionFlash_triggered(){
     Flash();
 }
+
 void MainWindow::on_actionRun_triggered()
 {
     Run();
