@@ -38,7 +38,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->bBuild, SIGNAL(clicked()), this, SLOT(Build()));
     connect(ui->bFlash, SIGNAL(clicked()), this, SLOT(Flash()));
     connect(ui->bRun, SIGNAL(clicked()), this, SLOT(Run()));
-    connect(ui->bFuses, SIGNAL(clicked()), this, SLOT(FlashFuses()));
     connect(ui->cbController, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineUC()));
     connect(ui->cbFlashtool, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineFD()));
     // Get selected tab of main tabwidget
@@ -254,7 +253,7 @@ void MainWindow::Flash()
     //    FlashFile.remove();
 
 }
-
+/*
 void MainWindow::FlashFuses() {
     qDebug() << "Flashing Fuses" << endl;
     QString LF = ui->lLF->text();
@@ -287,7 +286,7 @@ void MainWindow::FlashFuses() {
                 append(s3).append(EF).append(s4);
         qDebug() << avrdude << endl;
 
-        //********** Script-File erstellen **********/
+
         // Edit Build.sh
         // Create SHELL Files
         FFlashFilePath = Workingdir.append("/FFlash.sh");
@@ -307,7 +306,7 @@ void MainWindow::FlashFuses() {
         // close file
         FFlashFile.close();
 
-        //********** Script-File ausfuehren **********/
+
         // Execute Scriptfile
         proc1->start(FFlashFilePath);
         if (is_error == false){
@@ -317,7 +316,7 @@ void MainWindow::FlashFuses() {
         else
             is_error = false;
 
-        //********** Script-File aufraeumen **********/
+
         //if(FlashFile.exists())
         //    FlashFile.remove();
 
@@ -326,7 +325,7 @@ void MainWindow::FlashFuses() {
         qDebug() << "Yes was *not* clicked";
       }
 
-}
+}*/
 
 void MainWindow::Run(){
     Build();

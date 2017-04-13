@@ -57,7 +57,7 @@ private:
     QFile FFlashFile;
     QString BuildFilePath="/Users/tobias/Desktop/Build.sh";
     QString FlashFilePath="/Users/tobias/Desktop/Flash.sh";
-    QString FFlashFilePath="/Users/tobias/Desktop/FFlash.sh";
+    //QString FFlashFilePath="/Users/tobias/Desktop/FFlash.sh";
 
 
     int curTabIndex;    // hold current Tab index of MainTabWidget
@@ -80,8 +80,6 @@ private slots:
     void Flash();
     void Run();
 
-
-    void FlashFuses();
     void DefineUC();
     void DefineFD();
     void on_actionSave_triggered();

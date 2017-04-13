@@ -30,15 +30,18 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     mysyntaxhighlighter.cpp \
     settings.cpp \
-    editor.cpp
+    editor.cpp \
+    fusedialog.cpp
 
 HEADERS  += mainwindow.h \
     mysyntaxhighlighter.h \
     settings.h \
-    editor.h
+    editor.h \
+    fusedialog.h
 
 FORMS    += mainwindow.ui \
-    settings.ui
+    settings.ui \
+    fusedialog.ui
 
 DISTFILES +=
 
