@@ -32,8 +32,9 @@ MainWindow::MainWindow(QWidget *parent) :
     fuseSettings = new FuseDialog();
 
     // show default file path at start on statusbar
-    Workingdir= "/Users/tobias/Desktop/";
-    ui->statusBar->showMessage(Workingdir);
+    p.Workingdir= "/Users/tobias/Desktop/";
+    ui->statusBar->showMessage(p.Workingdir);
+
     /* show output */
     connect(proc1, SIGNAL(readyReadStandardOutput()),this, SLOT(rightMessage()) );
     connect(proc1, SIGNAL(readyReadStandardError()), this, SLOT(errorMessage()) );
@@ -113,7 +114,7 @@ MainWindow::MainWindow(QWidget *parent) :
     model->setReadOnly(false);
     model->setSorting(QDir::DirsFirst | QDir::IgnoreCase | QDir::Name);
     ui->treeView->setModel( model );
-    QModelIndex index = model->index(Workingdir);
+    QModelIndex index = model->index(p.Workingdir);
     ui->treeView->expand(index);
     ui->treeView->scrollTo(index);
     ui->treeView->setCurrentIndex(index);
@@ -128,8 +129,6 @@ MainWindow::~MainWindow()
         BuildFile.remove();
     if(FlashFile.exists())
         FlashFile.remove();
-    if(FFlashFile.exists())
-        FFlashFile.remove();
 }
 
 // show prompt when user wants to close app
@@ -143,7 +142,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if(question.exec() == QMessageBox::Yes) {
         event->accept();
     }
-
 }
 
 void MainWindow::Build()
@@ -176,12 +174,12 @@ void MainWindow::Build()
     //********** Script-File erstellen **********/
     // Edit Build.sh
     // Create SHELL Files
-    BuildFilePath = Workingdir.append("/Build.sh");
+    BuildFilePath = p.Workingdir.append("/Build.sh");
     BuildFile.setFileName(BuildFilePath);
     if (BuildFile.open(QIODevice::ReadWrite)){
         QTextStream stream( &BuildFile );
         stream << "#!/bin/bash \n" << endl;
-        stream << "cd " << Workingdir << "\n" << endl;
+        stream << "cd " << p.Workingdir << "\n" << endl;
         stream << compile << "\n" << endl;
         stream << link    << "\n" << endl;
         stream << hex     << "\n" << endl;
@@ -211,6 +209,9 @@ void MainWindow::Build()
 
 }
 
+
+
+
 void MainWindow::Flash()
 {
     qDebug() << "Flash"<< endl;
@@ -224,12 +225,12 @@ void MainWindow::Flash()
     //********** Script-File erstellen **********/
     // Edit Build.sh
     // Create SHELL Files
-    FlashFilePath = Workingdir.append("/Flash.sh");
+    FlashFilePath = p.Workingdir.append("/Flash.sh");
     FlashFile.setFileName(FlashFilePath);
     if (FlashFile.open(QIODevice::ReadWrite)){
         QTextStream stream( &FlashFile );
         stream << "#!/bin/bash \n" << endl;
-        stream << "cd " << Workingdir << "\n" << endl;
+        stream << "cd " << p.Workingdir << "\n" << endl;
         stream << avrdude << "\n" << endl;
     }
     // set file permissions to executeable
@@ -256,79 +257,6 @@ void MainWindow::Flash()
     //    FlashFile.remove();
 
 }
-/*
-void MainWindow::FlashFuses() {
-    qDebug() << "Flashing Fuses" << endl;
-    QString LF = ui->lLF->text();
-    //uint8_t lf = LF.toInt();
-    QString HF = ui->lHF->text();
-    //uint8_t hf = HF.toInt();
-    QString EF = ui->lEF->text();
-    //uint8_t ef = EF.toInt();
-
-    // open qmessage box (warning)
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this,
-                                  "Flash Fuses",
-                                  "Flash?",
-                                   QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-        qDebug() << "Yes was clicked";
-
-        // create strings to send
-        qDebug() << "uC: " << uc << " programer: " << fd << endl;
-    QString avrdude = userSettings->getAvrdudePath() + "/avrdude " ;
-    QString s1 = "-U lfuse:w:";
-        QString s2 = "-U hfuse:w:";
-        QString s3 = "-U efuse:w:";
-        QString s4 = ":m ";
-        // append all together
-        avrdude.append(fd).append(" ").append(uc).append(" ").
-                append(s1).append(LF).append(s4).
-                append(s2).append(HF).append(s4).
-                append(s3).append(EF).append(s4);
-        qDebug() << avrdude << endl;
-
-
-        // Edit Build.sh
-        // Create SHELL Files
-        FFlashFilePath = Workingdir.append("/FFlash.sh");
-        FFlashFile.setFileName(FFlashFilePath);
-        if (FFlashFile.open(QIODevice::ReadWrite)){
-            QTextStream stream( &FFlashFile );
-            stream << "#!/bin/bash \n" << endl;
-            stream << "cd " << Workingdir << "\n" << endl;
-            stream << avrdude << "\n" << endl;
-        }
-        // set file permissions to executeable
-        FFlashFile.setPermissions(QFile::ReadGroup | QFile::ExeGroup  |
-                                 QFile::ReadUser  | QFile::WriteUser | QFile::ExeUser  |
-                                 QFile::ReadOther | QFile::ReadOther | QFile::ExeOther |
-                                 QFile::ExeOwner );
-
-        // close file
-        FFlashFile.close();
-
-
-        // Execute Scriptfile
-        proc1->start(FFlashFilePath);
-        if (is_error == false){
-            ui->cOutput->setTextColor(QColor(150,200,150));
-            ui->cOutput->append("Fuse Flash OK!");
-        }
-        else
-            is_error = false;
-
-
-        //if(FlashFile.exists())
-        //    FlashFile.remove();
-
-
-      } else {
-        qDebug() << "Yes was *not* clicked";
-      }
-
-}*/
 
 void MainWindow::Run(){
     Build();
@@ -392,7 +320,7 @@ void MainWindow::on_actionNew_Project_triggered(){
 
     QString file = QFileDialog::getSaveFileName(this,
                                                     tr("Save File"),
-                                                    Workingdir,
+                                                    p.Workingdir,
                                                     "c-Files (*.c)"
                                                     );
     if(file.length() > 0){
@@ -404,8 +332,8 @@ void MainWindow::on_actionNew_Project_triggered(){
         // New File in tab-bar
         ui->twMainTab->addTab( new Editor(this, filepathname, 0), filename );
         // get actual working dir
-        Workingdir = filepath;
-        ui->statusBar->showMessage(Workingdir);
+        p.Workingdir = filepath;
+        ui->statusBar->showMessage(p.Workingdir);
 
         //  Create Filelist (TODO: auslagern)
         cFilePaths.clear();
@@ -508,7 +436,7 @@ void MainWindow::on_actionNew_File_triggered()
     qDebug() << "Add File" << endl;
     QString file = QFileDialog::getSaveFileName(this,
                                                     tr("Save File"),
-                                                    Workingdir,
+                                                    p.Workingdir,
                                                     tr("source (*.c);;header (*.h)")
                                                     );
     if(file.length() > 0){
@@ -524,55 +452,18 @@ void MainWindow::on_actionNew_File_triggered()
                 ui->twMainTab->addTab( new Editor(this, filepathname, 2), filename );
             else
                 qDebug() << "Error: Unknows Filetype" << endl;
-
     }
 
 }
-
-
-
-    /*
-    if(filename.length() > 0){
-        // get actual working dir
-        d = QFileInfo(filename).absoluteDir();
-        Workingdir = d.absolutePath();
-        ui->lWD->setText(Workingdir);
-
-        // append filepath to list
-        cFilePaths.append(filename);
-        // get filname from filepath
-        QFileInfo fi(filename);
-        cFileNames.append(fi.fileName());
-
-        qDebug() << "Filepath: " << filename << endl;
-        qDebug() << "Number of Paths in List: " << cFilePaths.length() <<endl;
-        for(uint8_t i=0; i<cFilePaths.length(); i++){
-            qDebug() << i << ": " << cFilePaths[i] << endl;
-        }
-        for(uint8_t i=0; i<cFileNames.length(); i++){
-            qDebug() << i << ": " << cFileNames[i] << endl;
-        }
-        // create o-files
-        oFileNames.clear();
-        for(volatile uint8_t i=0; i<cFileNames.length(); i++){
-            QString fn = cFileNames[i];
-            int dot = fn.indexOf(".")+1;
-            oFileNames.append(fn.replace(dot,1,"o"));
-            qDebug() << oFileNames[i] << endl;
-        }
-        // set on label
-        ui->cCfiles->clear();
-        for(uint8_t i=0; i<cFilePaths.length(); i++){
-            ui->cCfiles->append(cFileNames[i]);
-        }
-    }
-    */
 
 void MainWindow::on_actionFuses_triggered()
 {
     qDebug() << "Set Fuses" << endl;
+
     if(fuseSettings->exec()){
-        // TODO: Reload the server settings
+
     }
 
 }
+
+

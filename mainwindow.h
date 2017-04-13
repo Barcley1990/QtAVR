@@ -32,15 +32,23 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void closeEvent(QCloseEvent *event);
+    QString setPrgrammerName(void);
+    QString setDeviceName(void);
+    QString setWorkingDirectory(void);
+    struct variables *setProjectVariables(void);
 
     QProcess *proc1;
+
 private:
     Ui::MainWindow *ui;
 
+    struct project{
+        QString Workingdir;
+        QString DeviceName;
+        QString ProgrammerName;
+    }p;
 
-    QString Workingdir;
-
-
+    //QString Workingdir;
     QStringList cFilePaths;
     QStringList cFileNames;
     QStringList oFileNames;
@@ -49,6 +57,7 @@ private:
 
     // Settings
     Settings* userSettings;
+    // Fuse Set Dialog
     FuseDialog* fuseSettings;
 
     // uC and Programmer
@@ -56,11 +65,8 @@ private:
 
     QFile BuildFile;
     QFile FlashFile;
-    QFile FFlashFile;
     QString BuildFilePath="/Users/tobias/Desktop/Build.sh";
     QString FlashFilePath="/Users/tobias/Desktop/Flash.sh";
-    //QString FFlashFilePath="/Users/tobias/Desktop/FFlash.sh";
-
 
     int curTabIndex;    // hold current Tab index of MainTabWidget
 
