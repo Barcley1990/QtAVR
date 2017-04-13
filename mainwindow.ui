@@ -198,13 +198,10 @@
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="0">
          <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="0">
-           <widget class="QPushButton" name="bBuild">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
+          <item row="0" column="7">
+           <widget class="QLabel" name="label">
             <property name="text">
-             <string>Build</string>
+             <string>Microcontroller:</string>
             </property>
            </widget>
           </item>
@@ -218,6 +215,19 @@
             </property>
            </widget>
           </item>
+          <item row="0" column="8">
+           <widget class="QComboBox" name="cbController"/>
+          </item>
+          <item row="0" column="0">
+           <widget class="QPushButton" name="bBuild">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Build</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="1">
            <widget class="QPushButton" name="bFlash">
             <property name="enabled">
@@ -228,6 +238,9 @@
             </property>
            </widget>
           </item>
+          <item row="0" column="5">
+           <widget class="QComboBox" name="cbFlashtool"/>
+          </item>
           <item row="0" column="4">
            <widget class="QLabel" name="label_2">
             <property name="text">
@@ -235,18 +248,18 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="7">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Microcontroller:</string>
+          <item row="0" column="3">
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
-           </widget>
-          </item>
-          <item row="0" column="5">
-           <widget class="QComboBox" name="cbFlashtool"/>
-          </item>
-          <item row="0" column="8">
-           <widget class="QComboBox" name="cbController"/>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </item>

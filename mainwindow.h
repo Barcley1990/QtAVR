@@ -18,6 +18,7 @@
 #include "mysyntaxhighlighter.h"
 #include "settings.h"
 #include "editor.h"
+#include "fusedialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -48,6 +49,7 @@ private:
 
     // Settings
     Settings* userSettings;
+    FuseDialog* fuseSettings;
 
     // uC and Programmer
     QString uc = "-p m32", fd = "-c avrisp2";
@@ -92,6 +94,7 @@ private slots:
     void on_cbController_currentIndexChanged(int index);
     void on_cbFlashtool_currentIndexChanged(int index);
     void on_actionNew_File_triggered();
+    void on_actionFuses_triggered();
 };
 
 #endif // MAINWINDOW_H

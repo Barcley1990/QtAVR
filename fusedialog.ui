@@ -6,89 +6,91 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>691</width>
-    <height>357</height>
+    <width>268</width>
+    <height>154</height>
    </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>268</width>
+    <height>154</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QGroupBox" name="groupBox_7">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>70</y>
-     <width>439</width>
-     <height>143</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Fuses</string>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_11">
-    <item>
-     <layout class="QVBoxLayout" name="verticalLayout_5">
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox_7">
+     <property name="title">
+      <string>Fuses</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_11">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>LF</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>LF</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>HF</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>EF</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>HF</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QLineEdit" name="LF_TextField">
+            <property name="text">
+             <string>0x62</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="HF_TextField">
+            <property name="text">
+             <string>0xD9</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="EF_TextField">
+            <property name="text">
+             <string>0xFF</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
-         <widget class="QLabel" name="label_7">
+         <widget class="QPushButton" name="bFuses">
           <property name="text">
-           <string>EF</string>
+           <string>Set Fuses</string>
           </property>
          </widget>
         </item>
        </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <item>
-         <widget class="QLineEdit" name="lLF">
-          <property name="text">
-           <string>0x62</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="lHF">
-          <property name="text">
-           <string>0xD9</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="lEF">
-          <property name="text">
-           <string>0xFF</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QPushButton" name="bFuses">
-        <property name="text">
-         <string>Set Fuses</string>
-        </property>
-       </widget>
       </item>
      </layout>
-    </item>
-   </layout>
-  </widget>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

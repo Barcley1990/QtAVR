@@ -28,6 +28,9 @@ MainWindow::MainWindow(QWidget *parent) :
     }else{
         // TODO: There are no user settings, maybe show a welcome screen or a "first-steps" instruction
     }
+    // Fuses Dialog
+    fuseSettings = new FuseDialog();
+
     // show default file path at start on statusbar
     Workingdir= "/Users/tobias/Desktop/";
     ui->statusBar->showMessage(Workingdir);
@@ -564,3 +567,12 @@ void MainWindow::on_actionNew_File_triggered()
         }
     }
     */
+
+void MainWindow::on_actionFuses_triggered()
+{
+    qDebug() << "Set Fuses" << endl;
+    if(fuseSettings->exec()){
+        // TODO: Reload the server settings
+    }
+
+}
