@@ -101,6 +101,7 @@ private slots:
     void on_cbFlashtool_currentIndexChanged(int index);
     void on_actionNew_File_triggered();
     void on_actionFuses_triggered();
+    void on_fileChanged(QString filename);
 };
 
 #endif // MAINWINDOW_H

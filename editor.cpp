@@ -15,6 +15,7 @@ Editor::Editor(QWidget *parent, QString directory, uint8_t fileType) : QPlainTex
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
     connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
+    connect(this, SIGNAL(textChanged()), this, SLOT(textHasChanged()));
 
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
@@ -66,17 +67,23 @@ Editor::~Editor(){
     file->deleteLater();
 }
 
-void Editor::saveContent()
+bool Editor::saveContent()
 {
     if(file->exists()){
-        file->open(QFile::WriteOnly | QFile::Text);
-        QTextStream stream(file);
-        stream << this->toPlainText();
-        file->close();
+        if(file->open(QFile::WriteOnly | QFile::Text)){
+            QTextStream stream(file);
+            stream << this->toPlainText();
+            file->close();
+            this->saved = true;
+            return true;
+        }else{
+            qDebug() << "Error: Cannot open file!" << endl;
+        }
     }
     else {
         qDebug() << "Error: File not found!" << endl;
     }
+    return false;
 }
 
 int Editor::lineNumberAreaWidth()
@@ -113,6 +120,12 @@ void Editor::updateLineNumberArea(const QRect &rect, int dy)
         updateLineNumberAreaWidth(0);
 }
 
+void Editor::textHasChanged()
+{
+    this->saved = false;
+    emit unsafed(file->fileName());
+}
+
 QFile *Editor::getFile() const
 {
     return file;
@@ -121,6 +134,11 @@ QFile *Editor::getFile() const
 void Editor::setFile(QFile *value)
 {
     file = value;
+}
+
+bool Editor::isSaved() const
+{
+    return this->saved;
 }
 
 

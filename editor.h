@@ -30,13 +30,15 @@ public:
     Editor(QWidget *parent = 0, QString directory = 0, uint8_t fileType=0);
     ~Editor();
 
-    void saveContent();
+    bool saveContent();
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
 
     QFile *getFile() const;
     void setFile(QFile *value);
+
+    bool isSaved() const;
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
@@ -45,12 +47,17 @@ private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
     void highlightCurrentLine();
     void updateLineNumberArea(const QRect &, int);
+    void textHasChanged();
+
+signals:
+   void unsafed(QString filename);
 
 private:
     QWidget *lineNumberArea;
     mySyntaxHighLighter *highlighter;
     QFile *file;
     uint8_t fileType;
+    bool saved;
 };
 
 

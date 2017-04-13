@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     fuseSettings = new FuseDialog();
 
     // show default file path at start on statusbar
-    p.Workingdir= "/Users/tobias/Desktop/";
+    p.Workingdir= QDir::homePath();
     ui->statusBar->showMessage(p.Workingdir);
 
     /* show output */
@@ -330,7 +330,9 @@ void MainWindow::on_actionNew_Project_triggered(){
         QString filepath        = QFileInfo(file).path();
 
         // New File in tab-bar
-        ui->twMainTab->addTab( new Editor(this, filepathname, 0), filename );
+        Editor* e = new Editor(this, filepathname, 0);
+        connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
+        ui->twMainTab->addTab(e, filename);
         // get actual working dir
         p.Workingdir = filepath;
         ui->statusBar->showMessage(p.Workingdir);
@@ -386,7 +388,16 @@ void MainWindow::on_actionSave_triggered(){
     curTabIndex = ui->twMainTab->currentIndex();
     qDebug() << "current selected Tab: " << curTabIndex << endl;
     Editor *editor = (Editor*)(ui->twMainTab->widget(curTabIndex));
-    editor->saveContent();
+    if(editor->saveContent()){
+        // Remove the '*' character after saving file
+        QString currentText = ui->twMainTab->tabBar()->tabText(ui->twMainTab->currentIndex());
+        if(currentText.contains("*", Qt::CaseSensitive) != 0){
+            currentText.remove('*');
+            ui->twMainTab->tabBar()->setTabText(ui->twMainTab->currentIndex(), currentText);
+        }
+    }else{
+        // TODO: Any error occurred while saving file!
+    }
 }
 
 void MainWindow::on_actionBuild_triggered(){
@@ -467,6 +478,16 @@ void MainWindow::on_actionFuses_triggered()
 
     }
 
+}
+
+void MainWindow::on_fileChanged(QString filename)
+{
+    // TODO: Parameter currently not used, check if really needed or remove.
+    QString currentText = ui->twMainTab->tabBar()->tabText(ui->twMainTab->currentIndex());
+    // Only add a '*' to the end of the current file, if there is no '*' already appended
+    if(currentText.contains("*", Qt::CaseSensitive) == 0){
+        ui->twMainTab->tabBar()->setTabText(ui->twMainTab->currentIndex(), currentText+"*");
+    }
 }
 
 
