@@ -12,6 +12,16 @@
 
 Editor::Editor(QWidget *parent, QString directory, QString filename, uint8_t fileType) : QPlainTextEdit(parent)
 {
+    // Set Monospace font and smaller TAB stop
+    QFont font;
+    font.setFamily("Courier");
+    font.setStyleHint(QFont::Monospace);
+    font.setFixedPitch(true);
+    font.setPointSize(fontSize);
+    this->setFont(font);
+    QFontMetrics metrics(font);
+    this->setTabStopWidth(tabStop * metrics.width(' '));
+
     lineNumberArea = new LineNumberArea(this);
 
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
