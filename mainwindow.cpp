@@ -456,24 +456,40 @@ void MainWindow::on_cbFlashtool_currentIndexChanged(int index)
 void MainWindow::on_actionNew_File_triggered()
 {
     qDebug() << "Add File" << endl;
+    QString selectedFilter = "";
     QString file = QFileDialog::getSaveFileName(this,
                                                     tr("Save File"),
                                                     p.Workingdir,
-                                                    tr("source (*.c);;header (*.h)")
+                                                    tr("source (*.c);;header (*.h)"),
+                                                    &selectedFilter
                                                     );
+    if(selectedFilter.contains("*.c")){
+        selectedFilter = "c";
+    }else if(selectedFilter.contains("*.h")){
+        selectedFilter = "h";
+    }
+
     if(file.length() > 0){
 
             QString filename        = QFileInfo(file).fileName();
             QString filepathname    = QFileInfo(file).filePath();
             QString filepath        = QFileInfo(file).path();
+            QString suffix          = QFileInfo(file).suffix();
+
+            // Add the selected file filter
+            if(suffix.length() == 0){
+                suffix = selectedFilter;
+                filename += "."+suffix;
+                filepathname += "."+suffix;
+            }
 
             // New File in tab-bar
-            if(QFileInfo(file).suffix().compare("c", Qt::CaseInsensitive) == 0){
+            if(suffix.compare("c", Qt::CaseInsensitive) == 0){
                 Editor* e = new Editor(this, filepathname, filename, 1);
                 connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
                 ui->twMainTab->addTab(e, filename);
                 ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
-            }else if(QFileInfo(file).suffix().compare("h", Qt::CaseInsensitive) == 0){
+            }else if(suffix.compare("h", Qt::CaseInsensitive) == 0){
                 Editor* e = new Editor(this, filepathname, filename, 2);
                 connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
                 ui->twMainTab->addTab(e, filename);
