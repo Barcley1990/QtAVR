@@ -34,6 +34,16 @@ MainWindow::MainWindow(QWidget *parent) :
         // TODO: There are no user settings, maybe show a welcome screen or a "first-steps" instruction
     }
 
+    // Load last seleted programmer and processor
+    int temp = userSettings->getDefaultProgrammer();
+    if(ui->cbFlashtool->count() > temp){
+        ui->cbFlashtool->setCurrentIndex(temp);
+    }
+    temp = userSettings->getDefaultProcessor();
+    if(ui->cbController->count() > temp){
+        ui->cbController->setCurrentIndex(temp);
+    }
+
     // Load layout
     restoreGeometry(userSettings->getGeometry());
     restoreState(userSettings->getWindowState());
@@ -52,10 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->bBuild, SIGNAL(clicked()), this, SLOT(Build()));
     connect(ui->bFlash, SIGNAL(clicked()), this, SLOT(Flash()));
     connect(ui->bRun, SIGNAL(clicked()), this, SLOT(Run()));
-    connect(ui->cbController, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineUC()));
-    connect(ui->cbFlashtool, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineFD()));
     // Get selected tab of main tabwidget
-    connect(ui->twMainTab, SIGNAL(currentChanged(curTabIndex)), this, SLOT());
     connect(ui->twMainTab, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     // delete initialized tabs
     ui->twMainTab->removeTab(0);
@@ -91,6 +98,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
     // Save current layout
     userSettings->setGeometry(saveGeometry());
     userSettings->setWindowState(saveState());
+    // Save seleted programmer and processor
+    userSettings->setDefaultProgrammer(ui->cbFlashtool->currentIndex());
+    userSettings->setDefaultProcessor(ui->cbController->currentIndex());
 
     event->ignore();
     QMessageBox question;
@@ -237,12 +247,13 @@ void MainWindow::Build()
 
 void MainWindow::Flash()
 {
+    // TODO: Add the right HEX file, instead of using 'main.hex'
     qDebug() << "Flash"<< endl;
-    qDebug() << "uC: " << uc << " programer: " << fd << endl;
+    qDebug() << "currentProcessorAvrdudeCommand: " << currentProcessorAvrdudeCommand << " currentProgrammerAvrdudeCommand: " << currentProgrammerAvrdudeCommand << endl;
 
     QString avrdude = userSettings->getAvrdudePath() + "/avrdude " ;
-    QString write = "-U flash:w:main.hex";
-    avrdude.append(fd).append(" ").append(uc).append(" ").append(write);
+    QString write = " -U flash:w:main.hex";
+    avrdude += "-p " + currentProcessorAvrdudeCommand + " -c " + currentProgrammerAvrdudeCommand + write;
     qDebug() << avrdude << endl;
 
     //********** Script-File erstellen **********/
@@ -284,29 +295,6 @@ void MainWindow::Flash()
 void MainWindow::Run(){
     Build();
     Flash();
-}
-
-void MainWindow::DefineUC()
-{
-    uint8_t curInd = ui->cbController->currentIndex();
-    switch (curInd){
-        case 0: uc = "-p m32"; break;
-        case 1: uc = "-p m328"; break;
-        case 2: uc = "-p t2313"; break;
-        case 3: uc = "-p t4313"; break;
-        default: qDebug("something went wrong \n"); break;
-    }
-}
-
-void MainWindow::DefineFD()
-{
-    uint8_t curInd = ui->cbFlashtool->currentIndex();
-    switch (curInd){
-        case 0:
-            fd = "-c " + currentProgrammerAvrdudeCommand;
-        break;
-        default: qDebug("something went wrong \n"); break;
-    }
 }
 
 void MainWindow::rightMessage()
@@ -571,4 +559,9 @@ void MainWindow::on_dockWidgetFileList_visibilityChanged(bool visible)
 void MainWindow::on_dockWidgetConsole_visibilityChanged(bool visible)
 {
     ui->actionViewConsole->setChecked(visible);
+}
+
+void MainWindow::on_actionDefault_View_triggered()
+{
+    // TODO: Reset views and layout
 }

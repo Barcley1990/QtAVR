@@ -60,13 +60,10 @@ private:
     // Fuse Set Dialog
     FuseDialog* fuseSettings;
 
-    // uC and Programmer
-    QString uc = "-p m32", fd = "-c avrisp2";
-
     QFile BuildFile;
     QFile FlashFile;
-    QString BuildFilePath="/Users/tobias/Desktop/Build.sh";
-    QString FlashFilePath="/Users/tobias/Desktop/Flash.sh";
+    QString BuildFilePath;
+    QString FlashFilePath;
 
     int curTabIndex;    // hold current Tab index of MainTabWidget
 
@@ -91,8 +88,6 @@ private slots:
     void Run();
     void closeTab(int index);
 
-    void DefineUC();
-    void DefineFD();
     void on_actionSave_triggered();
     void on_actionBuild_triggered();
     void on_actionFlash_triggered();
@@ -113,6 +108,7 @@ private slots:
     void on_dockWidgetFile_visibilityChanged(bool visible);
     void on_dockWidgetFileList_visibilityChanged(bool visible);
     void on_dockWidgetConsole_visibilityChanged(bool visible);
+    void on_actionDefault_View_triggered();
 };
 
 #endif // MAINWINDOW_H
