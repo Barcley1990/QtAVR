@@ -1,3 +1,7 @@
+// *AUTHOR*
+// *TIME*
+// *DATE*
+
 #define F_CPU x000000UL
 
 #include <stdlib.h>

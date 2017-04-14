@@ -458,10 +458,14 @@ void MainWindow::on_actionNew_File_triggered()
 
             // New File in tab-bar
             if(QFileInfo(file).suffix().compare("c", Qt::CaseInsensitive) == 0){
-                ui->twMainTab->addTab( new Editor(this, filepathname, 1), filename );
+                Editor* e = new Editor(this, filepathname, 1);
+                connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
+                ui->twMainTab->addTab(e, filename);
                 ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
             }else if(QFileInfo(file).suffix().compare("h", Qt::CaseInsensitive) == 0){
-                ui->twMainTab->addTab( new Editor(this, filepathname, 2), filename );
+                Editor* e = new Editor(this, filepathname, 2);
+                connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
+                ui->twMainTab->addTab(e, filename);
                 ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
             }else{
                 qDebug() << "Error: Unknows Filetype" << endl;

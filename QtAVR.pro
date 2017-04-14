@@ -31,13 +31,15 @@ SOURCES += main.cpp\
     mysyntaxhighlighter.cpp \
     settings.cpp \
     editor.cpp \
-    fusedialog.cpp
+    fusedialog.cpp \
+    templateparser.cpp
 
 HEADERS  += mainwindow.h \
     mysyntaxhighlighter.h \
     settings.h \
     editor.h \
-    fusedialog.h
+    fusedialog.h \
+    templateparser.h
 
 FORMS    += mainwindow.ui \
     settings.ui \

@@ -8,6 +8,8 @@
 #include "editor.h"
 #include <QtWidgets>
 
+#include "templateparser.h"
+
 Editor::Editor(QWidget *parent, QString directory, uint8_t fileType) : QPlainTextEdit(parent)
 {
     lineNumberArea = new LineNumberArea(this);
@@ -39,11 +41,13 @@ Editor::Editor(QWidget *parent, QString directory, uint8_t fileType) : QPlainTex
     file->setFileName(directory);
     file->open(QIODevice::WriteOnly);
     // Copy the default ressource file to the new generated source file
+    TemplateParser* parser = new TemplateParser();
     QFile defaultTemplate(templatePath);
     if (defaultTemplate.open(QIODevice::ReadOnly)){
        QTextStream in(&defaultTemplate);
        while (!in.atEnd()){
-          file->write(in.readLine().toLatin1());
+           file->write(parser->getParsedLine(in.readLine()).toLatin1());
+          //file->write(in.readLine().toLatin1());
           file->write("\r\n");
        }
        defaultTemplate.close();
