@@ -146,6 +146,7 @@
     <addaction name="actionViewFile"/>
     <addaction name="actionViewFileList"/>
     <addaction name="actionViewConsole"/>
+    <addaction name="actionDefault_View"/>
    </widget>
    <addaction name="menuData"/>
    <addaction name="menuDevice"/>
@@ -510,6 +511,11 @@
    </property>
    <property name="text">
     <string>Console</string>
+   </property>
+  </action>
+  <action name="actionDefault_View">
+   <property name="text">
+    <string>Reset View</string>
    </property>
   </action>
  </widget>

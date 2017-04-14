@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QSettings>
+
 
 // TODO:
 // Dateipfade aendern.
@@ -28,6 +30,11 @@ MainWindow::MainWindow(QWidget *parent) :
     }else{
         // TODO: There are no user settings, maybe show a welcome screen or a "first-steps" instruction
     }
+
+    // Load layout
+    restoreGeometry(userSettings->getGeometry());
+    restoreState(userSettings->getWindowState());
+
     // Fuses Dialog
     fuseSettings = new FuseDialog();
 
@@ -134,6 +141,10 @@ MainWindow::~MainWindow()
 // show prompt when user wants to close app
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    // Save current layout
+    userSettings->setGeometry(saveGeometry());
+    userSettings->setWindowState(saveState());
+
     event->ignore();
     QMessageBox question;
     question.setText("There are unsaved Files \n\n Exit anyway?");

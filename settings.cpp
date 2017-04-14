@@ -19,9 +19,9 @@ bool Settings::load(){
     qDebug() << "Load settings!";
 
     if(QFile(settingsFile).exists()){
-        QSettings settings(settingsFile, QSettings::NativeFormat);
-        ui->lineEditPathAvrdude->setText(settings.value("path.avrdude", "").toString());
-        ui->lineEditPathToolchainRoot->setText(settings.value("path.toolchain_root", "").toString());
+        settings = new QSettings(settingsFile, QSettings::NativeFormat);
+        ui->lineEditPathAvrdude->setText(settings->value("path.avrdude", "").toString());
+        ui->lineEditPathToolchainRoot->setText(settings->value("path.toolchain_root", "").toString());
         return true;
     }
     return false;
@@ -33,6 +33,26 @@ QString Settings::getAvrdudePath(){
 
 QString Settings::getToolchainRootPath(){
     return ui->lineEditPathToolchainRoot->text();
+}
+
+void Settings::setGeometry(QByteArray ba)
+{
+    settings->setValue("window.geometry", ba);
+}
+
+QByteArray Settings::getGeometry()
+{
+    return settings->value("window.geometry", QVariant::Invalid).toByteArray();
+}
+
+void Settings::setWindowState(QByteArray ba)
+{
+    settings->setValue("window.state", ba);
+}
+
+QByteArray Settings::getWindowState()
+{
+    return settings->value("window.state", QVariant::Invalid).toByteArray();
 }
 
 void Settings::on_toolButtonPathAvrdude_clicked(){
@@ -54,9 +74,8 @@ void Settings::on_toolButtonPathToolchainRoot_clicked(){
 void Settings::on_pushButtonSaveSettings_clicked(){
     qDebug() << "Save settings!";
 
-    QSettings settings(settingsFile, QSettings::NativeFormat);
-    settings.setValue("path.avrdude", ui->lineEditPathAvrdude->text());
-    settings.setValue("path.toolchain_root", ui->lineEditPathToolchainRoot->text());
+    settings->setValue("path.avrdude", ui->lineEditPathAvrdude->text());
+    settings->setValue("path.toolchain_root", ui->lineEditPathToolchainRoot->text());
 
     this->accept();
 }
