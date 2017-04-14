@@ -93,13 +93,29 @@ void MainWindow::closeEvent(QCloseEvent *event)
     userSettings->setWindowState(saveState());
 
     event->ignore();
-    QMessageBox question;
-    question.setText("There are unsaved Files \n\n Exit anyway?");
-    question.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    question.show();
-    if(question.exec() == QMessageBox::Yes) {
-        event->accept();
+
+    // check if there are any unsaved files
+    // get number of opened tabs
+    int numberOfTabs = ui->twMainTab->count();
+    bool unsavedFiles = false;
+    while(numberOfTabs>=0){
+        QString currentText = ui->twMainTab->tabBar()->tabText(numberOfTabs-1);
+        if(currentText.contains("*", Qt::CaseSensitive) != 0){
+            unsavedFiles = true;
+        }
+        numberOfTabs--;
     }
+    if(unsavedFiles){
+        QMessageBox question;
+        question.setText("There are unsaved Files \n\n Exit anyway?");
+        question.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        question.show();
+        if(question.exec() == QMessageBox::Yes) {
+            event->accept();
+        }
+    }
+    else
+        event->accept();
 }
 
 void MainWindow::populateComboBoxes()
@@ -231,10 +247,6 @@ void MainWindow::Build()
     //    BuildFile.remove();
 
 }
-
-
-
-
 void MainWindow::Flash()
 {
     qDebug() << "Flash"<< endl;
