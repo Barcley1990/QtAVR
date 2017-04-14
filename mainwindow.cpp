@@ -23,6 +23,9 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowIcon(QIcon(":/images/images/chip03_small.png"));
     // Set Window Size in Startup
     this->setWindowState(Qt::WindowMaximized);
+
+    populateComboBoxes();
+
     // Settings Dialog
     userSettings = new Settings();
     if(userSettings->load()){
@@ -58,6 +61,48 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->twMainTab->removeTab(0);
     /*-------------------------------------------------------------------------------*/
 
+
+    // Set Workingtree in TreeView Widget
+    model = new QDirModel();
+    model->setReadOnly(false);
+    model->setSorting(QDir::DirsFirst | QDir::IgnoreCase | QDir::Name);
+    ui->treeView->setModel( model );
+    QModelIndex index = model->index(p.Workingdir);
+    ui->treeView->expand(index);
+    ui->treeView->scrollTo(index);
+    ui->treeView->setCurrentIndex(index);
+    ui->treeView->resizeColumnToContents(0);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+    // delete Bashfiles
+    if(BuildFile.exists())
+        BuildFile.remove();
+    if(FlashFile.exists())
+        FlashFile.remove();
+}
+
+// show prompt when user wants to close app
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    // Save current layout
+    userSettings->setGeometry(saveGeometry());
+    userSettings->setWindowState(saveState());
+
+    event->ignore();
+    QMessageBox question;
+    question.setText("There are unsaved Files \n\n Exit anyway?");
+    question.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    question.show();
+    if(question.exec() == QMessageBox::Yes) {
+        event->accept();
+    }
+}
+
+void MainWindow::populateComboBoxes()
+{
     QDomDocument doc;
     QFile processorsFile(":/xml/xml/processors.xml");
     if (!processorsFile.open(QIODevice::ReadOnly) || !doc.setContent(&processorsFile)){
@@ -113,45 +158,6 @@ MainWindow::MainWindow(QWidget *parent) :
     // Select AVR ISP mkII as default
     if(ui->cbFlashtool->count() >= 14){
         ui->cbFlashtool->setCurrentIndex(13);
-    }
-
-
-    // Set Workingtree in TreeView Widget
-    model = new QDirModel();
-    model->setReadOnly(false);
-    model->setSorting(QDir::DirsFirst | QDir::IgnoreCase | QDir::Name);
-    ui->treeView->setModel( model );
-    QModelIndex index = model->index(p.Workingdir);
-    ui->treeView->expand(index);
-    ui->treeView->scrollTo(index);
-    ui->treeView->setCurrentIndex(index);
-    ui->treeView->resizeColumnToContents(0);
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
-    // delete Bashfiles
-    if(BuildFile.exists())
-        BuildFile.remove();
-    if(FlashFile.exists())
-        FlashFile.remove();
-}
-
-// show prompt when user wants to close app
-void MainWindow::closeEvent(QCloseEvent *event)
-{
-    // Save current layout
-    userSettings->setGeometry(saveGeometry());
-    userSettings->setWindowState(saveState());
-
-    event->ignore();
-    QMessageBox question;
-    question.setText("There are unsaved Files \n\n Exit anyway?");
-    question.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    question.show();
-    if(question.exec() == QMessageBox::Yes) {
-        event->accept();
     }
 }
 
