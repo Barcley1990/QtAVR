@@ -102,6 +102,14 @@ private slots:
     void on_actionNew_File_triggered();
     void on_actionFuses_triggered();
     void on_fileChanged(QString filename);
+    void on_dockWidgetWorktree_visibilityChanged(bool visible);
+    void on_actionViewWorktree_toggled(bool arg1);
+    void on_actionViewFile_toggled(bool arg1);
+    void on_actionViewFileList_toggled(bool arg1);
+    void on_actionViewConsole_toggled(bool arg1);
+    void on_dockWidgetFile_visibilityChanged(bool visible);
+    void on_dockWidgetFileList_visibilityChanged(bool visible);
+    void on_dockWidgetConsole_visibilityChanged(bool visible);
 };
 
 #endif // MAINWINDOW_H

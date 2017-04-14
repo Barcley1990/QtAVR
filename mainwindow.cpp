@@ -330,7 +330,7 @@ void MainWindow::on_actionNew_Project_triggered(){
         QString filepath        = QFileInfo(file).path();
 
         // New File in tab-bar
-        Editor* e = new Editor(this, filepathname, 0);
+        Editor* e = new Editor(this, filepathname, filename, 0);
         connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
         ui->twMainTab->addTab(e, filename);
         // get actual working dir
@@ -458,12 +458,12 @@ void MainWindow::on_actionNew_File_triggered()
 
             // New File in tab-bar
             if(QFileInfo(file).suffix().compare("c", Qt::CaseInsensitive) == 0){
-                Editor* e = new Editor(this, filepathname, 1);
+                Editor* e = new Editor(this, filepathname, filename, 1);
                 connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
                 ui->twMainTab->addTab(e, filename);
                 ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
             }else if(QFileInfo(file).suffix().compare("h", Qt::CaseInsensitive) == 0){
-                Editor* e = new Editor(this, filepathname, 2);
+                Editor* e = new Editor(this, filepathname, filename, 2);
                 connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
                 ui->twMainTab->addTab(e, filename);
                 ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
@@ -494,4 +494,42 @@ void MainWindow::on_fileChanged(QString filename)
     }
 }
 
+void MainWindow::on_dockWidgetWorktree_visibilityChanged(bool visible)
+{
+    ui->actionViewWorktree->setChecked(visible);
+}
 
+void MainWindow::on_actionViewWorktree_toggled(bool arg1)
+{
+     ui->dockWidgetWorktree->setVisible(arg1);
+}
+
+void MainWindow::on_actionViewFile_toggled(bool arg1)
+{
+    ui->dockWidgetFile->setVisible(arg1);
+}
+
+void MainWindow::on_actionViewFileList_toggled(bool arg1)
+{
+    ui->dockWidgetFileList->setVisible(arg1);
+}
+
+void MainWindow::on_actionViewConsole_toggled(bool arg1)
+{
+    ui->dockWidgetConsole->setVisible(arg1);
+}
+
+void MainWindow::on_dockWidgetFile_visibilityChanged(bool visible)
+{
+    ui->actionViewFile->setChecked(visible);
+}
+
+void MainWindow::on_dockWidgetFileList_visibilityChanged(bool visible)
+{
+    ui->actionViewFileList->setChecked(visible);
+}
+
+void MainWindow::on_dockWidgetConsole_visibilityChanged(bool visible)
+{
+    ui->actionViewConsole->setChecked(visible);
+}
