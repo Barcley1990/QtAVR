@@ -1,3 +1,12 @@
-// file.h
-// date: 
-// author:
+/**
+ * @file *FILENAME*
+ * @date *DATE* *TIME*
+ * @author *AUTHOR*
+ */
+
+#ifndef *FILE*_H_
+#define *FILE*_H_
+
+
+
+#endif /* *FILE*_H_ */
