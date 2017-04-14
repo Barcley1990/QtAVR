@@ -564,4 +564,12 @@ void MainWindow::on_dockWidgetConsole_visibilityChanged(bool visible)
 void MainWindow::on_actionDefault_View_triggered()
 {
     // TODO: Reset views and layout
+    ui->dockWidgetConsole->setHidden(false);
+    ui->dockWidgetFile->setHidden(false);
+    ui->dockWidgetFileList->setHidden(false);
+    ui->dockWidgetWorktree->setHidden(false);
+    ui->dockWidgetConsole->setFloating(false);
+    ui->dockWidgetFile->setFloating(false);
+    ui->dockWidgetFileList->setFloating(false);
+    ui->dockWidgetWorktree->setFloating(false);
 }

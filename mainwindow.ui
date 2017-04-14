@@ -29,6 +29,11 @@
    <iconset resource="res.qrc">
     <normaloff>:/images/images/chip03.png</normaloff>:/images/images/chip03.png</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QDockWidget &gt; QWidget {
+    border: 1px solid black;
+}</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_8">
     <item row="0" column="0">

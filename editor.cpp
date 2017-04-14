@@ -58,8 +58,7 @@ Editor::Editor(QWidget *parent, QString directory, QString filename, uint8_t fil
        QTextStream in(&defaultTemplate);
        while (!in.atEnd()){
            file->write(parser->getParsedLine(in.readLine()).toLatin1());
-          //file->write(in.readLine().toLatin1());
-          file->write("\r\n");
+           file->write("\r\n");
        }
        defaultTemplate.close();
     }
