@@ -482,7 +482,6 @@ void MainWindow::on_actionNew_File_triggered()
     }
 
     if(file.length() > 0){
-
             QString filename        = QFileInfo(file).fileName();
             QString filepathname    = QFileInfo(file).filePath();
             QString filepath        = QFileInfo(file).path();
@@ -510,8 +509,30 @@ void MainWindow::on_actionNew_File_triggered()
                 qDebug() << "Error: Unknows Filetype" << endl;
             }
     }
-
 }
+
+void MainWindow::on_actionExisting_File_triggered()
+{
+    qDebug() << "Add Existing File" << endl;
+    QString file = QFileDialog::getOpenFileName(this,
+                                                tr("Open File"),
+                                                p.Workingdir,
+                                                tr("source (*.c);;header (*.h)")
+                                                );
+    if(file.length() > 0){
+        QString filename        = QFileInfo(file).fileName();
+        QString filepathname    = QFileInfo(file).filePath();
+        QString filepath        = QFileInfo(file).path();
+        QString suffix          = QFileInfo(file).suffix();
+
+        // New File in tab-bar
+        Editor* e = new Editor(this, filepathname, filename, false, 1);
+        connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
+        ui->twMainTab->addTab(e, filename);
+        ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
+    }
+}
+
 
 void MainWindow::on_actionFuses_triggered()
 {
@@ -572,3 +593,4 @@ void MainWindow::on_dockWidgetConsole_visibilityChanged(bool visible)
 {
     ui->actionViewConsole->setChecked(visible);
 }
+

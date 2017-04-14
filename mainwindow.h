@@ -113,6 +113,7 @@ private slots:
     void on_dockWidgetFile_visibilityChanged(bool visible);
     void on_dockWidgetFileList_visibilityChanged(bool visible);
     void on_dockWidgetConsole_visibilityChanged(bool visible);
+    void on_actionExisting_File_triggered();
 };
 
 #endif // MAINWINDOW_H

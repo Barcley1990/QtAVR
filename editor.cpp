@@ -24,41 +24,51 @@ Editor::Editor(QWidget *parent, QString directory, QString filename, bool newFil
 
     this->filename = filename;
 
-    // create new file from template
-    QString templatePath = "";
-    if(fileType==0){
-        templatePath = ":/templates/templates/default.txt";
-    }
-    else if(fileType==1){
-        templatePath = ":/templates/templates/default_c.txt";
-    }
-    else if(fileType==2){
-        templatePath = ":/templates/templates/default_h.txt";
-    }
-    else
-        qDebug() << "Error: Unknows Filetype" << endl;
+    if(newFile){
+        // create new file from template
+        QString templatePath = "";
+        if(fileType==0){
+            templatePath = ":/templates/templates/default.txt";
+        }
+        else if(fileType==1){
+            templatePath = ":/templates/templates/default_c.txt";
+        }
+        else if(fileType==2){
+            templatePath = ":/templates/templates/default_h.txt";
+        }
+        else
+            qDebug() << "Error: Unknows Filetype" << endl;
 
-    file = new QFile(this);
-    file->setFileName(directory);
-    file->open(QIODevice::WriteOnly);
-    // Copy the default ressource file to the new generated source file
-    TemplateParser* parser = new TemplateParser(this->filename);
-    QFile defaultTemplate(templatePath);
-    if (defaultTemplate.open(QIODevice::ReadOnly)){
-       QTextStream in(&defaultTemplate);
-       while (!in.atEnd()){
-           file->write(parser->getParsedLine(in.readLine()).toLatin1());
-          //file->write(in.readLine().toLatin1());
-          file->write("\r\n");
-       }
-       defaultTemplate.close();
+        file = new QFile(this);
+        file->setFileName(directory);
+        file->open(QIODevice::WriteOnly);
+        // Copy the default ressource file to the new generated source file
+        TemplateParser* parser = new TemplateParser(this->filename);
+        QFile defaultTemplate(templatePath);
+        if (defaultTemplate.open(QIODevice::ReadOnly)){
+           QTextStream in(&defaultTemplate);
+           while (!in.atEnd()){
+               file->write(parser->getParsedLine(in.readLine()).toLatin1());
+              //file->write(in.readLine().toLatin1());
+              file->write("\r\n");
+           }
+           defaultTemplate.close();
+        }
+        file->close();
+        // Open File in Editor
+        file->open(QFile::ReadOnly | QFile::Text);
+        QTextStream ReadFile(file);
+        this->document()->setPlainText(ReadFile.readAll());
+        file->close();
     }
-    file->close();
-    // Open File in Editor
-    file->open(QFile::ReadOnly | QFile::Text);
-    QTextStream ReadFile(file);
-    this->document()->setPlainText(ReadFile.readAll());
-    file->close();
+    else{
+        QFile existingFile(directory);
+        if (existingFile.open(QFile::ReadOnly | QFile::Text)){
+            QTextStream ReadFile(&existingFile);
+            this->document()->setPlainText(ReadFile.readAll());
+        }
+        existingFile.close();
+    }
 
     // start syntaxhighlithning
     highlighter = new mySyntaxHighLighter(this->document());
