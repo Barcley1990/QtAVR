@@ -10,7 +10,7 @@
 
 #include "templateparser.h"
 
-Editor::Editor(QWidget *parent, QString directory, uint8_t fileType) : QPlainTextEdit(parent)
+Editor::Editor(QWidget *parent, QString directory, QString filename, uint8_t fileType) : QPlainTextEdit(parent)
 {
     lineNumberArea = new LineNumberArea(this);
 
@@ -22,6 +22,7 @@ Editor::Editor(QWidget *parent, QString directory, uint8_t fileType) : QPlainTex
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
 
+    this->filename = filename;
 
     // create new file from template
     QString templatePath = "";
@@ -41,7 +42,7 @@ Editor::Editor(QWidget *parent, QString directory, uint8_t fileType) : QPlainTex
     file->setFileName(directory);
     file->open(QIODevice::WriteOnly);
     // Copy the default ressource file to the new generated source file
-    TemplateParser* parser = new TemplateParser();
+    TemplateParser* parser = new TemplateParser(this->filename);
     QFile defaultTemplate(templatePath);
     if (defaultTemplate.open(QIODevice::ReadOnly)){
        QTextStream in(&defaultTemplate);

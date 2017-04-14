@@ -1,6 +1,8 @@
 // *AUTHOR*
 // *TIME*
 // *DATE*
+// *FILENAME*
+// *FILE*
 
 #define F_CPU x000000UL
 
