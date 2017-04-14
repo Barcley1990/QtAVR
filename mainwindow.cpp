@@ -96,10 +96,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     // check if there are any unsaved files
     // get number of opened tabs
-    int numberOfTabs = ui->twMainTab->count();
+    int numberOfTabs = ui->twMainTab->count()-1;
     bool unsavedFiles = false;
     while(numberOfTabs>=0){
-        QString currentText = ui->twMainTab->tabBar()->tabText(numberOfTabs-1);
+        QString currentText = ui->twMainTab->tabBar()->tabText(numberOfTabs);
         if(currentText.contains("*", Qt::CaseSensitive) != 0){
             unsavedFiles = true;
         }
@@ -435,6 +435,26 @@ void MainWindow::on_actionSave_triggered(){
     }
 }
 
+void MainWindow::on_actionSave_All_triggered()
+{
+    qDebug() << "Save all Files" << endl;
+    int numberOfTabs = ui->twMainTab->count()-1;
+    while(numberOfTabs>=0){
+        Editor *editor = (Editor*)(ui->twMainTab->widget(numberOfTabs));
+        if(editor->saveContent()){
+            // Remove the '*' character after saving file
+            QString currentText = ui->twMainTab->tabBar()->tabText(numberOfTabs);
+            if(currentText.contains("*", Qt::CaseSensitive) != 0){
+                currentText.remove('*');
+                ui->twMainTab->tabBar()->setTabText(numberOfTabs, currentText);
+            }
+        }else{
+            // TODO: Any error occurred while saving file!
+        }
+        numberOfTabs--;
+    }
+}
+
 void MainWindow::on_actionBuild_triggered(){
     Build();
 }
@@ -605,4 +625,8 @@ void MainWindow::on_dockWidgetConsole_visibilityChanged(bool visible)
 {
     ui->actionViewConsole->setChecked(visible);
 }
+
+
+
+
 
