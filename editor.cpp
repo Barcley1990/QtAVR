@@ -72,6 +72,8 @@ Editor::~Editor(){
     file->deleteLater();
 }
 
+
+
 bool Editor::saveContent()
 {
     if(file->exists()){

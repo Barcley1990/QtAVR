@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->cbFlashtool, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineFD()));
     // Get selected tab of main tabwidget
     connect(ui->twMainTab, SIGNAL(currentChanged(curTabIndex)), this, SLOT());
+    connect(ui->twMainTab, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     // delete initialized tabs
     ui->twMainTab->removeTab(0);
     ui->twMainTab->removeTab(0);
@@ -142,6 +143,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if(question.exec() == QMessageBox::Yes) {
         event->accept();
     }
+}
+
+void MainWindow::closeTab(int index) {
+    qDebug() << "Remove Tab: " << index << endl;
+    ui->twMainTab->removeTab(index);
 }
 
 void MainWindow::Build()

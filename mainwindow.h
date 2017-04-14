@@ -87,6 +87,7 @@ private slots:
     void Build();
     void Flash();
     void Run();
+    void closeTab(int index);
 
     void DefineUC();
     void DefineFD();
