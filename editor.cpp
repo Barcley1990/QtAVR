@@ -10,7 +10,7 @@
 
 #include "templateparser.h"
 
-Editor::Editor(QWidget *parent, QString directory, QString filename, uint8_t fileType) : QPlainTextEdit(parent)
+Editor::Editor(QWidget *parent, QString directory, QString filename, bool newFile, uint8_t fileType) : QPlainTextEdit(parent)
 {
     lineNumberArea = new LineNumberArea(this);
 
@@ -53,18 +53,15 @@ Editor::Editor(QWidget *parent, QString directory, QString filename, uint8_t fil
        }
        defaultTemplate.close();
     }
-
-
     file->close();
-
-    // start syntaxhighlithning
-    highlighter = new mySyntaxHighLighter(this->document());
-
     // Open File in Editor
     file->open(QFile::ReadOnly | QFile::Text);
     QTextStream ReadFile(file);
     this->document()->setPlainText(ReadFile.readAll());
     file->close();
+
+    // start syntaxhighlithning
+    highlighter = new mySyntaxHighLighter(this->document());
 }
 
 Editor::~Editor(){

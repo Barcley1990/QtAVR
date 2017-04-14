@@ -353,7 +353,7 @@ void MainWindow::on_actionNew_Project_triggered(){
         QString filepath        = QFileInfo(file).path();
 
         // New File in tab-bar
-        Editor* e = new Editor(this, filepathname, filename, 0);
+        Editor* e = new Editor(this, filepathname, filename, true, 0);
         connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
         ui->twMainTab->addTab(e, filename);
         // get actual working dir
@@ -497,7 +497,7 @@ void MainWindow::on_actionNew_File_triggered()
 
             // New File in tab-bar
             if(suffix.compare("c", Qt::CaseInsensitive) == 0){
-                Editor* e = new Editor(this, filepathname, filename, 1);
+                Editor* e = new Editor(this, filepathname, filename, true, 1);
                 connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
                 ui->twMainTab->addTab(e, filename);
                 ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
