@@ -1,3 +1,5 @@
-// file.c
-// date: 
-// author:
+/**
+ * @file *FILENAME*
+ * @date *DATE* *TIME*
+ * @author *AUTHOR*
+ */

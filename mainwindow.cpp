@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QSettings>
+
 
 // TODO:
 // Dateipfade aendern.
@@ -21,6 +23,9 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowIcon(QIcon(":/images/images/chip03_small.png"));
     // Set Window Size in Startup
     this->setWindowState(Qt::WindowMaximized);
+
+    populateComboBoxes();
+
     // Settings Dialog
     userSettings = new Settings();
     if(userSettings->load()){
@@ -28,6 +33,11 @@ MainWindow::MainWindow(QWidget *parent) :
     }else{
         // TODO: There are no user settings, maybe show a welcome screen or a "first-steps" instruction
     }
+
+    // Load layout
+    restoreGeometry(userSettings->getGeometry());
+    restoreState(userSettings->getWindowState());
+
     // Fuses Dialog
     fuseSettings = new FuseDialog();
 
@@ -52,6 +62,48 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->twMainTab->removeTab(0);
     /*-------------------------------------------------------------------------------*/
 
+
+    // Set Workingtree in TreeView Widget
+    model = new QDirModel();
+    model->setReadOnly(false);
+    model->setSorting(QDir::DirsFirst | QDir::IgnoreCase | QDir::Name);
+    ui->treeView->setModel( model );
+    QModelIndex index = model->index(p.Workingdir);
+    ui->treeView->expand(index);
+    ui->treeView->scrollTo(index);
+    ui->treeView->setCurrentIndex(index);
+    ui->treeView->resizeColumnToContents(0);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+    // delete Bashfiles
+    if(BuildFile.exists())
+        BuildFile.remove();
+    if(FlashFile.exists())
+        FlashFile.remove();
+}
+
+// show prompt when user wants to close app
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    // Save current layout
+    userSettings->setGeometry(saveGeometry());
+    userSettings->setWindowState(saveState());
+
+    event->ignore();
+    QMessageBox question;
+    question.setText("There are unsaved Files \n\n Exit anyway?");
+    question.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    question.show();
+    if(question.exec() == QMessageBox::Yes) {
+        event->accept();
+    }
+}
+
+void MainWindow::populateComboBoxes()
+{
     QDomDocument doc;
     QFile processorsFile(":/xml/xml/processors.xml");
     if (!processorsFile.open(QIODevice::ReadOnly) || !doc.setContent(&processorsFile)){
@@ -107,41 +159,6 @@ MainWindow::MainWindow(QWidget *parent) :
     // Select AVR ISP mkII as default
     if(ui->cbFlashtool->count() >= 14){
         ui->cbFlashtool->setCurrentIndex(13);
-    }
-
-
-    // Set Workingtree in TreeView Widget
-    model = new QDirModel();
-    model->setReadOnly(false);
-    model->setSorting(QDir::DirsFirst | QDir::IgnoreCase | QDir::Name);
-    ui->treeView->setModel( model );
-    QModelIndex index = model->index(p.Workingdir);
-    ui->treeView->expand(index);
-    ui->treeView->scrollTo(index);
-    ui->treeView->setCurrentIndex(index);
-    ui->treeView->resizeColumnToContents(0);
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
-    // delete Bashfiles
-    if(BuildFile.exists())
-        BuildFile.remove();
-    if(FlashFile.exists())
-        FlashFile.remove();
-}
-
-// show prompt when user wants to close app
-void MainWindow::closeEvent(QCloseEvent *event)
-{
-    event->ignore();
-    QMessageBox question;
-    question.setText("There are unsaved Files \n\n Exit anyway?");
-    question.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    question.show();
-    if(question.exec() == QMessageBox::Yes) {
-        event->accept();
     }
 }
 
@@ -451,24 +468,40 @@ void MainWindow::on_cbFlashtool_currentIndexChanged(int index)
 void MainWindow::on_actionNew_File_triggered()
 {
     qDebug() << "Add File" << endl;
+    QString selectedFilter = "";
     QString file = QFileDialog::getSaveFileName(this,
                                                     tr("Save File"),
                                                     p.Workingdir,
-                                                    tr("source (*.c);;header (*.h)")
+                                                    tr("source (*.c);;header (*.h)"),
+                                                    &selectedFilter
                                                     );
+    if(selectedFilter.contains("*.c")){
+        selectedFilter = "c";
+    }else if(selectedFilter.contains("*.h")){
+        selectedFilter = "h";
+    }
+
     if(file.length() > 0){
 
             QString filename        = QFileInfo(file).fileName();
             QString filepathname    = QFileInfo(file).filePath();
             QString filepath        = QFileInfo(file).path();
+            QString suffix          = QFileInfo(file).suffix();
+
+            // Add the selected file filter
+            if(suffix.length() == 0){
+                suffix = selectedFilter;
+                filename += "."+suffix;
+                filepathname += "."+suffix;
+            }
 
             // New File in tab-bar
-            if(QFileInfo(file).suffix().compare("c", Qt::CaseInsensitive) == 0){
+            if(suffix.compare("c", Qt::CaseInsensitive) == 0){
                 Editor* e = new Editor(this, filepathname, filename, 1);
                 connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
                 ui->twMainTab->addTab(e, filename);
                 ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
-            }else if(QFileInfo(file).suffix().compare("h", Qt::CaseInsensitive) == 0){
+            }else if(suffix.compare("h", Qt::CaseInsensitive) == 0){
                 Editor* e = new Editor(this, filepathname, filename, 2);
                 connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
                 ui->twMainTab->addTab(e, filename);

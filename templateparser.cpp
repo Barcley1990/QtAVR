@@ -63,7 +63,7 @@ QString TemplateParser::getFile()
         if(index >= 0)
         {
             if(index > 0)
-            return this->filename.mid(0, index-1).toUpper();
+            return this->filename.mid(0, index).toUpper();
         }
         else
         {

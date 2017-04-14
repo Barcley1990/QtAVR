@@ -81,6 +81,8 @@ private:
 
     QDirModel *model;
 
+    void populateComboBoxes();
+
 private slots:
     void rightMessage();
     void errorMessage();

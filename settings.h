@@ -2,6 +2,7 @@
 #define SETTINGS_H
 
 #include <QDialog>
+#include <QSettings>
 
 namespace Ui {
 class Settings;
@@ -20,6 +21,10 @@ public:
     // Getters
     QString getAvrdudePath();
     QString getToolchainRootPath();
+    void setGeometry(QByteArray ba);
+    QByteArray getGeometry();
+    void setWindowState(QByteArray ba);
+    QByteArray getWindowState();
 
 private slots:
     void on_toolButtonPathAvrdude_clicked();
@@ -29,6 +34,7 @@ private slots:
 private:
     Ui::Settings *ui;
     QString settingsFile;
+    QSettings* settings;
 };
 
 #endif // SETTINGS_H
