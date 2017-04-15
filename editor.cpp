@@ -62,12 +62,17 @@ Editor::Editor(QWidget *parent, QString directory, QString filename, bool newFil
         file->close();
     }
     else{
-        QFile existingFile(directory);
-        if (existingFile.open(QFile::ReadOnly | QFile::Text)){
-            QTextStream ReadFile(&existingFile);
-            this->document()->setPlainText(ReadFile.readAll());
+        file = new QFile(directory);
+        file->close();
+        if (file->open(QFile::ReadOnly | QFile::Text)){
+            QTextStream ReadFile(file);
+            QString text = ReadFile.readAll();
+            this->document()->setPlainText(text);
+            file->close();
         }
-        existingFile.close();
+        else
+            qDebug() << "file not found" << endl;
+
     }
 
     // start syntaxhighlithning
