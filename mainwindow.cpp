@@ -184,7 +184,7 @@ void MainWindow::closeTab(int index) {
 void MainWindow::Build()
 {
     qDebug() << "Build" << endl;
-
+    on_actionSave_All_triggered();
     //********** Strings für avr-gcc vorbereiten **********/
     QString compile = userSettings->getToolchainRootPath() + "/bin/avr-gcc -g -Os -mmcu=" + currentProcessorGccCommand + " -c ";
     QString link    = userSettings->getToolchainRootPath() + "/bin/avr-gcc -g -mmcu=" + currentProcessorGccCommand + " -o ";
@@ -433,7 +433,6 @@ void MainWindow::on_actionSave_All_triggered()
 }
 // Build Project
 void MainWindow::on_actionBuild_triggered(){
-    on_actionSave_All_triggered();
     Build();
 }
 // Flash Project
@@ -442,8 +441,7 @@ void MainWindow::on_actionFlash_triggered(){
 }
 // Build and Flash Project
 void MainWindow::on_actionRun_triggered()
-{
-    on_actionSave_All_triggered();
+{   
     Run();
 }
 // Show About Prompt
