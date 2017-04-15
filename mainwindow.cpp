@@ -386,6 +386,7 @@ void MainWindow::on_actionNew_Project_triggered(){
         ui->actionExisting_File->setEnabled(true);
         ui->actionSave->setEnabled(true);
         ui->actionSave_All->setEnabled(true);
+        ui->actionSave_as->setEnabled(true);
         ui->actionBuild->setEnabled(true);
         ui->actionFlash->setEnabled(true);
         ui->actionRun->setEnabled(true);
@@ -429,6 +430,23 @@ void MainWindow::on_actionSave_All_triggered()
             // TODO: Any error occurred while saving file!
         }
         numberOfTabs--;
+    }
+}
+// Save File at specified path
+void MainWindow::on_actionSave_as_triggered()
+{
+    QString file = QFileDialog::getSaveFileName(this,
+                                                    tr("Save File"),
+                                                    p.Workingdir,
+                                                    "c-Files (*.c)"
+                                                    );
+    if(file.length() > 0){
+        QString filename        = QFileInfo(file).fileName();
+        QString filepathname    = QFileInfo(file).filePath();
+        QString filepath        = QFileInfo(file).path();
+        QString suffix          = QFileInfo(file).suffix();
+
+
     }
 }
 // Build Project
@@ -519,6 +537,8 @@ void MainWindow::on_actionNew_File_triggered()
             }
             ui->actionSave->setEnabled(true);
             ui->actionSave_All->setEnabled(true);
+            ui->actionSave_as->setEnabled(true);
+
     }
 }
 // Add Existing File
@@ -543,6 +563,8 @@ void MainWindow::on_actionExisting_File_triggered()
         ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
         ui->actionSave->setEnabled(true);
         ui->actionSave_All->setEnabled(true);
+        ui->actionSave_as->setEnabled(true);
+
     }
 }
 // Just open an existing file
@@ -567,6 +589,8 @@ void MainWindow::on_actionFile_triggered()
         ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
         ui->actionSave->setEnabled(true);
         ui->actionSave_All->setEnabled(true);
+        ui->actionSave_as->setEnabled(true);
+
     }
 }
 // Open Prompt for setting the uC's Fuses
@@ -629,6 +653,8 @@ void MainWindow::on_dockWidgetConsole_visibilityChanged(bool visible)
 {
     ui->actionViewConsole->setChecked(visible);
 }
+
+
 
 
 

@@ -114,6 +114,7 @@ private slots:
     void on_actionExisting_File_triggered();
     void on_actionSave_All_triggered();
     void on_actionFile_triggered();
+    void on_actionSave_as_triggered();
 };
 
 #endif // MAINWINDOW_H
