@@ -110,12 +110,9 @@ private slots:
     void on_dockWidgetConsole_visibilityChanged(bool visible);
     void on_actionExisting_File_triggered();
     void on_actionSave_All_triggered();
-<<<<<<< HEAD
 	void on_actionDefault_View_triggered();
-=======
     void on_actionFile_triggered();
     void on_actionSave_as_triggered();
->>>>>>> tobias
 };
 
 #endif // MAINWINDOW_H

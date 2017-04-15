@@ -58,7 +58,7 @@ private:
     QFile *file;
     uint8_t fileType;
     bool saved;
-    const int fontSize = 10;
+    const int fontSize = 14;
     const int tabStop = 3;
 };
 

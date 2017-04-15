@@ -12,7 +12,6 @@
 
 Editor::Editor(QWidget *parent, QString fileName, bool addFile, bool newFile, uint8_t fileType, QString wdir) : QPlainTextEdit(parent)
 {
-<<<<<<< HEAD
     // Set Monospace font and smaller TAB stop
     QFont font;
     font.setFamily("Courier");
@@ -23,12 +22,12 @@ Editor::Editor(QWidget *parent, QString fileName, bool addFile, bool newFile, ui
     QFontMetrics metrics(font);
     this->setTabStopWidth(tabStop * metrics.width(' '));
 
-=======
+
     QString filename        = QFileInfo(fileName).fileName();
     QString filepathname    = QFileInfo(fileName).filePath();
     QString filepath        = QFileInfo(fileName).path();
     QString suffix          = QFileInfo(fileName).suffix();
->>>>>>> tobias
+
     lineNumberArea = new LineNumberArea(this);
 
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));

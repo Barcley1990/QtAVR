@@ -671,7 +671,6 @@ void MainWindow::on_dockWidgetConsole_visibilityChanged(bool visible)
     ui->actionViewConsole->setChecked(visible);
 }
 
-<<<<<<< HEAD
 void MainWindow::on_actionDefault_View_triggered()
 {
     // TODO: Reset views and layout
@@ -684,13 +683,3 @@ void MainWindow::on_actionDefault_View_triggered()
     ui->dockWidgetFileList->setFloating(false);
     ui->dockWidgetWorktree->setFloating(false);
 }
-=======
-
-
-
-
-
-
-
-
->>>>>>> tobias
