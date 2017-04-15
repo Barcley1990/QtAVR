@@ -52,10 +52,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->bBuild, SIGNAL(clicked()), this, SLOT(Build()));
     connect(ui->bFlash, SIGNAL(clicked()), this, SLOT(Flash()));
     connect(ui->bRun, SIGNAL(clicked()), this, SLOT(Run()));
-    connect(ui->cbController, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineUC()));
-    connect(ui->cbFlashtool, SIGNAL(currentIndexChanged(int)), this, SLOT(DefineFD()));
     // Get selected tab of main tabwidget
-    connect(ui->twMainTab, SIGNAL(currentChanged(curTabIndex)), this, SLOT());
+    connect(ui->twMainTab, SIGNAL(currentChanged(int)), this, SLOT());
     connect(ui->twMainTab, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     // delete initialized tabs
     ui->twMainTab->removeTab(0);
@@ -177,12 +175,12 @@ void MainWindow::populateComboBoxes()
         ui->cbFlashtool->setCurrentIndex(13);
     }
 }
-
+// Close open Tabwindow
 void MainWindow::closeTab(int index) {
     qDebug() << "Remove Tab: " << index << endl;
     ui->twMainTab->removeTab(index);
 }
-
+// Build Project
 void MainWindow::Build()
 {
     qDebug() << "Build" << endl;
@@ -247,7 +245,7 @@ void MainWindow::Build()
     //    BuildFile.remove();
 
 }
-
+// Flash Project
 void MainWindow::Flash()
 {
     qDebug() << "Flash"<< endl;
@@ -293,33 +291,10 @@ void MainWindow::Flash()
     //    FlashFile.remove();
 
 }
-
+// Run Project
 void MainWindow::Run(){
     Build();
     Flash();
-}
-
-void MainWindow::DefineUC()
-{
-    uint8_t curInd = ui->cbController->currentIndex();
-    switch (curInd){
-        case 0: uc = "-p m32"; break;
-        case 1: uc = "-p m328"; break;
-        case 2: uc = "-p t2313"; break;
-        case 3: uc = "-p t4313"; break;
-        default: qDebug("something went wrong \n"); break;
-    }
-}
-
-void MainWindow::DefineFD()
-{
-    uint8_t curInd = ui->cbFlashtool->currentIndex();
-    switch (curInd){
-        case 0:
-            fd = "-c " + currentProgrammerAvrdudeCommand;
-        break;
-        default: qDebug("something went wrong \n"); break;
-    }
 }
 
 void MainWindow::rightMessage()
@@ -350,7 +325,7 @@ void MainWindow::errorMessage()
 }
 
 
-// Action Bar
+/* Action Bar */
 // Open New Project
 void MainWindow::on_actionNew_Project_triggered(){
     qDebug() << "Create new project" << endl;

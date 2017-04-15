@@ -91,8 +91,6 @@ private slots:
     void Run();
     void closeTab(int index);
 
-    void DefineUC();
-    void DefineFD();
     void on_actionSave_triggered();
     void on_actionBuild_triggered();
     void on_actionFlash_triggered();
