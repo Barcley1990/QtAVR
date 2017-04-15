@@ -247,6 +247,7 @@ void MainWindow::Build()
     //    BuildFile.remove();
 
 }
+
 void MainWindow::Flash()
 {
     qDebug() << "Flash"<< endl;
@@ -350,6 +351,7 @@ void MainWindow::errorMessage()
 
 
 // Action Bar
+// Open New Project
 void MainWindow::on_actionNew_Project_triggered(){
     qDebug() << "Create new project" << endl;
 
@@ -417,7 +419,7 @@ void MainWindow::on_actionNew_Project_triggered(){
         ui->bRun->setEnabled(true);
      }
 }
-
+// Save Active File
 void MainWindow::on_actionSave_triggered(){
     qDebug() << "Save File" << endl;
     curTabIndex = ui->twMainTab->currentIndex();
@@ -434,7 +436,7 @@ void MainWindow::on_actionSave_triggered(){
         // TODO: Any error occurred while saving file!
     }
 }
-
+// Save All Files
 void MainWindow::on_actionSave_All_triggered()
 {
     qDebug() << "Save all Files" << endl;
@@ -454,33 +456,33 @@ void MainWindow::on_actionSave_All_triggered()
         numberOfTabs--;
     }
 }
-
+// Build Project
 void MainWindow::on_actionBuild_triggered(){
     Build();
 }
-
+// Flash Project
 void MainWindow::on_actionFlash_triggered(){
     Flash();
 }
-
+// Build and Flash Project
 void MainWindow::on_actionRun_triggered()
 {
     Run();
 }
-
+// Show About Prompt
 void MainWindow::on_actionAbout_triggered(){
     QMessageBox::about(this, tr("About QtAVR"),
         tr("<h2>QtAVR</h2>"
         "<p>Copyright &copy; 2017 Tobias Nuss, Dennis Greguhn"
         "<p>Crude Build and Flash Tool for AVR Microcontroller"));
 }
-
+// Open Project
 void MainWindow::on_actionOpen_Settings_triggered() {
     if(userSettings->exec()){
         // TODO: Reload the server settings
     }
 }
-
+// Change uC
 void MainWindow::on_cbController_currentIndexChanged(int index)
 {
     qDebug() << QString::number(index) << "Selected: " << processors.at(index) << " with command: " << processorAvrdudeCommands.at(index);
@@ -490,13 +492,13 @@ void MainWindow::on_cbController_currentIndexChanged(int index)
         // TODO: Warning, this processor is currently not supported!
     }
 }
-
+// Change Programmer Device
 void MainWindow::on_cbFlashtool_currentIndexChanged(int index)
 {
     qDebug() << QString::number(index) << "Selected: " << programmers.at(index) << " with command: " << programmerAvrdudeCommands.at(index);
     currentProgrammerAvrdudeCommand = programmerAvrdudeCommands.at(index);
 }
-
+// Add New File
 void MainWindow::on_actionNew_File_triggered()
 {
     qDebug() << "Add File" << endl;
@@ -542,7 +544,7 @@ void MainWindow::on_actionNew_File_triggered()
             }
     }
 }
-
+// Add Existing File
 void MainWindow::on_actionExisting_File_triggered()
 {
     qDebug() << "Add Existing File" << endl;
@@ -564,8 +566,7 @@ void MainWindow::on_actionExisting_File_triggered()
         ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
     }
 }
-
-
+// Open Prompt for setting the uC's Fuses
 void MainWindow::on_actionFuses_triggered()
 {
     qDebug() << "Set Fuses" << endl;
