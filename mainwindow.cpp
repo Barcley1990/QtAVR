@@ -517,6 +517,8 @@ void MainWindow::on_actionNew_File_triggered()
             }else{
                 qDebug() << "Error: Unknows Filetype" << endl;
             }
+            ui->actionSave->setEnabled(true);
+            ui->actionSave_All->setEnabled(true);
     }
 }
 // Add Existing File
@@ -539,6 +541,8 @@ void MainWindow::on_actionExisting_File_triggered()
         connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
         ui->twMainTab->addTab(e, filename);
         ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
+        ui->actionSave->setEnabled(true);
+        ui->actionSave_All->setEnabled(true);
     }
 }
 // Open Prompt for setting the uC's Fuses

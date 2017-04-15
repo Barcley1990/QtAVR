@@ -63,7 +63,6 @@ Editor::Editor(QWidget *parent, QString directory, QString filename, bool newFil
     }
     else{
         file = new QFile(directory);
-        file->close();
         if (file->open(QFile::ReadOnly | QFile::Text)){
             QTextStream ReadFile(file);
             QString text = ReadFile.readAll();
