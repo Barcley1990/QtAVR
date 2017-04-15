@@ -10,8 +10,9 @@
 
 #include "templateparser.h"
 
-Editor::Editor(QWidget *parent, QString directory, QString filename, bool newFile, uint8_t fileType) : QPlainTextEdit(parent)
+Editor::Editor(QWidget *parent, QString fileName, bool addFile, bool newFile, uint8_t fileType, QString wdir) : QPlainTextEdit(parent)
 {
+<<<<<<< HEAD
     // Set Monospace font and smaller TAB stop
     QFont font;
     font.setFamily("Courier");
@@ -22,6 +23,12 @@ Editor::Editor(QWidget *parent, QString directory, QString filename, bool newFil
     QFontMetrics metrics(font);
     this->setTabStopWidth(tabStop * metrics.width(' '));
 
+=======
+    QString filename        = QFileInfo(fileName).fileName();
+    QString filepathname    = QFileInfo(fileName).filePath();
+    QString filepath        = QFileInfo(fileName).path();
+    QString suffix          = QFileInfo(fileName).suffix();
+>>>>>>> tobias
     lineNumberArea = new LineNumberArea(this);
 
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
@@ -32,9 +39,7 @@ Editor::Editor(QWidget *parent, QString directory, QString filename, bool newFil
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
 
-    this->filename = filename;
-
-    if(newFile){
+    if(addFile){
         // create new file from template
         QString templatePath = "";
         if(fileType==0){
@@ -46,12 +51,19 @@ Editor::Editor(QWidget *parent, QString directory, QString filename, bool newFil
         else if(fileType==2){
             templatePath = ":/templates/templates/default_h.txt";
         }
+        else if(fileType==3){
+            templatePath = filepathname;
+        }
         else
             qDebug() << "Error: Unknows Filetype" << endl;
 
         file = new QFile(this);
-        file->setFileName(directory);
+        if(newFile)
+            file->setFileName(filepathname);
+        else
+            file->setFileName(wdir+"/"+filename);
         file->open(QIODevice::WriteOnly);
+
         // Copy the default ressource file to the new generated source file
         TemplateParser* parser = new TemplateParser(this->filename);
         QFile defaultTemplate(templatePath);
@@ -71,8 +83,9 @@ Editor::Editor(QWidget *parent, QString directory, QString filename, bool newFil
         this->document()->setPlainText(ReadFile.readAll());
         file->close();
     }
+    // Just open a File in the Editor (Do not Copy it to the Wokingdir)
     else{
-        file = new QFile(directory);
+        file = new QFile(filepathname);
         if (file->open(QFile::ReadOnly | QFile::Text)){
             QTextStream ReadFile(file);
             QString text = ReadFile.readAll();
@@ -87,6 +100,9 @@ Editor::Editor(QWidget *parent, QString directory, QString filename, bool newFil
     // start syntaxhighlithning
     highlighter = new mySyntaxHighLighter(this->document());
 }
+
+
+
 
 Editor::~Editor(){
     highlighter->deleteLater();

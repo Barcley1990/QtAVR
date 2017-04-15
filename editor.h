@@ -26,8 +26,7 @@ class Editor : public QPlainTextEdit
     Q_OBJECT
 
 public:
-    //Editor(QWidget *parent = 0);
-    Editor(QWidget *parent = 0, QString directory="", QString filename="", bool newFile=true, uint8_t fileType=0);
+    Editor(QWidget *parent = 0, QString fileName="", bool addFile=true, bool newFile=true, uint8_t fileType=0, QString wdir = "");
     ~Editor();
 
     bool saveContent();

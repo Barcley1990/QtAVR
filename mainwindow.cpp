@@ -357,7 +357,7 @@ void MainWindow::on_actionNew_Project_triggered(){
         QString filepath        = QFileInfo(file).path();
 
         // New File in tab-bar
-        Editor* e = new Editor(this, filepathname, filename, true, 0);
+        Editor* e = new Editor(this, file, true, true, 0);
         connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
         ui->twMainTab->addTab(e, filename);
         // get actual working dir
@@ -401,6 +401,7 @@ void MainWindow::on_actionNew_Project_triggered(){
         ui->actionExisting_File->setEnabled(true);
         ui->actionSave->setEnabled(true);
         ui->actionSave_All->setEnabled(true);
+        ui->actionSave_as->setEnabled(true);
         ui->actionBuild->setEnabled(true);
         ui->actionFlash->setEnabled(true);
         ui->actionRun->setEnabled(true);
@@ -444,6 +445,23 @@ void MainWindow::on_actionSave_All_triggered()
             // TODO: Any error occurred while saving file!
         }
         numberOfTabs--;
+    }
+}
+// Save File at specified path
+void MainWindow::on_actionSave_as_triggered()
+{
+    QString file = QFileDialog::getSaveFileName(this,
+                                                    tr("Save File"),
+                                                    p.Workingdir,
+                                                    "c-Files (*.c)"
+                                                    );
+    if(file.length() > 0){
+        QString filename        = QFileInfo(file).fileName();
+        QString filepathname    = QFileInfo(file).filePath();
+        QString filepath        = QFileInfo(file).path();
+        QString suffix          = QFileInfo(file).suffix();
+
+
     }
 }
 // Build Project
@@ -520,12 +538,12 @@ void MainWindow::on_actionNew_File_triggered()
 
             // New File in tab-bar
             if(suffix.compare("c", Qt::CaseInsensitive) == 0){
-                Editor* e = new Editor(this, filepathname, filename, true, 1);
+                Editor* e = new Editor(this, file, true, true, 1);
                 connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
                 ui->twMainTab->addTab(e, filename);
                 ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
             }else if(suffix.compare("h", Qt::CaseInsensitive) == 0){
-                Editor* e = new Editor(this, filepathname, filename, 2);
+                Editor* e = new Editor(this, file, true, true, 2);
                 connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
                 ui->twMainTab->addTab(e, filename);
                 ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
@@ -534,6 +552,8 @@ void MainWindow::on_actionNew_File_triggered()
             }
             ui->actionSave->setEnabled(true);
             ui->actionSave_All->setEnabled(true);
+            ui->actionSave_as->setEnabled(true);
+
     }
 }
 
@@ -553,12 +573,40 @@ void MainWindow::on_actionExisting_File_triggered()
         QString suffix          = QFileInfo(file).suffix();
 
         // New File in tab-bar
-        Editor* e = new Editor(this, filepathname, filename, false, 1);
+        Editor* e = new Editor(this, file, true, false, 3, p.Workingdir);
         connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
         ui->twMainTab->addTab(e, filename);
         ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
         ui->actionSave->setEnabled(true);
         ui->actionSave_All->setEnabled(true);
+        ui->actionSave_as->setEnabled(true);
+
+    }
+}
+// Just open an existing file
+void MainWindow::on_actionFile_triggered()
+{
+    qDebug() << "Open Existing File" << endl;
+    QString file = QFileDialog::getOpenFileName(this,
+                                                tr("Open File"),
+                                                p.Workingdir,
+                                                tr("source (*.c);;header (*.h);;text (*.txt)")
+                                                );
+    if(file.length() > 0){
+        QString filename        = QFileInfo(file).fileName();
+        QString filepathname    = QFileInfo(file).filePath();
+        QString filepath        = QFileInfo(file).path();
+        QString suffix          = QFileInfo(file).suffix();
+
+        // New File in tab-bar
+        Editor* e = new Editor(this, file, false, false);
+        connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
+        ui->twMainTab->addTab(e, filename);
+        ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
+        ui->actionSave->setEnabled(true);
+        ui->actionSave_All->setEnabled(true);
+        ui->actionSave_as->setEnabled(true);
+
     }
 }
 
@@ -623,6 +671,7 @@ void MainWindow::on_dockWidgetConsole_visibilityChanged(bool visible)
     ui->actionViewConsole->setChecked(visible);
 }
 
+<<<<<<< HEAD
 void MainWindow::on_actionDefault_View_triggered()
 {
     // TODO: Reset views and layout
@@ -635,3 +684,13 @@ void MainWindow::on_actionDefault_View_triggered()
     ui->dockWidgetFileList->setFloating(false);
     ui->dockWidgetWorktree->setFloating(false);
 }
+=======
+
+
+
+
+
+
+
+
+>>>>>>> tobias
