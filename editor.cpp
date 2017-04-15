@@ -10,18 +10,20 @@
 
 #include "templateparser.h"
 
-Editor::Editor(QWidget *parent, QString fileName, bool addFile, bool newFile, uint8_t fileType, QString wdir) : QPlainTextEdit(parent)
+Editor::Editor(QWidget *parent, QString fileName, bool addFile, bool newFile, uint8_t fileType, QString wdir, Settings* settings) : QPlainTextEdit(parent)
 {
+    this->settings = settings;
+
     // Set Monospace font and smaller TAB stop
     QFont font;
     font.setFamily("Courier");
     font.setStyleHint(QFont::Monospace);
     font.setFixedPitch(true);
-    font.setPointSize(fontSize);
+
+    font.setPointSize(defaultFontSize);
     this->setFont(font);
     QFontMetrics metrics(font);
-    this->setTabStopWidth(tabStop * metrics.width(' '));
-
+    this->setTabStopWidth(defaultTabStop * metrics.width(' '));
 
     QString filename        = QFileInfo(fileName).fileName();
     QString filepathname    = QFileInfo(fileName).filePath();

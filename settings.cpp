@@ -22,6 +22,8 @@ bool Settings::load(){
         settings = new QSettings(settingsFile, QSettings::NativeFormat);
         ui->lineEditPathAvrdude->setText(settings->value("path.avrdude", "").toString());
         ui->lineEditPathToolchainRoot->setText(settings->value("path.toolchain_root", "").toString());
+        ui->spinBoxFontSize->setValue(settings->value("editor.fontsize", 14).toInt());
+        ui->spinBoxTabWidth->setValue(settings->value("editor.tabwidth", 3).toInt());
         return true;
     }else{
         settings = new QSettings(settingsFile, QSettings::NativeFormat);
@@ -89,6 +91,26 @@ int Settings::getDefaultProcessor()
     return i;
 }
 
+void Settings::setFontSize(int size)
+{
+    ui->spinBoxFontSize->setValue(size);
+}
+
+int Settings::getFontSize()
+{
+    return ui->spinBoxFontSize->value();
+}
+
+void Settings::setTabWidth(int width)
+{
+    ui->spinBoxTabWidth->setValue(width);
+}
+
+int Settings::getTabWidth()
+{
+    return ui->spinBoxTabWidth->value();
+}
+
 void Settings::on_toolButtonPathAvrdude_clicked(){
     QString dir = QFileDialog::getExistingDirectory(this, tr("Select AVRDUDE directory"), QDir::homePath(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
@@ -110,6 +132,8 @@ void Settings::on_pushButtonSaveSettings_clicked(){
 
     settings->setValue("path.avrdude", ui->lineEditPathAvrdude->text());
     settings->setValue("path.toolchain_root", ui->lineEditPathToolchainRoot->text());
+    settings->setValue("editor.fontsize", ui->spinBoxFontSize->value());
+    settings->setValue("editor.tabwidth", ui->spinBoxTabWidth->value());
 
     this->accept();
 }

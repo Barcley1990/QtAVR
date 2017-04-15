@@ -365,7 +365,7 @@ void MainWindow::on_actionNew_Project_triggered(){
         QString filepath        = QFileInfo(file).path();
 
         // New File in tab-bar
-        Editor* e = new Editor(this, filepathname, filename, true, 0);
+        Editor* e = new Editor(this, file, true, true, 0);
         connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
         ui->twMainTab->addTab(e, filename);
         // get actual working dir

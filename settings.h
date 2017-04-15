@@ -31,6 +31,12 @@ public:
     void setDefaultProcessor(int processor);
     int getDefaultProcessor();
 
+    // Editor settings
+    void setFontSize(int size);
+    int getFontSize();
+    void setTabWidth(int width);
+    int getTabWidth();
+
 private slots:
     void on_toolButtonPathAvrdude_clicked();
     void on_toolButtonPathToolchainRoot_clicked();
