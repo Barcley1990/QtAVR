@@ -34,6 +34,16 @@ MainWindow::MainWindow(QWidget *parent) :
         // TODO: There are no user settings, maybe show a welcome screen or a "first-steps" instruction
     }
 
+    // Load last seleted programmer and processor
+    int temp = userSettings->getDefaultProgrammer();
+    if(ui->cbFlashtool->count() > temp){
+        ui->cbFlashtool->setCurrentIndex(temp);
+    }
+    temp = userSettings->getDefaultProcessor();
+    if(ui->cbController->count() > temp){
+        ui->cbController->setCurrentIndex(temp);
+    }
+
     // Load layout
     restoreGeometry(userSettings->getGeometry());
     restoreState(userSettings->getWindowState());
@@ -53,7 +63,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->bFlash, SIGNAL(clicked()), this, SLOT(Flash()));
     connect(ui->bRun, SIGNAL(clicked()), this, SLOT(Run()));
     // Get selected tab of main tabwidget
-    connect(ui->twMainTab, SIGNAL(currentChanged(int)), this, SLOT());
     connect(ui->twMainTab, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     // delete initialized tabs
     ui->twMainTab->removeTab(0);
@@ -89,6 +98,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
     // Save current layout
     userSettings->setGeometry(saveGeometry());
     userSettings->setWindowState(saveState());
+    // Save seleted programmer and processor
+    userSettings->setDefaultProgrammer(ui->cbFlashtool->currentIndex());
+    userSettings->setDefaultProcessor(ui->cbController->currentIndex());
 
     event->ignore();
 
@@ -114,6 +126,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
     else
         event->accept();
+    }
 }
 
 void MainWindow::populateComboBoxes()
@@ -248,12 +261,13 @@ void MainWindow::Build()
 // Flash Project
 void MainWindow::Flash()
 {
+    // TODO: Add the right HEX file, instead of using 'main.hex'
     qDebug() << "Flash"<< endl;
-    qDebug() << "uC: " << uc << " programer: " << fd << endl;
+    qDebug() << "currentProcessorAvrdudeCommand: " << currentProcessorAvrdudeCommand << " currentProgrammerAvrdudeCommand: " << currentProgrammerAvrdudeCommand << endl;
 
     QString avrdude = userSettings->getAvrdudePath() + "/avrdude " ;
-    QString write = "-U flash:w:main.hex";
-    avrdude.append(fd).append(" ").append(uc).append(" ").append(write);
+    QString write = " -U flash:w:main.hex";
+    avrdude += "-p " + currentProcessorAvrdudeCommand + " -c " + currentProgrammerAvrdudeCommand + write;
     qDebug() << avrdude << endl;
 
     //********** Script-File erstellen **********/
@@ -441,7 +455,7 @@ void MainWindow::on_actionFlash_triggered(){
 }
 // Build and Flash Project
 void MainWindow::on_actionRun_triggered()
-{   
+{
     Run();
 }
 // Show About Prompt
@@ -521,6 +535,7 @@ void MainWindow::on_actionNew_File_triggered()
             ui->actionSave_All->setEnabled(true);
     }
 }
+
 // Add Existing File
 void MainWindow::on_actionExisting_File_triggered()
 {
@@ -545,6 +560,7 @@ void MainWindow::on_actionExisting_File_triggered()
         ui->actionSave_All->setEnabled(true);
     }
 }
+
 // Open Prompt for setting the uC's Fuses
 void MainWindow::on_actionFuses_triggered()
 {
@@ -606,7 +622,15 @@ void MainWindow::on_dockWidgetConsole_visibilityChanged(bool visible)
     ui->actionViewConsole->setChecked(visible);
 }
 
-
-
-
-
+void MainWindow::on_actionDefault_View_triggered()
+{
+    // TODO: Reset views and layout
+    ui->dockWidgetConsole->setHidden(false);
+    ui->dockWidgetFile->setHidden(false);
+    ui->dockWidgetFileList->setHidden(false);
+    ui->dockWidgetWorktree->setHidden(false);
+    ui->dockWidgetConsole->setFloating(false);
+    ui->dockWidgetFile->setFloating(false);
+    ui->dockWidgetFileList->setFloating(false);
+    ui->dockWidgetWorktree->setFloating(false);
+}

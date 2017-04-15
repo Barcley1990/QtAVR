@@ -55,6 +55,38 @@ QByteArray Settings::getWindowState()
     return settings->value("window.state", QVariant::Invalid).toByteArray();
 }
 
+void Settings::setDefaultProgrammer(int programmer)
+{
+    settings->setValue("default.programmer", programmer);
+}
+
+int Settings::getDefaultProgrammer()
+{
+    int i = 0;
+    QVariant qv = settings->value("default.programmer", QVariant::Invalid);
+    if(qv.isNull() == false)
+    {
+        return qv.toInt();
+    }
+    return i;
+}
+
+void Settings::setDefaultProcessor(int processor)
+{
+    settings->setValue("default.processor", processor);
+}
+
+int Settings::getDefaultProcessor()
+{
+    int i = 0;
+    QVariant qv = settings->value("default.processor", QVariant::Invalid);
+    if(qv.isNull() == false)
+    {
+        return qv.toInt();
+    }
+    return i;
+}
+
 void Settings::on_toolButtonPathAvrdude_clicked(){
     QString dir = QFileDialog::getExistingDirectory(this, tr("Select AVRDUDE directory"), QDir::homePath(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 

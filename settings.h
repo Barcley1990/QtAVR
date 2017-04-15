@@ -26,6 +26,11 @@ public:
     void setWindowState(QByteArray ba);
     QByteArray getWindowState();
 
+    void setDefaultProgrammer(int programmer);
+    int getDefaultProgrammer();
+    void setDefaultProcessor(int processor);
+    int getDefaultProcessor();
+
 private slots:
     void on_toolButtonPathAvrdude_clicked();
     void on_toolButtonPathToolchainRoot_clicked();
