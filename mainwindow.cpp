@@ -118,9 +118,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if(unsavedFiles){
         QMessageBox question;
         question.setText("There are unsaved Files \n\n Exit anyway?");
-        question.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        question.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::SaveAll);
         question.show();
-        if(question.exec() == QMessageBox::Yes) {
+        int answer = question.exec();
+        if(answer == QMessageBox::Yes) {
+            event->accept();
+        }
+        else if(answer == QMessageBox::SaveAll) {
+            on_actionSave_All_triggered();
             event->accept();
         }
     }
