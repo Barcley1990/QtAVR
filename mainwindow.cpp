@@ -366,6 +366,7 @@ void MainWindow::on_actionNew_Project_triggered(){
 
         // New File in tab-bar
         Editor* e = new Editor(this, file, true, true, 0);
+        e->setSettings(userSettings);
         connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
         ui->twMainTab->addTab(e, filename);
         // get actual working dir
@@ -454,6 +455,23 @@ void MainWindow::on_actionSave_All_triggered()
         numberOfTabs--;
     }
 }
+// Save File at specified path
+void MainWindow::on_actionSave_as_triggered()
+{
+    QString file = QFileDialog::getSaveFileName(this,
+                                                    tr("Save File"),
+                                                    p.Workingdir,
+                                                    "c-Files (*.c)"
+                                                    );
+    if(file.length() > 0){
+        QString filename        = QFileInfo(file).fileName();
+        QString filepathname    = QFileInfo(file).filePath();
+        QString filepath        = QFileInfo(file).path();
+        QString suffix          = QFileInfo(file).suffix();
+
+
+    }
+}
 // Build Project
 void MainWindow::on_actionBuild_triggered(){
     Build();
@@ -477,7 +495,11 @@ void MainWindow::on_actionAbout_triggered(){
 // Open Project
 void MainWindow::on_actionOpen_Settings_triggered() {
     if(userSettings->exec()){
-        // TODO: Reload the server settings
+        int i;
+        for(i=0; i<ui->twMainTab->count(); i++){
+            Editor* e = (Editor*)ui->twMainTab->widget(i);
+            e->reloadSettings();
+        }
     }
 }
 // Change uC
@@ -529,11 +551,13 @@ void MainWindow::on_actionNew_File_triggered()
             // New File in tab-bar
             if(suffix.compare("c", Qt::CaseInsensitive) == 0){
                 Editor* e = new Editor(this, file, true, true, 1);
+                e->setSettings(userSettings);
                 connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
                 ui->twMainTab->addTab(e, filename);
                 ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
             }else if(suffix.compare("h", Qt::CaseInsensitive) == 0){
                 Editor* e = new Editor(this, file, true, true, 2);
+                e->setSettings(userSettings);
                 connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
                 ui->twMainTab->addTab(e, filename);
                 ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
@@ -564,6 +588,7 @@ void MainWindow::on_actionExisting_File_triggered()
 
         // New File in tab-bar
         Editor* e = new Editor(this, file, true, false, 3, p.Workingdir);
+        e->setSettings(userSettings);
         connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
         ui->twMainTab->addTab(e, filename);
         ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);

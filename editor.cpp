@@ -15,15 +15,21 @@ Editor::Editor(QWidget *parent, QString fileName, bool addFile, bool newFile, ui
     this->settings = settings;
 
     // Set Monospace font and smaller TAB stop
-    QFont font;
     font.setFamily("Courier");
     font.setStyleHint(QFont::Monospace);
     font.setFixedPitch(true);
-
-    font.setPointSize(defaultFontSize);
+    if(settings == NULL){
+        font.setPointSize(defaultFontSize);
+    }else{
+        font.setPointSize(settings->getFontSize());
+    }
     this->setFont(font);
     QFontMetrics metrics(font);
-    this->setTabStopWidth(defaultTabStop * metrics.width(' '));
+    if(settings == NULL){
+        this->setTabStopWidth(defaultTabStop * metrics.width(' '));
+    }else{
+        this->setTabStopWidth(settings->getTabWidth() * metrics.width(' '));
+    }
 
     QString filename        = QFileInfo(fileName).fileName();
     QString filepathname    = QFileInfo(fileName).filePath();
@@ -171,6 +177,12 @@ void Editor::textHasChanged()
     emit unsafed(file->fileName());
 }
 
+void Editor::setSettings(Settings *value)
+{
+    settings = value;
+    reloadSettings();
+}
+
 QFile *Editor::getFile() const
 {
     return file;
@@ -186,6 +198,16 @@ bool Editor::isSaved() const
     return this->saved;
 }
 
+void Editor::reloadSettings()
+{
+    if(this->settings != NULL)
+    {
+        font.setPointSize(settings->getFontSize());
+        this->setFont(font);
+        QFontMetrics metrics(font);
+        this->setTabStopWidth(settings->getTabWidth() * metrics.width(' '));
+    }
+}
 
 
 void Editor::resizeEvent(QResizeEvent *e)

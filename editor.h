@@ -40,6 +40,10 @@ public:
 
     bool isSaved() const;
 
+    void reloadSettings();
+
+    void setSettings(Settings *value);
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
 
@@ -62,6 +66,7 @@ private:
     const int defaultFontSize = 14;
     const int defaultTabStop = 3;
     Settings* settings;
+    QFont font;
 };
 
 
