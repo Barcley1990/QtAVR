@@ -458,6 +458,7 @@ void MainWindow::on_actionSave_All_triggered()
 }
 // Build Project
 void MainWindow::on_actionBuild_triggered(){
+    on_actionSave_All_triggered();
     Build();
 }
 // Flash Project
@@ -467,6 +468,7 @@ void MainWindow::on_actionFlash_triggered(){
 // Build and Flash Project
 void MainWindow::on_actionRun_triggered()
 {
+    on_actionSave_All_triggered();
     Run();
 }
 // Show About Prompt
