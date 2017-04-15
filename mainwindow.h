@@ -78,7 +78,10 @@ private:
 
     QDirModel *model;
 
+    QSettings* projectFile;
+
     void populateComboBoxes();
+    bool unsavedFiles();
 
 private slots:
     void rightMessage();
@@ -111,8 +114,9 @@ private slots:
     void on_actionExisting_File_triggered();
     void on_actionSave_All_triggered();
 	void on_actionDefault_View_triggered();
-    void on_actionFile_triggered();
+	void on_actionFile_triggered();
     void on_actionSave_as_triggered();
+    void on_actionOpen_Project_triggered();
 };
 
 #endif // MAINWINDOW_H

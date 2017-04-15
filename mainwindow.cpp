@@ -104,18 +104,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     event->ignore();
 
-    // check if there are any unsaved files
-    // get number of opened tabs
-    int numberOfTabs = ui->twMainTab->count()-1;
-    bool unsavedFiles = false;
-    while(numberOfTabs>=0){
-        QString currentText = ui->twMainTab->tabBar()->tabText(numberOfTabs);
-        if(currentText.contains("*", Qt::CaseSensitive) != 0){
-            unsavedFiles = true;
-        }
-        numberOfTabs--;
-    }
-    if(unsavedFiles){
+    // Pop up dialog if there are unsaved files
+    if(unsavedFiles() == true){
         QMessageBox question;
         question.setText("There are unsaved Files \n\n Exit anyway?");
         question.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
@@ -189,6 +179,24 @@ void MainWindow::populateComboBoxes()
         ui->cbFlashtool->setCurrentIndex(13);
     }
 }
+
+/**
+ * Checks if there are any unsaved files in the current project
+ * @brief MainWindow::unsavedFiles
+ * @return True if any file modifications are not saved
+ */
+bool MainWindow::unsavedFiles()
+{
+    int i;
+    for(i=0; i<ui->twMainTab->count(); i++){
+        Editor* e = (Editor*)ui->twMainTab->widget(i);
+        if(e->isSaved() == false){
+            return true;
+        }
+    }
+    return false;
+}
+
 // Close open Tabwindow
 void MainWindow::closeTab(int index) {
     qDebug() << "Remove Tab: " << index << endl;
@@ -357,7 +365,7 @@ void MainWindow::on_actionNew_Project_triggered(){
         QString filepath        = QFileInfo(file).path();
 
         // New File in tab-bar
-        Editor* e = new Editor(this, file, true, true, 0);
+        Editor* e = new Editor(this, filepathname, filename, true, 0);
         connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
         ui->twMainTab->addTab(e, filename);
         // get actual working dir
@@ -401,7 +409,6 @@ void MainWindow::on_actionNew_Project_triggered(){
         ui->actionExisting_File->setEnabled(true);
         ui->actionSave->setEnabled(true);
         ui->actionSave_All->setEnabled(true);
-        ui->actionSave_as->setEnabled(true);
         ui->actionBuild->setEnabled(true);
         ui->actionFlash->setEnabled(true);
         ui->actionRun->setEnabled(true);
@@ -445,23 +452,6 @@ void MainWindow::on_actionSave_All_triggered()
             // TODO: Any error occurred while saving file!
         }
         numberOfTabs--;
-    }
-}
-// Save File at specified path
-void MainWindow::on_actionSave_as_triggered()
-{
-    QString file = QFileDialog::getSaveFileName(this,
-                                                    tr("Save File"),
-                                                    p.Workingdir,
-                                                    "c-Files (*.c)"
-                                                    );
-    if(file.length() > 0){
-        QString filename        = QFileInfo(file).fileName();
-        QString filepathname    = QFileInfo(file).filePath();
-        QString filepath        = QFileInfo(file).path();
-        QString suffix          = QFileInfo(file).suffix();
-
-
     }
 }
 // Build Project
@@ -682,4 +672,21 @@ void MainWindow::on_actionDefault_View_triggered()
     ui->dockWidgetFile->setFloating(false);
     ui->dockWidgetFileList->setFloating(false);
     ui->dockWidgetWorktree->setFloating(false);
+}
+
+void MainWindow::on_actionOpen_Project_triggered()
+{
+    QString file = QFileDialog::getOpenFileName(this,
+                                                tr("Select QtAVR Project File"),
+                                                p.Workingdir,
+                                                tr("QtAVR Project File (*.avr)")
+                                                );
+    if(file.length() > 0){
+        QString filename        = QFileInfo(file).fileName();
+        QString filepathname    = QFileInfo(file).filePath();
+        QString filepath        = QFileInfo(file).path();
+        QString suffix          = QFileInfo(file).suffix();
+
+        projectFile = new QSettings(file, QSettings::NativeFormat);
+    }
 }
