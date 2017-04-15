@@ -104,18 +104,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     event->ignore();
 
-    // check if there are any unsaved files
-    // get number of opened tabs
-    int numberOfTabs = ui->twMainTab->count()-1;
-    bool unsavedFiles = false;
-    while(numberOfTabs>=0){
-        QString currentText = ui->twMainTab->tabBar()->tabText(numberOfTabs);
-        if(currentText.contains("*", Qt::CaseSensitive) != 0){
-            unsavedFiles = true;
-        }
-        numberOfTabs--;
-    }
-    if(unsavedFiles){
+    // Pop up dialog if there are unsaved files
+    if(unsavedFiles() == true){
         QMessageBox question;
         question.setText("There are unsaved Files \n\n Exit anyway?");
         question.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
@@ -189,6 +179,24 @@ void MainWindow::populateComboBoxes()
         ui->cbFlashtool->setCurrentIndex(13);
     }
 }
+
+/**
+ * Checks if there are any unsaved files in the current project
+ * @brief MainWindow::unsavedFiles
+ * @return True if any file modifications are not saved
+ */
+bool MainWindow::unsavedFiles()
+{
+    int i;
+    for(i=0; i<ui->twMainTab->count(); i++){
+        Editor* e = (Editor*)ui->twMainTab->widget(i);
+        if(e->isSaved() == false){
+            return true;
+        }
+    }
+    return false;
+}
+
 // Close open Tabwindow
 void MainWindow::closeTab(int index) {
     qDebug() << "Remove Tab: " << index << endl;
@@ -525,7 +533,7 @@ void MainWindow::on_actionNew_File_triggered()
                 ui->twMainTab->addTab(e, filename);
                 ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
             }else if(suffix.compare("h", Qt::CaseInsensitive) == 0){
-                Editor* e = new Editor(this, filepathname, filename, 2);
+                Editor* e = new Editor(this, filepathname, filename, true, 2);
                 connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
                 ui->twMainTab->addTab(e, filename);
                 ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
@@ -634,4 +642,21 @@ void MainWindow::on_actionDefault_View_triggered()
     ui->dockWidgetFile->setFloating(false);
     ui->dockWidgetFileList->setFloating(false);
     ui->dockWidgetWorktree->setFloating(false);
+}
+
+void MainWindow::on_actionOpen_Project_triggered()
+{
+    QString file = QFileDialog::getOpenFileName(this,
+                                                tr("Select QtAVR Project File"),
+                                                p.Workingdir,
+                                                tr("QtAVR Project File (*.avr)")
+                                                );
+    if(file.length() > 0){
+        QString filename        = QFileInfo(file).fileName();
+        QString filepathname    = QFileInfo(file).filePath();
+        QString filepath        = QFileInfo(file).path();
+        QString suffix          = QFileInfo(file).suffix();
+
+        projectFile = new QSettings(file, QSettings::NativeFormat);
+    }
 }
