@@ -23,6 +23,8 @@ bool Settings::load(){
         ui->lineEditPathAvrdude->setText(settings->value("path.avrdude", "").toString());
         ui->lineEditPathToolchainRoot->setText(settings->value("path.toolchain_root", "").toString());
         return true;
+    }else{
+        settings = new QSettings(settingsFile, QSettings::NativeFormat);
     }
     return false;
 }
