@@ -110,11 +110,18 @@
      <addaction name="actionNew_File"/>
      <addaction name="actionExisting_File"/>
     </widget>
+    <widget class="QMenu" name="menuOpen">
+     <property name="title">
+      <string>Open</string>
+     </property>
+     <addaction name="actionFile"/>
+    </widget>
     <addaction name="actionNew_Project"/>
     <addaction name="actionOpen_Project"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_All"/>
     <addaction name="menuAdd"/>
+    <addaction name="menuOpen"/>
    </widget>
    <widget class="QMenu" name="menuDevice">
     <property name="title">
@@ -519,6 +526,11 @@
   <action name="actionDefault_View">
    <property name="text">
     <string>Reset View</string>
+   </property>
+  </action>
+  <action name="actionFile">
+   <property name="text">
+    <string>File</string>
    </property>
   </action>
  </widget>
