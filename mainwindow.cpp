@@ -346,7 +346,7 @@ void MainWindow::errorMessage()
 
 
 /* Action Bar */
-// Open New Project
+// Create New Project
 void MainWindow::on_actionNew_Project_triggered(){
     qDebug() << "Create new project" << endl;
 
@@ -360,6 +360,12 @@ void MainWindow::on_actionNew_Project_triggered(){
         QString filename        = QFileInfo(file).fileName();
         QString filepathname    = QFileInfo(file).filePath();
         QString filepath        = QFileInfo(file).path();
+        QString filenameExSuffix = QFileInfo(file).baseName();
+
+        // new Project File
+        // ToDo: Get filename exculuding suffix including filepath
+        qtavr = new QSettings(filepath + "/" + filenameExSuffix + ".qtavr", QSettings::NativeFormat);
+        qtavr->setValue("project.mainfile", filename);
 
         // New File in tab-bar
         Editor* e = new Editor(this, file, true, true, 0);

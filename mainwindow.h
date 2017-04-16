@@ -48,6 +48,8 @@ private:
         QString ProgrammerName;
     }p;
 
+    QSettings* qtavr;
+
     //QString Workingdir;
     QStringList cFilePaths;
     QStringList cFileNames;
