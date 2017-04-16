@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QSettings>
+#include <QCompleter>
+#include <QDirModel>
 
 namespace Ui {
 class Settings;
@@ -46,6 +48,7 @@ private:
     Ui::Settings *ui;
     QString settingsFile;
     QSettings* settings;
+    QCompleter* modelCompleter;
 };
 
 #endif // SETTINGS_H
