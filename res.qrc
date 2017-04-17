@@ -15,4 +15,7 @@
         <file>xml/processors.xml</file>
         <file>xml/programmers.xml</file>
     </qresource>
+    <qresource prefix="/resources">
+        <file>resources/wordlist.txt</file>
+    </qresource>
 </RCC>

@@ -10,9 +10,17 @@
 
 #include "templateparser.h"
 
-Editor::Editor(QWidget *parent, QString fileName, bool addFile, bool newFile, uint8_t fileType, QString wdir, Settings* settings) : QPlainTextEdit(parent)
+Editor::Editor(QWidget *parent, QString fileName, bool addFile, bool newFile, uint8_t fileType, QString wdir, Settings* settings) : TextEdit(parent)
 {
     this->settings = settings;
+
+    // Set the completer for base C/C++ syntax
+    completer = new QCompleter(this);
+    completer->setModel(modelFromFile(":/resources/resources/wordlist.txt"));
+    completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setWrapAround(false);
+    this->setCompleter(completer);
 
     // Set Monospace font and smaller TAB stop
     font.setFamily("Courier");
@@ -212,7 +220,7 @@ void Editor::reloadSettings()
 
 void Editor::resizeEvent(QResizeEvent *e)
 {
-    QPlainTextEdit::resizeEvent(e);
+    TextEdit::resizeEvent(e);
 
     QRect cr = contentsRect();
     lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
@@ -265,4 +273,27 @@ void Editor::lineNumberAreaPaintEvent(QPaintEvent *event)
         bottom = top + (int) blockBoundingRect(block).height();
         ++blockNumber;
     }
+}
+
+QAbstractItemModel* Editor::modelFromFile(const QString& fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QFile::ReadOnly))
+        return new QStringListModel(completer);
+
+#ifndef QT_NO_CURSOR
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+#endif
+    QStringList words;
+
+    while (!file.atEnd()) {
+        QByteArray line = file.readLine();
+        if (!line.isEmpty())
+            words << line.trimmed();
+    }
+
+#ifndef QT_NO_CURSOR
+    QApplication::restoreOverrideCursor();
+#endif
+    return new QStringListModel(words, completer);
 }

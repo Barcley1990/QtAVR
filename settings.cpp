@@ -7,6 +7,12 @@
 Settings::Settings(QWidget *parent) : QDialog(parent), ui(new Ui::Settings){
     ui->setupUi(this);
 
+    // Set up dir completer
+    modelCompleter = new QCompleter(this);
+    modelCompleter->setModel(new QDirModel(modelCompleter));
+    ui->lineEditPathAvrdude->setCompleter(modelCompleter);
+    ui->lineEditPathToolchainRoot->setCompleter(modelCompleter);
+
     settingsFile = QDir::homePath() + "/QtAVR/user_settings.ini";
     qDebug() << "Settings file: " << settingsFile;
 }
