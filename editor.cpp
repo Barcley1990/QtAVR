@@ -10,7 +10,7 @@
 
 #include "templateparser.h"
 
-Editor::Editor(QWidget *parent, QString fileName, bool addFile, bool newFile, uint8_t fileType, QString wdir, Settings* settings) : TextEdit(parent)
+Editor::Editor(QWidget *parent, QString path, QString filename) : TextEdit(parent)
 {
     this->settings = settings;
 
@@ -39,101 +39,90 @@ Editor::Editor(QWidget *parent, QString fileName, bool addFile, bool newFile, ui
         this->setTabStopWidth(settings->getTabWidth() * metrics.width(' '));
     }
 
-    QString filename        = QFileInfo(fileName).fileName();
-    this->filename = filename;
-    QString filepathname    = QFileInfo(fileName).filePath();
-    QString filepath        = QFileInfo(fileName).path();
-    QString suffix          = QFileInfo(fileName).suffix();
+    if(path.length()>0 && filename.length()>0){
+        // Copy file information to local variables
+        this->filename = filename;
+        this->filepath = path;
 
-    // If the suffix is empty, the user entered a file without suffix. Get suffix from file type
-    if(suffix.length() == 0){
-        switch(fileType){
-        case 0:
-        case 1:
-            suffix = "c";
-            break;
-        case 2:
-            suffix = "h";
-            break;
-        default:
-            qDebug() << "ERROR: Filetype unknown!";
+        if(path.endsWith("/") == false){
+            path += "/";
         }
-    }
+        QString pathAndName = path+filename;
+        QFile tempFile(pathAndName);
 
-    // Add the file ending to the name if not exist
-    if(!(this->filename.contains(".c", Qt::CaseInsensitive) || this->filename.contains(".h", Qt::CaseInsensitive))){
-        this->filename += "." + suffix;
-    }
+        if(tempFile.exists()){
+            // File already exist
+            // Just open a File in the Editor (Do not Copy it to the Wokingdir)
+            file = new QFile(pathAndName);
+            if (file->open(QFile::ReadOnly | QFile::Text)){
+                QTextStream ReadFile(file);
+                QString text = ReadFile.readAll();
+                this->document()->setPlainText(text);
+                file->close();
+            }
+            else{
+                qDebug() << "file not found" << endl;
+            }
+        }else{
+            // File does not exist, create from template
+            QString templatePath = "";
+            QString suffix = QFileInfo(pathAndName).suffix();
+            if(suffix.contains("c", Qt::CaseInsensitive)){
+                // Create new C file
+                templatePath = ":/templates/templates/default_c.txt";
+            }else{
+                // Create new H file
+                templatePath = ":/templates/templates/default_h.txt";
+            }
 
-    lineNumberArea = new LineNumberArea(this);
+            // create new file from template
+            file = new QFile(this);
+            file->setFileName(path + filename);
 
-    connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
-    connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
-    connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
-    connect(this, SIGNAL(textChanged()), this, SLOT(textHasChanged()));
+            file->open(QIODevice::WriteOnly);
 
-    updateLineNumberAreaWidth(0);
-    highlightCurrentLine();
-
-    if(addFile){
-        // create new file from template
-        QString templatePath = "";
-        if(fileType==0){
-            templatePath = ":/templates/templates/default.txt";
-        }
-        else if(fileType==1){
-            templatePath = ":/templates/templates/default_c.txt";
-        }
-        else if(fileType==2){
-            templatePath = ":/templates/templates/default_h.txt";
-        }
-        else if(fileType==3){
-            templatePath = filepathname;
-        }
-        else
-            qDebug() << "Error: Unknows Filetype" << endl;
-
-        file = new QFile(this);
-        if(newFile)
-            file->setFileName(filepathname);
-        else
-            file->setFileName(wdir+"/"+filename);
-        file->open(QIODevice::WriteOnly);
-
-        // Copy the default ressource file to the new generated source file
-        TemplateParser* parser = new TemplateParser(this->filename);
-        QFile defaultTemplate(templatePath);
-        if (defaultTemplate.open(QIODevice::ReadOnly)){
-           QTextStream in(&defaultTemplate);
-           while (!in.atEnd()){
-                file->write(parser->getParsedLine(in.readLine()).toLatin1());
-                file->write("\r\n");
-           }
-           defaultTemplate.close();
-        }
-        file->close();
-        // Open File in Editor
-        file->open(QFile::ReadOnly | QFile::Text);
-        QTextStream ReadFile(file);
-        this->document()->setPlainText(ReadFile.readAll());
-        file->close();
-    }
-    // Just open a File in the Editor (Do not Copy it to the Wokingdir)
-    else{
-        file = new QFile(filepathname);
-        if (file->open(QFile::ReadOnly | QFile::Text)){
+            // Copy the default ressource file to the new generated source file
+            TemplateParser* parser = new TemplateParser(this->filename);
+            QFile defaultTemplate(templatePath);
+            if (defaultTemplate.open(QIODevice::ReadOnly)){
+                QTextStream in(&defaultTemplate);
+                while (!in.atEnd()){
+                    file->write(parser->getParsedLine(in.readLine()).toLatin1());
+                    file->write("\r\n");
+                }
+                defaultTemplate.close();
+            }
+            file->close();
+            // Open File in Editor
+            file->open(QFile::ReadOnly | QFile::Text);
             QTextStream ReadFile(file);
-            QString text = ReadFile.readAll();
-            this->document()->setPlainText(text);
+            this->document()->setPlainText(ReadFile.readAll());
             file->close();
         }
-        else
-            qDebug() << "file not found" << endl;
 
+        /*
+        QString filename        = QFileInfo(fileName).fileName();
+        this->filename = filename;
+        QString filepathname    = QFileInfo(fileName).filePath();
+        QString filepath        = QFileInfo(fileName).path();
+        QString suffix          = QFileInfo(fileName).suffix();
+        */
+
+        // start syntaxhighlithning
+        highlighter = new mySyntaxHighLighter(this->document());
+
+        // Setup line number area
+        lineNumberArea = new LineNumberArea(this);
+
+        // Connect all signals
+        connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
+        connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
+        connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
+        connect(this, SIGNAL(textChanged()), this, SLOT(textHasChanged()));
+
+        updateLineNumberAreaWidth(0);
+        highlightCurrentLine();
     }
-
-    // start syntaxhighlithning
-    highlighter = new mySyntaxHighLighter(this->document());
 }
 
 
