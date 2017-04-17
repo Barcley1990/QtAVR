@@ -785,26 +785,5 @@ void MainWindow::on_actionDefault_View_triggered()
     ui->dockWidgetWorktree->setFloating(false);
 }
 
-<<<<<<< HEAD
-void MainWindow::on_actionOpen_Project_triggered()
-{
-    QString file = QFileDialog::getOpenFileName(this,
-                                                tr("Select QtAVR Project File"),
-                                                p.Workingdir,
-                                                tr("QtAVR Project File (*.avr)")
-                                                );
-    if(file.length() > 0){
-        QString filename        = QFileInfo(file).fileName();
-        QString filepathname    = QFileInfo(file).filePath();
-        QString filepath        = QFileInfo(file).path();
-        QString suffix          = QFileInfo(file).suffix();
-
-        projectFile = new QSettings(file, QSettings::NativeFormat);
-    }
-}
-=======
 
 
-
-
->>>>>>> tobias
