@@ -42,18 +42,22 @@ public:
 private:
     Ui::MainWindow *ui;
 
+    QSettings* qtavr;
     struct project{
+
         QString Workingdir;
         QString DeviceName;
         QString ProgrammerName;
+        //QString Workingdir;
+        QStringList cFilePaths;
+        QStringList cFileNames;
+        QStringList oFileNames;
+        QString mainFile;
     }p;
 
-    QSettings* qtavr;
 
-    //QString Workingdir;
-    QStringList cFilePaths;
-    QStringList cFileNames;
-    QStringList oFileNames;
+
+
 
     bool is_error=false;
 
@@ -115,6 +119,7 @@ private slots:
 	void on_actionDefault_View_triggered();
     void on_actionFile_triggered();
     void on_actionSave_as_triggered();
+    void on_actionOpen_Project_triggered();
 };
 
 #endif // MAINWINDOW_H
