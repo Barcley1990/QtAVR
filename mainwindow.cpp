@@ -460,6 +460,7 @@ void MainWindow::on_actionOpen_Project_triggered()
 
             // New File in tab-bar
             Editor* e = new Editor(this, filePathName, false, false);
+            e->setSettings(this->userSettings);
             connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
             ui->twMainTab->addTab(e, filename);
             ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
@@ -472,6 +473,7 @@ void MainWindow::on_actionOpen_Project_triggered()
 
             // New File in tab-bar
             Editor* e = new Editor(this, filePathName, false, false);
+            e->setSettings(this->userSettings);
             connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
             ui->twMainTab->addTab(e, filename);
             ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
