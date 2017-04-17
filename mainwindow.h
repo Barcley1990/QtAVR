@@ -49,8 +49,8 @@ private:
         QString DeviceName;
         QString ProgrammerName;
         //QString Workingdir;
-        QStringList cFilePaths;
         QStringList cFileNames;
+        QStringList hFileNames;
         QStringList oFileNames;
     }p;
 
