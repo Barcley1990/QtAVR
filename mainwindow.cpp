@@ -128,12 +128,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
         else if(answer == QMessageBox::SaveAll) {
             on_actionSave_All_triggered();
             qtavr->setValue("project.cfiles", p.cFileNames);
+            qtavr->setValue("project.cpaths", p.cFilePaths);
             event->accept();
         }
     }
     else
     {
         qtavr->setValue("project.cfiles", p.cFileNames);
+        qtavr->setValue("project.cpaths", p.cFilePaths);
         event->accept();
     }
 }
@@ -383,19 +385,17 @@ void MainWindow::on_actionNew_Project_triggered(){
         //  Create Filelist
         p.cFilePaths.clear();
         p.cFileNames.clear();
-        p.mainFile = filename;
         // append filepath/name to list
-        //p.cFilePaths.append(filepath);
-        //p.cFileNames.append(filename);
+        p.cFilePaths.append(filepath);
+        p.cFileNames.append(filepathname);
         // set on label
         ui->cCfiles->clear();
-        for(uint8_t i=0; i<p.cFileNames.length(); i++){
-            ui->cCfiles->append(p.cFileNames[i]);
-        }
+        ui->cCfiles->append(QFileInfo(p.cFileNames[0]).fileName());
+
         // new Project File
         // ToDo: Get filename exculuding suffix including filepath
         qtavr = new QSettings(filepath + "/" + filenameExSuffix + ".qtavr", QSettings::NativeFormat);
-        qtavr->setValue("project.mainfile", p.mainFile);
+        qtavr->setValue("project.cfiles", p.cFileNames);
 
         // Enable Action- and other buttons (Add-File)
         ui->actionNew_File->setEnabled(true);
@@ -420,20 +420,42 @@ void MainWindow::on_actionOpen_Project_triggered()
                                                 p.Workingdir,
                                                 tr("project (*.qtavr)")
                                                 );
-    QString filename        = QFileInfo(file).fileName();
-    QString filepathname    = QFileInfo(file).filePath();
-    QString filepath        = QFileInfo(file).path();
-    QString filenameExSuffix = QFileInfo(file).baseName();
-    QString projectFile = filepathname;
+
+    QString projectFile = QFileInfo(file).filePath();
 
     if(QFile(projectFile).exists()){
         qtavr = new QSettings(projectFile, QSettings::NativeFormat);
-        p.mainFile.clear();
         p.cFileNames.clear();
-        p.mainFile   = qtavr->value("project.mainfile").toString();
         p.cFileNames = qtavr->value("project.cfiles").toStringList();
-        qDebug() << p.mainFile << endl;
+        p.cFilePaths = qtavr->value("project.cpaths").toStringList();
         qDebug() << p.cFileNames << endl;
+        qDebug() << p.cFilePaths << endl;
+
+
+        for(uint8_t i=0; i<p.cFileNames.length(); i++){
+            QString filename = QFileInfo(p.cFileNames[i]).fileName();
+            QString filePathName = p.cFileNames[i];
+            ui->cCfiles->append(filename);
+
+            // New File in tab-bar
+            Editor* e = new Editor(this, filePathName, false, false);
+            connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
+            ui->twMainTab->addTab(e, filename);
+            ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
+        }
+
+        // Enable Action- and other buttons (Add-File)
+        ui->actionNew_File->setEnabled(true);
+        ui->actionExisting_File->setEnabled(true);
+        ui->actionSave->setEnabled(true);
+        ui->actionSave_All->setEnabled(true);
+        ui->actionSave_as->setEnabled(true);
+        ui->actionBuild->setEnabled(true);
+        ui->actionFlash->setEnabled(true);
+        ui->actionRun->setEnabled(true);
+        ui->bBuild->setEnabled(true);
+        ui->bFlash->setEnabled(true);
+        ui->bRun->setEnabled(true);
     }
     else{
         qDebug() << "Ups..., Something went wrong" << endl;
@@ -577,7 +599,7 @@ void MainWindow::on_actionNew_File_triggered()
 
                 // append filepath/name to list
                 p.cFilePaths.append(filepath);
-                p.cFileNames.append(filename);
+                p.cFileNames.append(filepathname);
                 // set on label
                 ui->cCfiles->clear();
                 for(uint8_t i=0; i<p.cFileNames.length(); i++){
@@ -614,7 +636,7 @@ void MainWindow::on_actionExisting_File_triggered()
 
         // append filepath/name to list
         p.cFilePaths.append(filepath);
-        p.cFileNames.append(filename);
+        p.cFileNames.append(filepathname);
         // set on label
         ui->cCfiles->clear();
         for(uint8_t i=0; i<p.cFileNames.length(); i++){
@@ -733,24 +755,6 @@ void MainWindow::on_actionDefault_View_triggered()
 }
 
 
-/*
 
- *
- *        qDebug() << "Filepath: " << filename << endl;
-        qDebug() << "Number of Paths in List: " << cFilePaths.length() <<endl;
-        for(uint8_t i=0; i<cFilePaths.length(); i++){
-            qDebug() << i << ": " << cFilePaths[i] << endl;
-        }
-        for(uint8_t i=0; i<cFileNames.length(); i++){
-            qDebug() << i << ": " << cFileNames[i] << endl;
-        }
-        // create o-files
-        oFileNames.clear();
-        for(volatile uint8_t i=0; i<cFileNames.length(); i++){
-            QString fn = cFileNames[i];
-            int dot = fn.indexOf(".")+1;
-            oFileNames.append(fn.replace(dot,1,"o"));
-            qDebug() << oFileNames[i] << endl;
-        }*/
 
 

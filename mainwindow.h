@@ -52,7 +52,6 @@ private:
         QStringList cFilePaths;
         QStringList cFileNames;
         QStringList oFileNames;
-        QString mainFile;
     }p;
 
 
