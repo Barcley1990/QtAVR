@@ -105,8 +105,18 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     event->ignore();
 
-    // Pop up dialog if there are unsaved files
-    if(unsavedFiles() == true){
+    // check if there are any unsaved files
+    // get number of opened tabs
+    int numberOfTabs = ui->twMainTab->count()-1;
+    bool unsavedFiles = false;
+    while(numberOfTabs>=0){
+        QString currentText = ui->twMainTab->tabBar()->tabText(numberOfTabs);
+        if(currentText.contains("*", Qt::CaseSensitive) != 0){
+            unsavedFiles = true;
+        }
+        numberOfTabs--;
+    }
+    if(unsavedFiles){
         QMessageBox question;
         question.setText("There are unsaved Files \n\n Exit anyway?");
         question.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::SaveAll);
