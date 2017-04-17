@@ -32,14 +32,16 @@ SOURCES += main.cpp\
     settings.cpp \
     editor.cpp \
     fusedialog.cpp \
-    templateparser.cpp
+    templateparser.cpp \
+    textedit.cpp
 
 HEADERS  += mainwindow.h \
     mysyntaxhighlighter.h \
     settings.h \
     editor.h \
     fusedialog.h \
-    templateparser.h
+    templateparser.h \
+    textedit.h
 
 FORMS    += mainwindow.ui \
     settings.ui \

@@ -8,10 +8,12 @@
 #ifndef EDITOR_H
 #define EDITOR_H
 
-#include <QPlainTextEdit>
 #include <QObject>
 #include <QFile>
+#include <QCompleter>
+#include <QAbstractItemModel>
 
+#include "textedit.h"
 #include "mysyntaxhighlighter.h"
 #include "settings.h"
 
@@ -22,7 +24,7 @@ class QWidget;
 
 class LineNumberArea;
 
-class Editor : public QPlainTextEdit
+class Editor : public TextEdit
 {
     Q_OBJECT
 
@@ -67,6 +69,8 @@ private:
     const int defaultTabStop = 3;
     Settings* settings;
     QFont font;
+    QCompleter* completer;
+    QAbstractItemModel* modelFromFile(const QString& fileName);
 };
 
 
