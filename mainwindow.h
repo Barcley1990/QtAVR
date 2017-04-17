@@ -42,16 +42,21 @@ public:
 private:
     Ui::MainWindow *ui;
 
+    QSettings* qtavr;
     struct project{
+
         QString Workingdir;
         QString DeviceName;
         QString ProgrammerName;
+        //QString Workingdir;
+        QStringList cFileNames;
+        QStringList hFileNames;
+        QStringList oFileNames;
     }p;
 
-    //QString Workingdir;
-    QStringList cFilePaths;
-    QStringList cFileNames;
-    QStringList oFileNames;
+
+
+
 
     bool is_error=false;
 
