@@ -212,6 +212,13 @@ void MainWindow::Build()
     QString link    = userSettings->getToolchainRootPath() + "/bin/avr-gcc -g -mmcu=" + currentProcessorGccCommand + " -o ";
     QString hex     = userSettings->getToolchainRootPath() + "/bin/avr-objcopy -j .text -j .data -O ihex ";
 
+    // create o-files
+    p.oFileNames.clear();
+    for(volatile uint8_t i=0; i<p.cFileNames.length(); i++){
+        QString fn = p.cFileNames[i];
+        int dot = fn.indexOf(".")+1;
+        p.oFileNames.append(fn.replace(dot,1,"o"));
+    }
     // Compile
     for(uint8_t i=0; i<p.cFileNames.length(); i++){
         compile.append(p.cFileNames[i]);
@@ -431,8 +438,6 @@ void MainWindow::on_actionOpen_Project_triggered()
     else{
         qDebug() << "Ups..., Something went wrong" << endl;
     }
-
-
 }
 // Save Active File
 void MainWindow::on_actionSave_triggered(){
@@ -729,19 +734,7 @@ void MainWindow::on_actionDefault_View_triggered()
 
 
 /*
- *
-        QStringList test;
-        test.append("a");
-        test.append("b");
-        test.append("c");
-        test.append("d");
 
-        qtavr->setValue("test",test);
-        qDebug() << qtavr->value("test") << endl;
-        QStringList KeyInhalt = qtavr->value("test").toStringList();
-        QStringList keys=qtavr->allKeys();
- *
- *
  *
  *        qDebug() << "Filepath: " << filename << endl;
         qDebug() << "Number of Paths in List: " << cFilePaths.length() <<endl;
