@@ -469,7 +469,7 @@
   </action>
   <action name="actionExisting_File">
    <property name="enabled">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>Existing File</string>
