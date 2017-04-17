@@ -12,8 +12,6 @@
 
 Editor::Editor(QWidget *parent, QString path, QString filename) : TextEdit(parent)
 {
-    this->settings = settings;
-
     // Set the completer for base C/C++ syntax
     completer = new QCompleter(this);
     completer->setModel(modelFromFile(":/resources/resources/wordlist.txt"));
@@ -26,18 +24,10 @@ Editor::Editor(QWidget *parent, QString path, QString filename) : TextEdit(paren
     font.setFamily("Courier");
     font.setStyleHint(QFont::Monospace);
     font.setFixedPitch(true);
-    if(settings == NULL){
-        font.setPointSize(defaultFontSize);
-    }else{
-        font.setPointSize(settings->getFontSize());
-    }
+    font.setPointSize(defaultFontSize);
     this->setFont(font);
     QFontMetrics metrics(font);
-    if(settings == NULL){
-        this->setTabStopWidth(defaultTabStop * metrics.width(' '));
-    }else{
-        this->setTabStopWidth(settings->getTabWidth() * metrics.width(' '));
-    }
+    this->setTabStopWidth(defaultTabStop * metrics.width(' '));
 
     if(path.length()>0 && filename.length()>0){
         // Copy file information to local variables

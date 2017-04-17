@@ -394,11 +394,12 @@ void MainWindow::on_actionNew_Project_triggered(){
         QString filepath        = QFileInfo(file).path();
         QString filenameExSuffix = QFileInfo(file).baseName();
 
-        // New File in tab-bar
-        Editor* e = new Editor(this, filepath, filename);
+        // New main C file in as Editor instance
+        QString mainFilename = filenameExSuffix+".c";
+        Editor* e = new Editor(this, filepath, mainFilename);
         e->setSettings(userSettings);
         connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
-        ui->twMainTab->addTab(e, filename);
+        ui->twMainTab->addTab(e, mainFilename);
         // get actual working dir
         p.Workingdir = filepath;
         ui->statusBar->showMessage(p.Workingdir);
@@ -406,10 +407,10 @@ void MainWindow::on_actionNew_Project_triggered(){
         //  Create Filelist
         p.cFileNames.clear();
         // append filepath/name to list
-        p.cFileNames.append(filepathname);
+        p.cFileNames.append(mainFilename);
         // set on label
         ui->cCfiles->clear();
-        ui->cCfiles->append(QFileInfo(p.cFileNames[0]).fileName());
+        ui->cCfiles->append(mainFilename);
 
         // new Project File
         // ToDo: Get filename exculuding suffix including filepath

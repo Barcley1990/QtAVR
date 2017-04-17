@@ -44,7 +44,6 @@ private:
 
     QSettings* qtavr;
     struct project{
-
         QString Workingdir;
         QString DeviceName;
         QString ProgrammerName;
