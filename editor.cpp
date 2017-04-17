@@ -40,9 +40,30 @@ Editor::Editor(QWidget *parent, QString fileName, bool addFile, bool newFile, ui
     }
 
     QString filename        = QFileInfo(fileName).fileName();
+    this->filename = filename;
     QString filepathname    = QFileInfo(fileName).filePath();
     QString filepath        = QFileInfo(fileName).path();
     QString suffix          = QFileInfo(fileName).suffix();
+
+    // If the suffix is empty, the user entered a file without suffix. Get suffix from file type
+    if(suffix.length() == 0){
+        switch(fileType){
+        case 0:
+        case 1:
+            suffix = "c";
+            break;
+        case 2:
+            suffix = "h";
+            break;
+        default:
+            qDebug() << "ERROR: Filetype unknown!";
+        }
+    }
+
+    // Add the file ending to the name if not exist
+    if(!(this->filename.contains(".c", Qt::CaseInsensitive) || this->filename.contains(".h", Qt::CaseInsensitive))){
+        this->filename += "." + suffix;
+    }
 
     lineNumberArea = new LineNumberArea(this);
 
@@ -85,9 +106,8 @@ Editor::Editor(QWidget *parent, QString fileName, bool addFile, bool newFile, ui
         if (defaultTemplate.open(QIODevice::ReadOnly)){
            QTextStream in(&defaultTemplate);
            while (!in.atEnd()){
-               file->write(parser->getParsedLine(in.readLine()).toLatin1());
-              //file->write(in.readLine().toLatin1());
-              file->write("\r\n");
+                file->write(parser->getParsedLine(in.readLine()).toLatin1());
+                file->write("\r\n");
            }
            defaultTemplate.close();
         }
