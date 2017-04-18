@@ -14,7 +14,7 @@ Editor::Editor(QWidget *parent, QString path, QString filename, bool mainFile) :
 {
     // Set the completer for base C/C++ syntax
     completer = new QCompleter(this);
-    completer->setModel(modelFromFile(":/resources/resources/wordlist.txt"));
+    completer->setModel(modelFromFile(":/resources/resources/base_keywords.txt"));
     completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     completer->setWrapAround(false);

@@ -15,6 +15,6 @@
         <file>xml/programmers.xml</file>
     </qresource>
     <qresource prefix="/resources">
-        <file>resources/wordlist.txt</file>
+        <file>resources/base_keywords.txt</file>
     </qresource>
 </RCC>
