@@ -1,21 +1,19 @@
-// *AUTHOR*
-// *TIME*
-// *DATE*
-// *FILENAME*
-// *FILE*
-
+/**
+ * @file *FILENAME*
+ * @date *DATE* *TIME*
+ * @author *AUTHOR*
+ */
 #define F_CPU x000000UL
 
 #include <stdlib.h>
 #include <avr/io.h>
 #include <util/delay.h>
 
-
-void setup(){
-
-}
-
-
 void main(){
 
+
+
+    while(1){
+
+    }
 }

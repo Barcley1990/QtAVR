@@ -29,7 +29,7 @@ class Editor : public TextEdit
     Q_OBJECT
 
 public:
-    Editor(QWidget *parent = 0, QString fileName="", bool addFile=true, bool newFile=true, uint8_t fileType=0, QString wdir = "", Settings* settings = NULL);
+    Editor(QWidget *parent=0, QString path="", QString filename="", bool mainFile=false);
     ~Editor();
 
     bool saveContent();
@@ -60,6 +60,7 @@ signals:
 
 private:
     QString filename;
+    QString filepath;
     QWidget *lineNumberArea;
     mySyntaxHighLighter *highlighter;
     QFile *file;

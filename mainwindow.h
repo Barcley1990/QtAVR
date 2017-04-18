@@ -44,7 +44,6 @@ private:
 
     QSettings* qtavr;
     struct project{
-
         QString Workingdir;
         QString DeviceName;
         QString ProgrammerName;
@@ -53,10 +52,6 @@ private:
         QStringList hFileNames;
         QStringList oFileNames;
     }p;
-
-
-
-
 
     bool is_error=false;
 
@@ -87,6 +82,9 @@ private:
 
     void populateComboBoxes();
     bool unsavedFiles();
+    void reloadFileList();
+    void saveAllFiles();
+    void saveProject();
 
 private slots:
     void rightMessage();

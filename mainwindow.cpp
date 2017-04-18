@@ -219,10 +219,66 @@ bool MainWindow::unsavedFiles()
     return false;
 }
 
+void MainWindow::reloadFileList()
+{
+    // TODO: Sort in groups of C and H or in alphabetic order...
+    // set on label
+    ui->cCfiles->clear();
+    for(uint8_t i=0; i<p.cFileNames.length(); i++){
+        ui->cCfiles->append(p.cFileNames[i]);
+    }
+    for(uint8_t i=0; i<p.hFileNames.length(); i++){
+        ui->cCfiles->append(p.hFileNames[i]);
+    }
+}
+
+void MainWindow::saveAllFiles()
+{
+    for(int i=0; i<ui->twMainTab->count(); i++){
+        Editor* e = (Editor*)ui->twMainTab->widget(i);
+        e->saveContent();
+    }
+}
+
+void MainWindow::saveProject()
+{
+    saveAllFiles();
+    qtavr->setValue("project.cfiles", p.cFileNames);
+    qtavr->setValue("project.hfiles", p.hFileNames);
+}
+
 // Close open Tabwindow
 void MainWindow::closeTab(int index) {
-    qDebug() << "Remove Tab: " << index << endl;
-    ui->twMainTab->removeTab(index);
+    Editor* e = (Editor*)(ui->twMainTab->widget(index));
+
+    if(e->isSaved()){
+        // File is saved, close tab
+        ui->twMainTab->removeTab(index);
+        delete e;
+    }else{
+        // File unsaved, show dialog
+        QMessageBox question;
+        question.setText("There are unsaved Files \n\n Close anyway?");
+        question.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Save);
+        question.show();
+        int answer = question.exec();
+        if(answer == QMessageBox::Yes) {
+            ui->twMainTab->removeTab(index);
+            delete e;
+        }else if(answer == QMessageBox::Save) {
+            if(e->saveContent()){
+                // Successfully saved file
+                ui->twMainTab->removeTab(index);
+                delete e;
+            }else{
+                // Error while saving file
+                QMessageBox messageBox;
+                messageBox.critical(0,"Error","Error while saving file!");
+                messageBox.setFixedSize(500,200);
+            }
+        }
+        question.accept();
+    }
 }
 // Build Project
 void MainWindow::Build()
@@ -386,7 +442,7 @@ void MainWindow::on_actionNew_Project_triggered(){
     QString file = QFileDialog::getSaveFileName(this,
                                                     tr("Save File"),
                                                     p.Workingdir,
-                                                    "c-Files (*.c)"
+                                                    "Project (*.qtavr)"
                                                     );
     if(file.length() > 0){
 
@@ -395,11 +451,12 @@ void MainWindow::on_actionNew_Project_triggered(){
         QString filepath        = QFileInfo(file).path();
         QString filenameExSuffix = QFileInfo(file).baseName();
 
-        // New File in tab-bar
-        Editor* e = new Editor(this, file, true, true, 0);
+        // New main C file in as Editor instance
+        QString mainFilename = filenameExSuffix+".c";
+        Editor* e = new Editor(this, filepath, mainFilename, true);
         e->setSettings(userSettings);
         connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
-        ui->twMainTab->addTab(e, filename);
+        ui->twMainTab->addTab(e, mainFilename);
         // get actual working dir
         p.Workingdir = filepath;
         ui->statusBar->showMessage(p.Workingdir);
@@ -407,15 +464,15 @@ void MainWindow::on_actionNew_Project_triggered(){
         //  Create Filelist
         p.cFileNames.clear();
         // append filepath/name to list
-        p.cFileNames.append(filepathname);
-        // set on label
-        ui->cCfiles->clear();
-        ui->cCfiles->append(QFileInfo(p.cFileNames[0]).fileName());
+        p.cFileNames.append(mainFilename);
+
+        reloadFileList();
 
         // new Project File
         // ToDo: Get filename exculuding suffix including filepath
         qtavr = new QSettings(filepath + "/" + filenameExSuffix + ".qtavr", QSettings::NativeFormat);
-        qtavr->setValue("project.cfiles", p.cFileNames);
+
+        saveProject();
 
         // Enable Action- and other buttons (Add-File)
         ui->actionNew_File->setEnabled(true);
@@ -437,46 +494,42 @@ void MainWindow::on_actionOpen_Project_triggered()
     QString file = QFileDialog::getOpenFileName(this,
                                                 tr("Open File"),
                                                 p.Workingdir,
-                                                tr("project (*.qtavr)")
+                                                tr("Project (*.qtavr)")
                                                 );
 
-    QString projectFile = QFileInfo(file).filePath();
+    QFile tempFile(file);
+    if(tempFile.exists()){
+        // TODO: Check if the file and suffix is correct
+        //QString projectFile = QFileInfo(file).filePath();
+        QString filepath        = QFileInfo(file).path();
+        filepath += "/";
 
-    if(QFile(projectFile).exists()){
-        qtavr = new QSettings(projectFile, QSettings::NativeFormat);
-        p.Workingdir = qtavr->value("project.wdir").toString();
-        ui->statusBar->showMessage(p.Workingdir);
-        p.cFileNames.clear();
+        // Load project settings file and get string lists
+        qtavr = new QSettings(file, QSettings::NativeFormat);
         p.cFileNames = qtavr->value("project.cfiles").toStringList();
-        p.hFileNames.clear();
         p.hFileNames = qtavr->value("project.hfiles").toStringList();
-        qDebug() << p.cFileNames << endl;
-        qDebug() << p.hFileNames << endl;
 
+        // Insert all files
         // open c-files
         for(uint8_t i=0; i<p.cFileNames.length(); i++){
-            QString filename = QFileInfo(p.cFileNames[i]).fileName();
-            QString filePathName = p.cFileNames[i];
-            ui->cCfiles->append(filename);
+            ui->cCfiles->append(p.cFileNames[i]);
 
             // New File in tab-bar
-            Editor* e = new Editor(this, filePathName, false, false);
+            Editor* e = new Editor(this, filepath, p.cFileNames[i]);
             e->setSettings(this->userSettings);
             connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
-            ui->twMainTab->addTab(e, filename);
+            ui->twMainTab->addTab(e, p.cFileNames[i]);
             ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
         }
         // open h-files
         for(uint8_t i=0; i<p.hFileNames.length(); i++){
-            QString filename = QFileInfo(p.hFileNames[i]).fileName();
-            QString filePathName = p.hFileNames[i];
-            ui->cCfiles->append(filename);
+            ui->cCfiles->append(p.hFileNames[i]);
 
             // New File in tab-bar
-            Editor* e = new Editor(this, filePathName, false, false);
+            Editor* e = new Editor(this, filepath, p.hFileNames[i]);
             e->setSettings(this->userSettings);
             connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
-            ui->twMainTab->addTab(e, filename);
+            ui->twMainTab->addTab(e, p.hFileNames[i]);
             ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
         }
 
@@ -492,9 +545,12 @@ void MainWindow::on_actionOpen_Project_triggered()
         ui->bBuild->setEnabled(true);
         ui->bFlash->setEnabled(true);
         ui->bRun->setEnabled(true);
-    }
-    else{
-        qDebug() << "Ups..., Something went wrong" << endl;
+
+        // Save all files and the project at the the end of open all files.
+        saveProject();
+    }else{
+        // Project file does not exist
+        qDebug() << "ERROR WHILE LOADING PROJECT FILE!!!";
     }
 }
 // Save Active File
@@ -616,61 +672,52 @@ void MainWindow::on_actionNew_File_triggered()
     }
 
     if(file.length() > 0){
-            QString filename        = QFileInfo(file).fileName();
-            QString filepathname    = QFileInfo(file).filePath();
-            QString filepath        = QFileInfo(file).path();
-            QString suffix          = QFileInfo(file).suffix();
+        QString filename        = QFileInfo(file).fileName();
+        QString filepathname    = QFileInfo(file).filePath();
+        QString filepath        = QFileInfo(file).path();
+        QString suffix          = QFileInfo(file).suffix();
 
+        // Add the selected file filter
+        if(suffix.length() == 0){
+            suffix = selectedFilter;
+            filename += "."+suffix;
+            filepathname += "."+suffix;
+        }
 
+        Editor* e = new Editor(this, filepath, filename);
+        e->setSettings(userSettings);
+        connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
+        ui->twMainTab->addTab(e, filename);
+        ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
 
-            // Add the selected file filter
-            if(suffix.length() == 0){
-                suffix = selectedFilter;
-                filename += "."+suffix;
-                filepathname += "."+suffix;
-            }
+        // New File in tab-bar
+        if(suffix.compare("c", Qt::CaseInsensitive) == 0){
+            // append filepath/name to list
+            p.cFileNames.append(filename);
+        }else if(suffix.compare("h", Qt::CaseInsensitive) == 0){
+            // append filepath/name to list
+            p.hFileNames.append(filename);
+        }else{
+            qDebug() << "Error: Unknows Filetype" << endl;
+        }
+        ui->actionSave->setEnabled(true);
+        ui->actionSave_All->setEnabled(true);
+        ui->actionSave_as->setEnabled(true);
 
-            // New File in tab-bar
-            if(suffix.compare("c", Qt::CaseInsensitive) == 0){
-                Editor* e = new Editor(this, file, true, true, 1);
-                e->setSettings(userSettings);
-                connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
-                ui->twMainTab->addTab(e, filename);
-                ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
-
-                // append filepath/name to list
-                p.cFileNames.append(filepathname);
-                // set on label
-                ui->cCfiles->clear();
-                for(uint8_t i=0; i<p.cFileNames.length(); i++){
-                    ui->cCfiles->append(p.cFileNames[i]);
-                }
-
-            }else if(suffix.compare("h", Qt::CaseInsensitive) == 0){
-                Editor* e = new Editor(this, file, true, true, 2);
-                e->setSettings(userSettings);
-                connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
-                ui->twMainTab->addTab(e, filename);
-                ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
-
-                // append filepath/name to list
-                p.hFileNames.append(filepathname);
-            }else{
-                qDebug() << "Error: Unknows Filetype" << endl;
-            }
-            ui->actionSave->setEnabled(true);
-            ui->actionSave_All->setEnabled(true);
-            ui->actionSave_as->setEnabled(true);
+        reloadFileList();
+        saveProject();
     }
 }
 // Add Existing File
 void MainWindow::on_actionExisting_File_triggered()
 {
     qDebug() << "Add Existing File" << endl;
+    QString selectedFilter = "";
     QString file = QFileDialog::getOpenFileName(this,
                                                 tr("Open File"),
                                                 p.Workingdir,
-                                                tr("source (*.c);;header (*.h)")
+                                                tr("source (*.c);;header (*.h)"),
+                                                &selectedFilter
                                                 );
     if(file.length() > 0){
         QString filename        = QFileInfo(file).fileName();
@@ -687,7 +734,7 @@ void MainWindow::on_actionExisting_File_triggered()
         }
 
         // New File in tab-bar
-        Editor* e = new Editor(this, file, true, false, 3, p.Workingdir);
+        Editor* e = new Editor(this, filepath, filename);
         e->setSettings(userSettings);
         connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
         ui->twMainTab->addTab(e, filename);
@@ -702,10 +749,12 @@ void MainWindow::on_actionExisting_File_triggered()
 void MainWindow::on_actionFile_triggered()
 {
     qDebug() << "Open Existing File" << endl;
+    QString selectedFilter = "";
     QString file = QFileDialog::getOpenFileName(this,
                                                 tr("Open File"),
                                                 p.Workingdir,
-                                                tr("source (*.c);;header (*.h);;text (*.txt)")
+                                                tr("source (*.c);;header (*.h);;text (*.txt)"),
+                                                &selectedFilter
                                                 );
     if(file.length() > 0){
         QString filename        = QFileInfo(file).fileName();
@@ -714,7 +763,8 @@ void MainWindow::on_actionFile_triggered()
         QString suffix          = QFileInfo(file).suffix();
 
         // New File in tab-bar
-        Editor* e = new Editor(this, file, false, false);
+        Editor* e = new Editor(this, filepath, filename);
+        e->setSettings(this->userSettings);
         connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
         ui->twMainTab->addTab(e, filename);
         ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
