@@ -508,7 +508,8 @@ void MainWindow::on_actionOpen_Project_triggered()
         qtavr = new QSettings(file, QSettings::NativeFormat);
         p.cFileNames = qtavr->value("project.cfiles").toStringList();
         p.hFileNames = qtavr->value("project.hfiles").toStringList();
-
+        p.Workingdir = qtavr->value("project.wdir").toString();
+        ui->statusBar->showMessage(p.Workingdir);
         // Insert all files
         // open c-files
         for(uint8_t i=0; i<p.cFileNames.length(); i++){
