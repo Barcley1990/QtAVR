@@ -240,8 +240,36 @@ void MainWindow::saveProject()
 
 // Close open Tabwindow
 void MainWindow::closeTab(int index) {
-    qDebug() << "Remove Tab: " << index << endl;
-    ui->twMainTab->removeTab(index);
+    Editor* e = (Editor*)(ui->twMainTab->widget(index));
+
+    if(e->isSaved()){
+        // File is saved, close tab
+        ui->twMainTab->removeTab(index);
+        delete e;
+    }else{
+        // File unsaved, show dialog
+        QMessageBox question;
+        question.setText("There are unsaved Files \n\n Close anyway?");
+        question.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Save);
+        question.show();
+        int answer = question.exec();
+        if(answer == QMessageBox::Yes) {
+            ui->twMainTab->removeTab(index);
+            delete e;
+        }else if(answer == QMessageBox::Save) {
+            if(e->saveContent()){
+                // Successfully saved file
+                ui->twMainTab->removeTab(index);
+                delete e;
+            }else{
+                // Error while saving file
+                QMessageBox messageBox;
+                messageBox.critical(0,"Error","Error while saving file!");
+                messageBox.setFixedSize(500,200);
+            }
+        }
+        question.accept();
+    }
 }
 // Build Project
 void MainWindow::Build()

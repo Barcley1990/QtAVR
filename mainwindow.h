@@ -53,10 +53,6 @@ private:
         QStringList oFileNames;
     }p;
 
-
-
-
-
     bool is_error=false;
 
     // Settings
