@@ -262,7 +262,7 @@ void MainWindow::Build()
     //********** Script-File erstellen **********/
     // Edit Build.sh
     // Create SHELL Files
-    BuildFilePath = p.Workingdir.append("/Build.sh");
+    BuildFilePath = (p.Workingdir + "/Build.sh");
     BuildFile.setFileName(BuildFilePath);
     if (BuildFile.open(QIODevice::ReadWrite)){
         QTextStream stream( &BuildFile );
@@ -283,8 +283,9 @@ void MainWindow::Build()
 
     //********** Script-File ausfuehren **********/
     // Execute Scriptfile
+    ui->cOutput->clear();
     proc1->start(BuildFilePath);
-    if (is_error == false){
+    if (is_error == false){        
         ui->cOutput->setTextColor(QColor(0,255,0));
         ui->cOutput->setText("Build OK!");
     }
