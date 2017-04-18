@@ -77,7 +77,7 @@ MainWindow::MainWindow(QWidget *parent) :
     model->setSorting(QDir::DirsFirst | QDir::IgnoreCase | QDir::Name);
     ui->treeView->setModel( model );
     QModelIndex index = model->index(p.Workingdir);
-    ui->treeView->expand(index);
+    //ui->treeView->expand(index);
     ui->treeView->scrollTo(index);
     ui->treeView->setCurrentIndex(index);
     ui->treeView->resizeColumnToContents(0);
@@ -104,41 +104,44 @@ void MainWindow::closeEvent(QCloseEvent *event)
     userSettings->setDefaultProcessor(ui->cbController->currentIndex());
 
     event->ignore();
-
-    // check if there are any unsaved files
-    // get number of opened tabs
-    int numberOfTabs = ui->twMainTab->count()-1;
-    bool unsavedFiles = false;
-    while(numberOfTabs>=0){
-        QString currentText = ui->twMainTab->tabBar()->tabText(numberOfTabs);
-        if(currentText.contains("*", Qt::CaseSensitive) != 0){
-            unsavedFiles = true;
+    if(!qtavr)
+        event->accept();
+    else{
+        // check if there are any unsaved files
+        // get number of opened tabs
+        int numberOfTabs = ui->twMainTab->count()-1;
+        bool unsavedFiles = false;
+        while(numberOfTabs>=0){
+            QString currentText = ui->twMainTab->tabBar()->tabText(numberOfTabs);
+            if(currentText.contains("*", Qt::CaseSensitive) != 0){
+                unsavedFiles = true;
+            }
+            numberOfTabs--;
         }
-        numberOfTabs--;
-    }
-    if(unsavedFiles){
-        QMessageBox question;
-        question.setText("There are unsaved Files \n\n Exit anyway?");
-        question.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::SaveAll);
-        question.show();
-        int answer = question.exec();
-        if(answer == QMessageBox::Yes) {
-            event->accept();
+        if(unsavedFiles){
+            QMessageBox question;
+            question.setText("There are unsaved Files \n\n Exit anyway?");
+            question.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::SaveAll);
+            question.show();
+            int answer = question.exec();
+            if(answer == QMessageBox::Yes) {
+                event->accept();
+            }
+            else if(answer == QMessageBox::SaveAll) {
+                on_actionSave_All_triggered();
+                qtavr->setValue("project.wdir", p.Workingdir);
+                qtavr->setValue("project.cfiles", p.cFileNames);
+                qtavr->setValue("project.hfiles", p.hFileNames);
+                event->accept();
+            }
         }
-        else if(answer == QMessageBox::SaveAll) {
-            on_actionSave_All_triggered();
+        else
+        {
             qtavr->setValue("project.wdir", p.Workingdir);
             qtavr->setValue("project.cfiles", p.cFileNames);
             qtavr->setValue("project.hfiles", p.hFileNames);
             event->accept();
         }
-    }
-    else
-    {
-        qtavr->setValue("project.wdir", p.Workingdir);
-        qtavr->setValue("project.cfiles", p.cFileNames);
-        qtavr->setValue("project.hfiles", p.hFileNames);
-        event->accept();
     }
 }
 
@@ -485,6 +488,12 @@ void MainWindow::on_actionNew_Project_triggered(){
         ui->bBuild->setEnabled(true);
         ui->bFlash->setEnabled(true);
         ui->bRun->setEnabled(true);
+
+        QModelIndex index = model->index(p.Workingdir);
+        //ui->treeView->expand(index);
+        ui->treeView->scrollTo(index);
+        ui->treeView->setCurrentIndex(index);
+        ui->treeView->resizeColumnToContents(0);
      }
 }
 // Open Existing Project
@@ -546,6 +555,13 @@ void MainWindow::on_actionOpen_Project_triggered()
         ui->bBuild->setEnabled(true);
         ui->bFlash->setEnabled(true);
         ui->bRun->setEnabled(true);
+
+        // Jump to new index in Worktree
+        QModelIndex index = model->index(p.Workingdir);
+        ui->treeView->expand(index);
+        ui->treeView->scrollTo(index);
+        ui->treeView->setCurrentIndex(index);
+        ui->treeView->resizeColumnToContents(0);
 
         // Save all files and the project at the the end of open all files.
         saveProject();

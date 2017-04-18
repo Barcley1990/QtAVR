@@ -42,7 +42,7 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    QSettings* qtavr;
+    QSettings* qtavr = NULL;
     struct project{
         QString Workingdir;
         QString DeviceName;
