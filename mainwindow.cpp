@@ -219,6 +219,25 @@ bool MainWindow::unsavedFiles()
     return false;
 }
 
+void MainWindow::reloadFileList()
+{
+    // TODO: Sort in groups of C and H or in alphabetic order...
+    // set on label
+    ui->cCfiles->clear();
+    for(uint8_t i=0; i<p.cFileNames.length(); i++){
+        ui->cCfiles->append(p.cFileNames[i]);
+    }
+    for(uint8_t i=0; i<p.hFileNames.length(); i++){
+        ui->cCfiles->append(p.hFileNames[i]);
+    }
+}
+
+void MainWindow::saveProject()
+{
+    qtavr->setValue("project.cfiles", p.cFileNames);
+    qtavr->setValue("project.hfiles", p.hFileNames);
+}
+
 // Close open Tabwindow
 void MainWindow::closeTab(int index) {
     qDebug() << "Remove Tab: " << index << endl;
@@ -408,14 +427,14 @@ void MainWindow::on_actionNew_Project_triggered(){
         p.cFileNames.clear();
         // append filepath/name to list
         p.cFileNames.append(mainFilename);
-        // set on label
-        ui->cCfiles->clear();
-        ui->cCfiles->append(mainFilename);
+
+        reloadFileList();
 
         // new Project File
         // ToDo: Get filename exculuding suffix including filepath
         qtavr = new QSettings(filepath + "/" + filenameExSuffix + ".qtavr", QSettings::NativeFormat);
-        qtavr->setValue("project.cfiles", p.cFileNames);
+
+        saveProject();
 
         // Enable Action- and other buttons (Add-File)
         ui->actionNew_File->setEnabled(true);
@@ -616,49 +635,40 @@ void MainWindow::on_actionNew_File_triggered()
     }
 
     if(file.length() > 0){
-            QString filename        = QFileInfo(file).fileName();
-            QString filepathname    = QFileInfo(file).filePath();
-            QString filepath        = QFileInfo(file).path();
-            QString suffix          = QFileInfo(file).suffix();
+        QString filename        = QFileInfo(file).fileName();
+        QString filepathname    = QFileInfo(file).filePath();
+        QString filepath        = QFileInfo(file).path();
+        QString suffix          = QFileInfo(file).suffix();
 
-            // Add the selected file filter
-            if(suffix.length() == 0){
-                suffix = selectedFilter;
-                filename += "."+suffix;
-                filepathname += "."+suffix;
-            }
+        // Add the selected file filter
+        if(suffix.length() == 0){
+            suffix = selectedFilter;
+            filename += "."+suffix;
+            filepathname += "."+suffix;
+        }
 
-            // New File in tab-bar
-            if(suffix.compare("c", Qt::CaseInsensitive) == 0){
-                Editor* e = new Editor(this, filepath, filename);
-                e->setSettings(userSettings);
-                connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
-                ui->twMainTab->addTab(e, filename);
-                ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
+        Editor* e = new Editor(this, filepath, filename);
+        e->setSettings(userSettings);
+        connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
+        ui->twMainTab->addTab(e, filename);
+        ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
 
-                // append filepath/name to list
-                p.cFileNames.append(filepathname);
-                // set on label
-                ui->cCfiles->clear();
-                for(uint8_t i=0; i<p.cFileNames.length(); i++){
-                    ui->cCfiles->append(p.cFileNames[i]);
-                }
+        // New File in tab-bar
+        if(suffix.compare("c", Qt::CaseInsensitive) == 0){
+            // append filepath/name to list
+            p.cFileNames.append(filename);
+        }else if(suffix.compare("h", Qt::CaseInsensitive) == 0){
+            // append filepath/name to list
+            p.hFileNames.append(filename);
+        }else{
+            qDebug() << "Error: Unknows Filetype" << endl;
+        }
+        ui->actionSave->setEnabled(true);
+        ui->actionSave_All->setEnabled(true);
+        ui->actionSave_as->setEnabled(true);
 
-            }else if(suffix.compare("h", Qt::CaseInsensitive) == 0){
-                Editor* e = new Editor(this, filepath, filename);
-                e->setSettings(userSettings);
-                connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
-                ui->twMainTab->addTab(e, filename);
-                ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
-
-                // append filepath/name to list
-                p.hFileNames.append(filepathname);
-            }else{
-                qDebug() << "Error: Unknows Filetype" << endl;
-            }
-            ui->actionSave->setEnabled(true);
-            ui->actionSave_All->setEnabled(true);
-            ui->actionSave_as->setEnabled(true);
+        reloadFileList();
+        saveProject();
     }
 }
 // Add Existing File

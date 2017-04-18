@@ -86,6 +86,8 @@ private:
 
     void populateComboBoxes();
     bool unsavedFiles();
+    void reloadFileList();
+    void saveProject();
 
 private slots:
     void rightMessage();
