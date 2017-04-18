@@ -10,7 +10,7 @@
 
 #include "templateparser.h"
 
-Editor::Editor(QWidget *parent, QString path, QString filename) : TextEdit(parent)
+Editor::Editor(QWidget *parent, QString path, QString filename, bool mainFile) : TextEdit(parent)
 {
     // Set the completer for base C/C++ syntax
     completer = new QCompleter(this);
@@ -59,7 +59,11 @@ Editor::Editor(QWidget *parent, QString path, QString filename) : TextEdit(paren
             QString suffix = QFileInfo(pathAndName).suffix();
             if(suffix.contains("c", Qt::CaseInsensitive)){
                 // Create new C file
-                templatePath = ":/templates/templates/default_c.txt";
+                if(mainFile){
+                    templatePath = ":/templates/templates/default.txt";
+                }else{
+                    templatePath = ":/templates/templates/default_c.txt";
+                }
             }else{
                 // Create new H file
                 templatePath = ":/templates/templates/default_h.txt";

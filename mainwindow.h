@@ -83,6 +83,7 @@ private:
     void populateComboBoxes();
     bool unsavedFiles();
     void reloadFileList();
+    void saveAllFiles();
     void saveProject();
 
 private slots:

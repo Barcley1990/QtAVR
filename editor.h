@@ -29,7 +29,7 @@ class Editor : public TextEdit
     Q_OBJECT
 
 public:
-    Editor(QWidget *parent=0, QString path="", QString filename="");
+    Editor(QWidget *parent=0, QString path="", QString filename="", bool mainFile=false);
     ~Editor();
 
     bool saveContent();

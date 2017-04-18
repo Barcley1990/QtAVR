@@ -232,8 +232,17 @@ void MainWindow::reloadFileList()
     }
 }
 
+void MainWindow::saveAllFiles()
+{
+    for(int i=0; i<ui->twMainTab->count(); i++){
+        Editor* e = (Editor*)ui->twMainTab->widget(i);
+        e->saveContent();
+    }
+}
+
 void MainWindow::saveProject()
 {
+    saveAllFiles();
     qtavr->setValue("project.cfiles", p.cFileNames);
     qtavr->setValue("project.hfiles", p.hFileNames);
 }
@@ -443,7 +452,7 @@ void MainWindow::on_actionNew_Project_triggered(){
 
         // New main C file in as Editor instance
         QString mainFilename = filenameExSuffix+".c";
-        Editor* e = new Editor(this, filepath, mainFilename);
+        Editor* e = new Editor(this, filepath, mainFilename, true);
         e->setSettings(userSettings);
         connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
         ui->twMainTab->addTab(e, mainFilename);
@@ -479,7 +488,7 @@ void MainWindow::on_actionNew_Project_triggered(){
 }
 // Open Existing Project
 void MainWindow::on_actionOpen_Project_triggered()
-{/*
+{
     qDebug() << "Open Existing Project" << endl;
     QString file = QFileDialog::getOpenFileName(this,
                                                 tr("Open File"),
@@ -487,43 +496,39 @@ void MainWindow::on_actionOpen_Project_triggered()
                                                 tr("Project (*.qtavr)")
                                                 );
 
-    QString projectFile = QFileInfo(file).filePath();
+    QFile tempFile(file);
+    if(tempFile.exists()){
+        // TODO: Check if the file and suffix is correct
+        //QString projectFile = QFileInfo(file).filePath();
+        QString filepath        = QFileInfo(file).path();
+        filepath += "/";
 
-    if(QFile(projectFile).exists()){
-        qtavr = new QSettings(projectFile, QSettings::NativeFormat);
-        p.Workingdir = qtavr->value("project.wdir").toString();
-        ui->statusBar->showMessage(p.Workingdir);
-        p.cFileNames.clear();
+        // Load project settings file and get string lists
+        qtavr = new QSettings(file, QSettings::NativeFormat);
         p.cFileNames = qtavr->value("project.cfiles").toStringList();
-        p.hFileNames.clear();
         p.hFileNames = qtavr->value("project.hfiles").toStringList();
-        qDebug() << p.cFileNames << endl;
-        qDebug() << p.hFileNames << endl;
 
+        // Insert all files
         // open c-files
         for(uint8_t i=0; i<p.cFileNames.length(); i++){
-            QString filename = QFileInfo(p.cFileNames[i]).fileName();
-            QString filePathName = p.cFileNames[i];
-            ui->cCfiles->append(filename);
+            ui->cCfiles->append(p.cFileNames[i]);
 
             // New File in tab-bar
-            Editor* e = new Editor(this, filePathName, false, false);
+            Editor* e = new Editor(this, filepath, p.cFileNames[i]);
             e->setSettings(this->userSettings);
             connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
-            ui->twMainTab->addTab(e, filename);
+            ui->twMainTab->addTab(e, p.cFileNames[i]);
             ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
         }
         // open h-files
         for(uint8_t i=0; i<p.hFileNames.length(); i++){
-            QString filename = QFileInfo(p.hFileNames[i]).fileName();
-            QString filePathName = p.hFileNames[i];
-            ui->cCfiles->append(filename);
+            ui->cCfiles->append(p.hFileNames[i]);
 
             // New File in tab-bar
-            Editor* e = new Editor(this, filePathName, false, false);
+            Editor* e = new Editor(this, filepath, p.hFileNames[i]);
             e->setSettings(this->userSettings);
             connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
-            ui->twMainTab->addTab(e, filename);
+            ui->twMainTab->addTab(e, p.hFileNames[i]);
             ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
         }
 
@@ -539,10 +544,13 @@ void MainWindow::on_actionOpen_Project_triggered()
         ui->bBuild->setEnabled(true);
         ui->bFlash->setEnabled(true);
         ui->bRun->setEnabled(true);
+
+        // Save all files and the project at the the end of open all files.
+        saveProject();
+    }else{
+        // Project file does not exist
+        qDebug() << "ERROR WHILE LOADING PROJECT FILE!!!";
     }
-    else{
-        qDebug() << "Ups..., Something went wrong" << endl;
-    }*/
 }
 // Save Active File
 void MainWindow::on_actionSave_triggered(){
