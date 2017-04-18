@@ -283,7 +283,7 @@ void MainWindow::Build()
 
     //********** Script-File ausfuehren **********/
     // Execute Scriptfile
-    ui->cOutput->clear();
+
     proc1->start(BuildFilePath);
     if (is_error == false){        
         ui->cOutput->setTextColor(QColor(0,255,0));
@@ -304,7 +304,7 @@ void MainWindow::Flash()
     qDebug() << "Flash"<< endl;
     qDebug() << "currentProcessorAvrdudeCommand: " << currentProcessorAvrdudeCommand << " currentProgrammerAvrdudeCommand: " << currentProgrammerAvrdudeCommand << endl;
 
-    QString avrdude = userSettings->getAvrdudePath() + "/avrdude " ;
+    QString avrdude = userSettings->getAvrdudePath() + "/bin/avrdude " ;
     QString write = " -U flash:w:main.hex";
     avrdude += "-p " + currentProcessorAvrdudeCommand + " -c " + currentProgrammerAvrdudeCommand + write;
     qDebug() << avrdude << endl;
@@ -312,7 +312,7 @@ void MainWindow::Flash()
     //********** Script-File erstellen **********/
     // Edit Build.sh
     // Create SHELL Files
-    FlashFilePath = p.Workingdir.append("/Flash.sh");
+    FlashFilePath = (p.Workingdir + "/Flash.sh");
     FlashFile.setFileName(FlashFilePath);
     if (FlashFile.open(QIODevice::ReadWrite)){
         QTextStream stream( &FlashFile );
