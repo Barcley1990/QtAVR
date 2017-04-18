@@ -248,6 +248,7 @@ void MainWindow::saveProject()
     saveAllFiles();
     qtavr->setValue("project.cfiles", p.cFileNames);
     qtavr->setValue("project.hfiles", p.hFileNames);
+    qtavr->setValue("project.wdir", p.Workingdir);
 }
 
 // Close open Tabwindow
