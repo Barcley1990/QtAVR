@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     editor.cpp \
     fusedialog.cpp \
     templateparser.cpp \
-    textedit.cpp
+    textedit.cpp \
+    projectsettings.cpp
 
 HEADERS  += mainwindow.h \
     mysyntaxhighlighter.h \
@@ -41,11 +42,13 @@ HEADERS  += mainwindow.h \
     editor.h \
     fusedialog.h \
     templateparser.h \
-    textedit.h
+    textedit.h \
+    projectsettings.h
 
 FORMS    += mainwindow.ui \
     settings.ui \
-    fusedialog.ui
+    fusedialog.ui \
+    projectsettings.ui
 
 DISTFILES +=
 

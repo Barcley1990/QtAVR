@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "projectsettings.h"
 
 #include <QSettings>
 
@@ -25,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Set Window Size in Startup
     this->setWindowState(Qt::WindowMaximized);
 
-    populateComboBoxes();
+    loadXMLFiles();
 
     // Settings Dialog
     userSettings = new Settings();
@@ -33,16 +34,6 @@ MainWindow::MainWindow(QWidget *parent) :
         // Settings successfully loaded
     }else{
         // TODO: There are no user settings, maybe show a welcome screen or a "first-steps" instruction
-    }
-
-    // Load last seleted programmer and processor
-    int temp = userSettings->getDefaultProgrammer();
-    if(ui->cbFlashtool->count() > temp){
-        ui->cbFlashtool->setCurrentIndex(temp);
-    }
-    temp = userSettings->getDefaultProcessor();
-    if(ui->cbController->count() > temp){
-        ui->cbController->setCurrentIndex(temp);
     }
 
     // Load layout
@@ -99,12 +90,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
     // Save current layout
     userSettings->setGeometry(saveGeometry());
     userSettings->setWindowState(saveState());
-    // Save seleted programmer and processor
-    userSettings->setDefaultProgrammer(ui->cbFlashtool->currentIndex());
-    userSettings->setDefaultProcessor(ui->cbController->currentIndex());
 
     event->ignore();
-    if(!qtavr)
+    if(qtavr == NULL)
         event->accept();
     else{
         // check if there are any unsaved files
@@ -128,24 +116,19 @@ void MainWindow::closeEvent(QCloseEvent *event)
                 event->accept();
             }
             else if(answer == QMessageBox::SaveAll) {
-                on_actionSave_All_triggered();
-                qtavr->setValue("project.wdir", p.Workingdir);
-                qtavr->setValue("project.cfiles", p.cFileNames);
-                qtavr->setValue("project.hfiles", p.hFileNames);
+                saveProject();
                 event->accept();
             }
         }
         else
         {
-            qtavr->setValue("project.wdir", p.Workingdir);
-            qtavr->setValue("project.cfiles", p.cFileNames);
-            qtavr->setValue("project.hfiles", p.hFileNames);
+            saveProject();
             event->accept();
         }
     }
 }
 
-void MainWindow::populateComboBoxes()
+void MainWindow::loadXMLFiles()
 {
     QDomDocument doc;
     QFile processorsFile(":/xml/xml/processors.xml");
@@ -174,12 +157,7 @@ void MainWindow::populateComboBoxes()
             processorGccCommands += "";
         }
     }
-    // Add all items to the ComboBox
-    ui->cbController->addItems(processors);
-    // Select ATmega32 as default
-    if(ui->cbController->count() >= 46){
-        ui->cbController->setCurrentIndex(45);
-    }
+
     QFile programmersFile(":/xml/xml/programmers.xml");
     if (!programmersFile.open(QIODevice::ReadOnly) || !doc.setContent(&programmersFile)){
         // TODO: ERROR!
@@ -196,12 +174,6 @@ void MainWindow::populateComboBoxes()
             programmers += progName;
             programmerAvrdudeCommands += progCommand;
         }
-    }
-    // Add all items to the ComboBox
-    ui->cbFlashtool->addItems(programmers);
-    // Select AVR ISP mkII as default
-    if(ui->cbFlashtool->count() >= 14){
-        ui->cbFlashtool->setCurrentIndex(13);
     }
 }
 
@@ -246,9 +218,29 @@ void MainWindow::saveAllFiles()
 void MainWindow::saveProject()
 {
     saveAllFiles();
-    qtavr->setValue("project.cfiles", p.cFileNames);
-    qtavr->setValue("project.hfiles", p.hFileNames);
-    qtavr->setValue("project.wdir", p.Workingdir);
+
+    if(qtavr != NULL)
+    {
+        qtavr->setValue("project.cfiles", p.cFileNames);
+        qtavr->setValue("project.hfiles", p.hFileNames);
+        qtavr->setValue("project.wdir", p.Workingdir);
+        // These settings are already saved in the ProjectSettings class
+        //qtavr->setValue("project.controller", ui->cbController->currentIndex());
+        //qtavr->setValue("project.programmer", ui->cbFlashtool->currentIndex());
+    }
+}
+
+void MainWindow::reloadProjectSetting()
+{
+    qDebug() << "reloadProjectSetting";
+    if(qtavr != NULL){
+        currentProcessorAvrdudeCommand = processorAvrdudeCommands.at(qtavr->value("project.controller").toInt());
+        currentProcessorGccCommand = processorGccCommands.at(qtavr->value("project.controller").toInt());
+        currentProgrammerAvrdudeCommand = programmerAvrdudeCommands.at(qtavr->value("project.programmer").toInt());
+    }
+    qDebug() << "   currentProcessorAvrdudeCommand: " << currentProcessorAvrdudeCommand;
+    qDebug() << "   currentProcessorGccCommand: " << currentProcessorGccCommand;
+    qDebug() << "   currentProgrammerAvrdudeCommand: " << currentProgrammerAvrdudeCommand;
 }
 
 // Close open Tabwindow
@@ -495,6 +487,8 @@ void MainWindow::on_actionNew_Project_triggered(){
         ui->treeView->scrollTo(index);
         ui->treeView->setCurrentIndex(index);
         ui->treeView->resizeColumnToContents(0);
+
+        reloadProjectSetting();
      }
 }
 // Open Existing Project
@@ -516,6 +510,10 @@ void MainWindow::on_actionOpen_Project_triggered()
 
         // Load project settings file and get string lists
         qtavr = new QSettings(file, QSettings::NativeFormat);
+        // TODO: Check if it is correct not to set a default setting here
+        //ui->cbController->setCurrentIndex(qtavr->value("project.controller").toInt());
+        //ui->cbFlashtool->setCurrentIndex(qtavr->value("project.programmer").toInt());
+
         p.cFileNames = qtavr->value("project.cfiles").toStringList();
         p.hFileNames = qtavr->value("project.hfiles").toStringList();
         p.Workingdir = qtavr->value("project.wdir").toString();
@@ -564,8 +562,10 @@ void MainWindow::on_actionOpen_Project_triggered()
         ui->treeView->setCurrentIndex(index);
         ui->treeView->resizeColumnToContents(0);
 
+        reloadProjectSetting();
+
         // Save all files and the project at the the end of open all files.
-        saveProject();
+        saveAllFiles();
     }else{
         // Project file does not exist
         qDebug() << "ERROR WHILE LOADING PROJECT FILE!!!";
@@ -656,22 +656,7 @@ void MainWindow::on_actionOpen_Settings_triggered() {
     }
 
 }
-// Change uC
-void MainWindow::on_cbController_currentIndexChanged(int index)
-{
-    qDebug() << QString::number(index) << "Selected: " << processors.at(index) << " with command: " << processorAvrdudeCommands.at(index);
-    currentProcessorAvrdudeCommand = processorAvrdudeCommands.at(index);
-    currentProcessorGccCommand = processorGccCommands.at(index);
-    if(currentProcessorGccCommand.length() == 0){
-        // TODO: Warning, this processor is currently not supported!
-    }
-}
-// Change Programmer Device
-void MainWindow::on_cbFlashtool_currentIndexChanged(int index)
-{
-    qDebug() << QString::number(index) << "Selected: " << programmers.at(index) << " with command: " << programmerAvrdudeCommands.at(index);
-    currentProgrammerAvrdudeCommand = programmerAvrdudeCommands.at(index);
-}
+
 // Add New File
 void MainWindow::on_actionNew_File_triggered()
 {
@@ -866,5 +851,13 @@ void MainWindow::on_actionDefault_View_triggered()
     ui->dockWidgetWorktree->setFloating(false);
 }
 
-
-
+// Open project specific settings
+void MainWindow::on_actionProject_Settings_triggered()
+{
+    if(qtavr != NULL){
+        ProjectSettings* settings = new ProjectSettings(this, qtavr);
+        settings->exec();
+        delete settings;
+        reloadProjectSetting();
+    }
+}

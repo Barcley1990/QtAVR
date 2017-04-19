@@ -6,6 +6,8 @@
 
 Settings::Settings(QWidget *parent) : QDialog(parent), ui(new Ui::Settings){
     ui->setupUi(this);
+    // Set Window Icon
+    setWindowIcon(QIcon(":/images/images/chip03_small.png"));
 
     // Set up dir completer
     modelCompleter = new QCompleter(this);

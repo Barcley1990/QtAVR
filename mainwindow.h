@@ -80,11 +80,12 @@ private:
 
     QSettings* projectFile;
 
-    void populateComboBoxes();
+    void loadXMLFiles();
     bool unsavedFiles();
     void reloadFileList();
     void saveAllFiles();
     void saveProject();
+    void reloadProjectSetting();
 
 private slots:
     void rightMessage();
@@ -101,8 +102,6 @@ private slots:
     void on_actionNew_Project_triggered();
     void on_actionAbout_triggered();
     void on_actionOpen_Settings_triggered();
-    void on_cbController_currentIndexChanged(int index);
-    void on_cbFlashtool_currentIndexChanged(int index);
     void on_actionNew_File_triggered();
     void on_actionFuses_triggered();
     void on_fileChanged(QString filename);
@@ -120,6 +119,7 @@ private slots:
 	void on_actionFile_triggered();
     void on_actionSave_as_triggered();
     void on_actionOpen_Project_triggered();
+    void on_actionProject_Settings_triggered();
 };
 
 #endif // MAINWINDOW_H
