@@ -86,6 +86,7 @@ private:
     void saveAllFiles();
     void saveProject();
     void reloadProjectSetting();
+    void generateMakefile();
 
 private slots:
     void rightMessage();

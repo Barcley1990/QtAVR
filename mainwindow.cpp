@@ -224,9 +224,6 @@ void MainWindow::saveProject()
         qtavr->setValue("project.cfiles", p.cFileNames);
         qtavr->setValue("project.hfiles", p.hFileNames);
         qtavr->setValue("project.wdir", p.Workingdir);
-        // These settings are already saved in the ProjectSettings class
-        //qtavr->setValue("project.controller", ui->cbController->currentIndex());
-        //qtavr->setValue("project.programmer", ui->cbFlashtool->currentIndex());
     }
 }
 
@@ -241,6 +238,15 @@ void MainWindow::reloadProjectSetting()
     qDebug() << "   currentProcessorAvrdudeCommand: " << currentProcessorAvrdudeCommand;
     qDebug() << "   currentProcessorGccCommand: " << currentProcessorGccCommand;
     qDebug() << "   currentProgrammerAvrdudeCommand: " << currentProgrammerAvrdudeCommand;
+}
+
+/**
+ * Generates the project makefile according to the template and the qtavr project settings file
+ * @brief MainWindow::generateMakefile
+ */
+void MainWindow::generateMakefile()
+{
+    // TODO!
 }
 
 // Close open Tabwindow
@@ -280,8 +286,18 @@ void MainWindow::closeTab(int index) {
 void MainWindow::Build()
 {
     qDebug() << "Build" << endl;
+
+    proc1->start("make -C " + qtavr->value("project.wdir").toString());
+    if (is_error == false){
+        ui->cOutput->setTextColor(QColor(0,255,0));
+        ui->cOutput->setText("Build OK!");
+    }else{
+        is_error = false;
+    }
+
+    /*
     on_actionSave_All_triggered();
-    //********** Strings für avr-gcc vorbereiten **********/
+    // Strings für avr-gcc vorbereiten
     QString compile = userSettings->getToolchainRootPath() + "/bin/avr-gcc -g -Os -mmcu=" + currentProcessorGccCommand + " -c ";
     QString link    = userSettings->getToolchainRootPath() + "/bin/avr-gcc -g -mmcu=" + currentProcessorGccCommand + " -o ";
     QString hex     = userSettings->getToolchainRootPath() + "/bin/avr-objcopy -j .text -j .data -O ihex ";
@@ -311,7 +327,7 @@ void MainWindow::Build()
     qDebug() << "link: "   << link    << endl;
     qDebug() << "hex: "    << hex     << endl;
 
-    //********** Script-File erstellen **********/
+    // Script-File erstellen
     // Edit Build.sh
     // Create SHELL Files
     BuildFilePath = (p.Workingdir + "/Build.sh");
@@ -333,7 +349,7 @@ void MainWindow::Build()
     // close file
     BuildFile.close();
 
-    //********** Script-File ausfuehren **********/
+    // Script-File ausfuehren
     // Execute Scriptfile
 
     proc1->start(BuildFilePath);
@@ -344,10 +360,10 @@ void MainWindow::Build()
     else
         is_error = false;
 
-    //********** Script-File aufraeumen **********/
+    // Script-File aufraeumen
     //if(BuildFile.exists())
     //    BuildFile.remove();
-
+    */
 }
 // Flash Project
 void MainWindow::Flash()
@@ -356,12 +372,21 @@ void MainWindow::Flash()
     qDebug() << "Flash"<< endl;
     qDebug() << "currentProcessorAvrdudeCommand: " << currentProcessorAvrdudeCommand << " currentProgrammerAvrdudeCommand: " << currentProgrammerAvrdudeCommand << endl;
 
+    proc1->start("make flash -C " + qtavr->value("project.wdir").toString());
+    if (is_error == false){
+        ui->cOutput->setTextColor(QColor(0,255,0));
+        ui->cOutput->setText("Build OK!");
+    }else{
+        is_error = false;
+    }
+
+    /*
     QString avrdude = userSettings->getAvrdudePath() + "/bin/avrdude " ;
     QString write = " -U flash:w:main.hex";
     avrdude += "-p " + currentProcessorAvrdudeCommand + " -c " + currentProgrammerAvrdudeCommand + write;
     qDebug() << avrdude << endl;
 
-    //********** Script-File erstellen **********/
+    // Script-File erstellen
     // Edit Build.sh
     // Create SHELL Files
     FlashFilePath = (p.Workingdir + "/Flash.sh");
@@ -381,7 +406,7 @@ void MainWindow::Flash()
     // close file
     FlashFile.close();
 
-    //********** Script-File ausfuehren **********/
+    // Script-File ausfuehren
     // Execute Scriptfile
     proc1->start(FlashFilePath);
     if (is_error == false){
@@ -391,10 +416,10 @@ void MainWindow::Flash()
     else
         is_error = false;
 
-    //********** Script-File aufraeumen **********/
+    // Script-File aufraeumen
     //if(FlashFile.exists())
     //    FlashFile.remove();
-
+    */
 }
 // Run Project
 void MainWindow::Run(){
