@@ -94,7 +94,11 @@ void ProjectSettings::saveSettings()
     qDebug() << "saveSettings";
     if(this->settings != NULL){
         this->settings->setValue("project.optimize", ui->comboBoxOptimize->currentIndex());
+        this->settings->setValue("project.optimizeCommand", ui->comboBoxOptimize->currentText());
         this->settings->setValue("project.controller", ui->cbController->currentIndex());
+        this->settings->setValue("project.gcc_mcu", processorGccCommands.at(ui->cbController->currentIndex()));
+        this->settings->setValue("project.avrdude_mcu", processorAvrdudeCommands.at(ui->cbController->currentIndex()));
         this->settings->setValue("project.programmer", ui->cbFlashtool->currentIndex());
+        this->settings->setValue("project.programmerCommand", programmerAvrdudeCommands.at(ui->cbFlashtool->currentIndex()));
     }
 }

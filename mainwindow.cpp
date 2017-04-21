@@ -522,6 +522,7 @@ void MainWindow::on_actionNew_Project_triggered(){
         // new Project File
         // ToDo: Get filename exculuding suffix including filepath
         qtavr = new QSettings(filepath + "/" + filenameExSuffix + ".qtavr", QSettings::NativeFormat);
+        qtavr->setValue("project.target", filenameExSuffix);
 
         saveProject();
 

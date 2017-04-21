@@ -109,17 +109,29 @@ QString TemplateParser::getFile()
 
 QString TemplateParser::getGccMcu()
 {
-    return "";
+    QString ret = "";
+    if(project != NULL){
+        ret = project->value("project.gcc_mcu").toString();
+    }
+    return ret;
 }
 
 QString TemplateParser::getTarget()
 {
-    return "";
+    QString ret = "";
+    if(project != NULL){
+        ret = project->value("project.target").toString();
+    }
+    return ret;
 }
 
 QString TemplateParser::getOptimize()
 {
-    return "";
+    QString ret = "";
+    if(project != NULL){
+        ret = project->value("project.optimizeCommand").toString();
+    }
+    return ret;
 }
 
 QString TemplateParser::getAvrdudePath()
@@ -137,15 +149,31 @@ QString TemplateParser::getAvrdudePath()
 
 QString TemplateParser::getProgrammer()
 {
-    return "";
+    QString ret = "";
+    if(project != NULL){
+        ret = project->value("project.programmerCommand").toString();
+    }
+    return ret;
 }
 
 QString TemplateParser::getAvrdudeMcu()
 {
-    return "";
+    QString ret = "";
+    if(project != NULL){
+        ret = project->value("project.avrdude_mcu").toString();
+    }
+    return ret;
 }
 
 QString TemplateParser::getCFiles()
 {
-    return "";
+    QString ret = "";
+    QStringList list;
+    if(project != NULL){
+        list = project->value("project.cfiles").toStringList();
+        for(int i=0; i<list.size(); i++){
+            ret += list.at(i) + " ";
+        }
+    }
+    return ret;
 }
