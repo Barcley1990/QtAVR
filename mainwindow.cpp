@@ -778,19 +778,30 @@ void MainWindow::on_actionExisting_File_triggered()
                                                 tr("source (*.c);;header (*.h)"),
                                                 &selectedFilter
                                                 );
+
+    if(selectedFilter.contains("*.c")){
+        selectedFilter = "c";
+    }else if(selectedFilter.contains("*.h")){
+        selectedFilter = "h";
+    }
+
     if(file.length() > 0){
         QString filename        = QFileInfo(file).fileName();
         QString filepathname    = QFileInfo(file).filePath();
         QString filepath        = QFileInfo(file).path();
         QString suffix          = QFileInfo(file).suffix();
 
-        // append filepath/name to list
-        p.cFileNames.append(filepathname);
-        // set on label
-        ui->cCfiles->clear();
-        for(uint8_t i=0; i<p.cFileNames.length(); i++){
-            ui->cCfiles->append(p.cFileNames[i]);
+        if(suffix.contains("c") || suffix.contains("C")){
+            // Append a new C file to the list
+            // append filepath/name to list
+            p.cFileNames.append(filename);
+        }else{
+            // Append a new H file to the list
+            // append filepath/name to list
+            p.hFileNames.append(filename);
         }
+
+        reloadFileList();
 
         // New File in tab-bar
         Editor* e = new Editor(this, filepath, filename);
@@ -802,6 +813,7 @@ void MainWindow::on_actionExisting_File_triggered()
         ui->actionSave_All->setEnabled(true);
         ui->actionSave_as->setEnabled(true);
 
+        saveProject();
     }
 }
 // Just open an existing file
