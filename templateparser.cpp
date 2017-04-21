@@ -7,6 +7,12 @@ TemplateParser::TemplateParser(QString filename)
     this->filename = filename;
 }
 
+TemplateParser::TemplateParser(QSettings *project, Settings *userSettings)
+{
+    this->project = project;
+    this->userSettings = userSettings;
+}
+
 QString TemplateParser::getParsedLine(QString line)
 {
     if(line.contains("*AUTHOR*", Qt::CaseSensitive))
@@ -28,6 +34,34 @@ QString TemplateParser::getParsedLine(QString line)
     if(line.contains("*FILE*", Qt::CaseSensitive))
     {
         line.replace("*FILE*", getFile());
+    }
+    if(line.contains("*GCC_MCU*", Qt::CaseSensitive))
+    {
+        line.replace("*GCC_MCU*", getGccMcu());
+    }
+    if(line.contains("*TARGET*", Qt::CaseSensitive))
+    {
+        line.replace("*TARGET*", getTarget());
+    }
+    if(line.contains("*OPTIMIZE*", Qt::CaseSensitive))
+    {
+        line.replace("*OPTIMIZE*", getOptimize());
+    }
+    if(line.contains("*AVRDUDE_PATH*", Qt::CaseSensitive))
+    {
+        line.replace("*AVRDUDE_PATH*", getAvrdudePath());
+    }
+    if(line.contains("*PROGRAMMER*", Qt::CaseSensitive))
+    {
+        line.replace("*PROGRAMMER*", getProgrammer());
+    }
+    if(line.contains("*AVRDUDE_MCU*", Qt::CaseSensitive))
+    {
+        line.replace("*AVRDUDE_MCU*", getAvrdudeMcu());
+    }
+    if(line.contains("*C_FILES*", Qt::CaseSensitive))
+    {
+        line.replace("*C_FILES*", getCFiles());
     }
     return line;
 }
@@ -73,4 +107,45 @@ QString TemplateParser::getFile()
     return "";
 }
 
+QString TemplateParser::getGccMcu()
+{
+    return "";
+}
 
+QString TemplateParser::getTarget()
+{
+    return "";
+}
+
+QString TemplateParser::getOptimize()
+{
+    return "";
+}
+
+QString TemplateParser::getAvrdudePath()
+{
+    QString avrdude = "";
+    if(this->userSettings != NULL){
+        avrdude = this->userSettings->getAvrdudePath();
+        if(!avrdude.endsWith("/")){
+            avrdude += "/";
+        }
+        avrdude += "avrdude";
+    }
+    return avrdude;
+}
+
+QString TemplateParser::getProgrammer()
+{
+    return "";
+}
+
+QString TemplateParser::getAvrdudeMcu()
+{
+    return "";
+}
+
+QString TemplateParser::getCFiles()
+{
+    return "";
+}

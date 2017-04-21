@@ -3,6 +3,7 @@
         <file>templates/default.txt</file>
         <file>templates/default_c.txt</file>
         <file>templates/default_h.txt</file>
+        <file>templates/default_makefile.txt</file>
     </qresource>
     <qresource prefix="/images">
         <file>images/chip01.png</file>

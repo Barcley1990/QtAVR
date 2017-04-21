@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "projectsettings.h"
+#include "templateparser.h"
 
 #include <QSettings>
 
@@ -246,7 +247,32 @@ void MainWindow::reloadProjectSetting()
  */
 void MainWindow::generateMakefile()
 {
-    // TODO!
+    qDebug() << "generateMakefile()" << endl;
+
+    if(qtavr != NULL){
+        QString makefilePath = p.Workingdir + "/Makefile";
+        QFile makefile(makefilePath);
+
+        if (makefile.open(QIODevice::ReadWrite)){
+
+            QFile makefileTemplate(":/templates/templates/default_makefile.txt");
+            if (makefileTemplate.open(QIODevice::ReadOnly)){
+                TemplateParser* parser = new TemplateParser(this->qtavr, this->userSettings);
+
+                QTextStream in(&makefileTemplate);
+                while (!in.atEnd()){
+                    makefile.write(parser->getParsedLine(in.readLine()).toLatin1());
+                    makefile.write("\r\n");
+                }
+                makefileTemplate.close();
+
+                delete parser;
+            }
+
+            // close file
+            makefile.close();
+        }
+    }
 }
 
 // Close open Tabwindow
@@ -286,6 +312,9 @@ void MainWindow::closeTab(int index) {
 void MainWindow::Build()
 {
     qDebug() << "Build" << endl;
+
+    // Generate a new makefile
+    generateMakefile();
 
     proc1->start("make -C " + qtavr->value("project.wdir").toString());
     if (is_error == false){
@@ -371,6 +400,7 @@ void MainWindow::Flash()
     // TODO: Add the right HEX file, instead of using 'main.hex'
     qDebug() << "Flash"<< endl;
     qDebug() << "currentProcessorAvrdudeCommand: " << currentProcessorAvrdudeCommand << " currentProgrammerAvrdudeCommand: " << currentProgrammerAvrdudeCommand << endl;
+    qDebug() << "project.wdir: " << qtavr->value("project.wdir").toString();
 
     proc1->start("make flash -C " + qtavr->value("project.wdir").toString());
     if (is_error == false){

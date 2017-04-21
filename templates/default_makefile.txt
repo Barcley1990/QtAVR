@@ -1,0 +1,53 @@
+# Main settings
+MCU = *GCC_MCU*
+TARGET = *TARGET*
+OPTIMIZE = *OPTIMIZE*
+
+# AVRDUDE programmer settings
+AVRDUDE = *AVRDUDE_PATH*
+PROGRAMMER = *PROGRAMMER*
+AVRDUDE_MCU = *AVRDUDE_MCU*
+PROGRAMMER_ARGS = 
+
+# Add all C files
+SOURCES = *C_FILES*
+
+# Used libraries search paths
+#LDFLAGS += -L../efslsource/
+# Used libraries names
+#LDFLAGS += -lefsl 
+
+OBJECTS = $(SOURCES:.c=.o)
+CFLAGS = -c $(OPTIMIZE)
+LDFLAGS =
+
+all: hex eeprom
+
+hex: $(TARGET).hex
+
+eeprom: $(TARGET)_eeprom.hex
+
+$(TARGET).hex: $(TARGET).elf
+	avr-objcopy -O ihex -j .data -j .text $(TARGET).elf $(TARGET).hex
+
+$(TARGET)_eeprom.hex: $(TARGET).elf
+	avr-objcopy -O ihex -j .eeprom --change-section-lma .eeprom=1 $(TARGET).elf $(TARGET)_eeprom.hex
+
+$(TARGET).elf: $(OBJECTS)
+	avr-gcc $(LDFLAGS) -mmcu=$(MCU) $(OBJECTS) -o $(TARGET).elf
+
+.c.o:
+	avr-gcc $(CFLAGS) -mmcu=$(MCU) $< -o $@
+
+size:
+	avr-size --mcu=$(MCU) -C $(TARGET).elf
+
+flash:
+	avrdude -p $(AVRDUDE_MCU) -c $(PROGRAMMER) -U flash:w:$(TARGET).hex:a
+## An alias
+program: flash
+
+clean:
+	rm -rf *.o
+	rm -rf *.elf
+	rm -rf *.hex
