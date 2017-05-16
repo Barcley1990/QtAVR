@@ -11,7 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = QtAVR
 TEMPLATE = app
 
-ICON = icon.ico
+ICON = icon.icns
 
 
 # The following define makes your compiler emit warnings if you use

@@ -7,12 +7,10 @@
 
 
 // TODO:
-// Dateipfade aendern.
-// Comboboxen schreiben
-// Eigene Klasse fue Editor
-// Checken ob ungespeicherte Dateien vorhanden sind und im closeHandle abfragen.
-
-
+// Bei AddExistingFile wird die Dati zwar in die Liste hinzugefuegt aber die entsprechende Datei nicht ins Projektverzeichnis kopiert.
+// Dateien sollten aus dem Projektverzeichnis auch wieder entfernt werden können.
+// Aendern von Dateinamen zulassen
+// Die Ausgabe in der Konsole colorieren (Warnungen gelb oder Errors rot etc.)
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
