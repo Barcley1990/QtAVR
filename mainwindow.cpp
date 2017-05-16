@@ -11,6 +11,8 @@
 // Dateien sollten aus dem Projektverzeichnis auch wieder entfernt werden können.
 // Aendern von Dateinamen zulassen
 // Die Ausgabe in der Konsole colorieren (Warnungen gelb oder Errors rot etc.)
+// Open new Tab with "CMD + T"
+// Open File in Editor with an doubleclick from filelist
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
