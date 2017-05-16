@@ -26,6 +26,8 @@ private:
     QString getTarget();
     QString getOptimize();
     QString getAvrdudePath();
+    QString getAvrgccPath();
+    QString getAvrobjcopyPath();
     QString getProgrammer();
     QString getAvrdudeMcu();
     QString getCFiles();

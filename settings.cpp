@@ -45,6 +45,14 @@ QString Settings::getAvrdudePath(){
     return ui->lineEditPathAvrdude->text();
 }
 
+QString Settings::getAvrgccPath(){
+    return ui->lineEditPathAVRGCC->text();
+}
+
+QString Settings::getAvrobjcopyPath(){
+    return ui->lineEditPathAVROBJCPY->text();
+}
+
 QString Settings::getToolchainRootPath(){
     return ui->lineEditPathToolchainRoot->text();
 }

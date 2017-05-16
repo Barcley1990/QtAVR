@@ -22,6 +22,8 @@ public:
     bool load();
     // Getters
     QString getAvrdudePath();
+    QString getAvrgccPath();
+    QString getAvrobjcopyPath();
     QString getToolchainRootPath();
     void setGeometry(QByteArray ba);
     QByteArray getGeometry();

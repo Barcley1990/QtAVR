@@ -51,6 +51,14 @@ QString TemplateParser::getParsedLine(QString line)
     {
         line.replace("*AVRDUDE_PATH*", getAvrdudePath());
     }
+    if(line.contains("*AVRGCC_PATH*", Qt::CaseSensitive))
+    {
+        line.replace("*AVRGCC_PATH*", getAvrgccPath());
+    }
+    if(line.contains("*AVROBJCPY_PATH*", Qt::CaseSensitive))
+    {
+        line.replace("*AVROBJCPY_PATH*", getAvrobjcopyPath());
+    }
     if(line.contains("*PROGRAMMER*", Qt::CaseSensitive))
     {
         line.replace("*PROGRAMMER*", getProgrammer());
@@ -145,6 +153,32 @@ QString TemplateParser::getAvrdudePath()
         avrdude += "avrdude";
     }
     return avrdude;
+}
+
+QString TemplateParser::getAvrgccPath()
+{
+    QString avrgcc = "";
+    if(this->userSettings != NULL){
+        avrgcc = this->userSettings->getAvrgccPath();
+        if(!avrgcc.endsWith("/")){
+            avrgcc += "/";
+        }
+        avrgcc += "avr-gcc";
+    }
+    return avrgcc;
+}
+
+QString TemplateParser::getAvrobjcopyPath()
+{
+    QString avrobjcopy = "";
+    if(this->userSettings != NULL){
+        avrobjcopy = this->userSettings->getAvrobjcopyPath();
+        if(!avrobjcopy.endsWith("/")){
+            avrobjcopy += "/";
+        }
+        avrobjcopy += "avr-objcopy";
+    }
+    return avrobjcopy;
 }
 
 QString TemplateParser::getProgrammer()
