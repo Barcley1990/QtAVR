@@ -9,7 +9,7 @@ Settings::Settings(QWidget *parent) : QDialog(parent), ui(new Ui::Settings){
     // Set Window Icon
     setWindowIcon(QIcon(":/images/images/chip03_small.png"));
 
-    // Set up dir completer
+    // Set up dir completer //TODO: restliche Pfade in den Completer
     modelCompleter = new QCompleter(this);
     modelCompleter->setModel(new QDirModel(modelCompleter));
     ui->lineEditPathAvrdude->setCompleter(modelCompleter);
@@ -30,6 +30,8 @@ bool Settings::load(){
         settings = new QSettings(settingsFile, QSettings::NativeFormat);
         ui->lineEditPathAvrdude->setText(settings->value("path.avrdude", "").toString());
         ui->lineEditPathToolchainRoot->setText(settings->value("path.toolchain_root", "").toString());
+        ui->lineEditPathAVRGCC->setText(settings->value("path.avrgcc","").toString());
+        ui->lineEditPathAVROBJCPY->setText(settings->value("path.avrobjcpy","").toString());
         ui->spinBoxFontSize->setValue(settings->value("editor.fontsize", 14).toInt());
         ui->spinBoxTabWidth->setValue(settings->value("editor.tabwidth", 3).toInt());
         return true;
@@ -134,14 +136,34 @@ void Settings::on_toolButtonPathToolchainRoot_clicked(){
         ui->lineEditPathToolchainRoot->setText(dir);
     }
 }
+void Settings::on_toolButtonPathAVRGCC_clicked(){
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Select AVR Toolchain root directory"), QDir::homePath(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+    if (dir.isEmpty() == false) {
+        ui->lineEditPathAVRGCC->setText(dir);
+    }
+}
+
+void Settings::on_toolButtonPathAVROBJCPY_clicked(){
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Select AVR Toolchain root directory"), QDir::homePath(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+    if (dir.isEmpty() == false) {
+        ui->lineEditPathAVROBJCPY->setText(dir);
+    }
+}
 
 void Settings::on_pushButtonSaveSettings_clicked(){
     qDebug() << "Save settings!";
 
     settings->setValue("path.avrdude", ui->lineEditPathAvrdude->text());
     settings->setValue("path.toolchain_root", ui->lineEditPathToolchainRoot->text());
+    settings->setValue("path.avrgcc", ui->lineEditPathAVRGCC->text());
+    settings->setValue("path.avrobjcpy", ui->lineEditPathAVROBJCPY->text());
     settings->setValue("editor.fontsize", ui->spinBoxFontSize->value());
     settings->setValue("editor.tabwidth", ui->spinBoxTabWidth->value());
 
     this->accept();
 }
+
+
+

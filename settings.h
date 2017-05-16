@@ -44,6 +44,10 @@ private slots:
     void on_toolButtonPathToolchainRoot_clicked();
     void on_pushButtonSaveSettings_clicked();
 
+    void on_toolButtonPathAVROBJCPY_clicked();
+
+    void on_toolButtonPathAVRGCC_clicked();
+
 private:
     Ui::Settings *ui;
     QString settingsFile;
