@@ -210,9 +210,25 @@ void MainWindow::reloadFileList()
 
 void MainWindow::saveAllFiles()
 {
-    for(int i=0; i<ui->twMainTab->count(); i++){
-        Editor* e = (Editor*)ui->twMainTab->widget(i);
-        e->saveContent();
+   // for(int i=0; i<ui->twMainTab->count(); i++){
+   //     Editor* e = (Editor*)ui->twMainTab->widget(i);
+   //     e->saveContent();
+   // }
+    qDebug() << "Save all Files" << endl;
+    int numberOfTabs = ui->twMainTab->count()-1;
+    while(numberOfTabs>=0){
+        Editor *editor = (Editor*)(ui->twMainTab->widget(numberOfTabs));
+        if(editor->saveContent()){
+            // Remove the '*' character after saving file
+            QString currentText = ui->twMainTab->tabBar()->tabText(numberOfTabs);
+            if(currentText.contains("*", Qt::CaseSensitive) != 0){
+                currentText.remove('*');
+                ui->twMainTab->tabBar()->setTabText(numberOfTabs, currentText);
+            }
+        }else{
+            // TODO: Any error occurred while saving file!
+        }
+        numberOfTabs--;
     }
 }
 
@@ -313,13 +329,16 @@ void MainWindow::Build()
 {
     qDebug() << "Build" << endl;
 
+    // Clear Console
+    ui->cOutput->clear();
+    // Save all files
+    saveAllFiles();
     // Generate a new makefile
     generateMakefile();
 
     proc1->start("make -C " + qtavr->value("project.wdir").toString());
     if (is_error == false){
-        ui->cOutput->setTextColor(QColor(0,255,0));
-        ui->cOutput->setText("Build OK!");
+
     }else{
         is_error = false;
     }
@@ -397,6 +416,8 @@ void MainWindow::Build()
 // Flash Project
 void MainWindow::Flash()
 {
+    // Clear Console
+    ui->cOutput->clear();
     // TODO: Add the right HEX file, instead of using 'main.hex'
     qDebug() << "Flash"<< endl;
     qDebug() << "currentProcessorAvrdudeCommand: " << currentProcessorAvrdudeCommand << " currentProgrammerAvrdudeCommand: " << currentProgrammerAvrdudeCommand << endl;
@@ -404,8 +425,7 @@ void MainWindow::Flash()
 
     proc1->start("make flash -C " + qtavr->value("project.wdir").toString());
     if (is_error == false){
-        ui->cOutput->setTextColor(QColor(0,255,0));
-        ui->cOutput->setText("Build OK!");
+
     }else{
         is_error = false;
     }
@@ -647,22 +667,7 @@ void MainWindow::on_actionSave_triggered(){
 // Save All Files
 void MainWindow::on_actionSave_All_triggered()
 {
-    qDebug() << "Save all Files" << endl;
-    int numberOfTabs = ui->twMainTab->count()-1;
-    while(numberOfTabs>=0){
-        Editor *editor = (Editor*)(ui->twMainTab->widget(numberOfTabs));
-        if(editor->saveContent()){
-            // Remove the '*' character after saving file
-            QString currentText = ui->twMainTab->tabBar()->tabText(numberOfTabs);
-            if(currentText.contains("*", Qt::CaseSensitive) != 0){
-                currentText.remove('*');
-                ui->twMainTab->tabBar()->setTabText(numberOfTabs, currentText);
-            }
-        }else{
-            // TODO: Any error occurred while saving file!
-        }
-        numberOfTabs--;
-    }
+    saveAllFiles();
 }
 // Save File at specified path
 void MainWindow::on_actionSave_as_triggered()
