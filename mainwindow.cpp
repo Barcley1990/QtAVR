@@ -7,12 +7,15 @@
 
 
 // TODO:
-// Bei AddExistingFile wird die Dati zwar in die Liste hinzugefuegt aber die entsprechende Datei nicht ins Projektverzeichnis kopiert.
+// lernfaehiger Autocompleter
+// Bei AddExistingFile wird die Datei zwar in die Liste hinzugefuegt aber die entsprechende Datei nicht ins Projektverzeichnis kopiert.
 // Dateien sollten aus dem Projektverzeichnis auch wieder entfernt werden können.
 // Aendern von Dateinamen zulassen
 // Die Ausgabe in der Konsole colorieren (Warnungen gelb oder Errors rot etc.)
-// Open new Tab with "CMD + T"
-// Open File in Editor with an doubleclick from filelist
+// Neuer Tab mit "CMD + T"
+// Dateien mit Doppelklick aus Filelist oeffnen
+// Hinzufuegen von Dateien mittels Drag&Drop
+// Reverse Backspace ermöglichen "Shift + Backspace"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -481,7 +484,7 @@ void MainWindow::rightMessage()
 {
     QByteArray message = proc1->readAllStandardOutput();
     qDebug() << "shell answer: " << message<< endl;
-    ui->cOutput->setTextColor(QColor(0,0,0));
+    //ui->cOutput->setTextColor(QColor(0,0,0));
     ui->cOutput->append(message);
 }
 
@@ -490,10 +493,10 @@ void MainWindow::errorMessage()
     is_error = true;
     QByteArray error = proc1->readAllStandardError();
     qDebug() << "shell error: "<< error << endl;
-    if(error.startsWith("avrdude")||error.startsWith("\nReading")||error.startsWith("#")||error.startsWith("\navrdude"))
-        ui->cOutput->setTextColor(QColor(0,0,0));
-    else
-        ui->cOutput->setTextColor(QColor(0,0,0));
+    //if(error.startsWith("avrdude")||error.startsWith("\nReading")||error.startsWith("#")||error.startsWith("\navrdude"))
+        //ui->cOutput->setTextColor(QColor(0,0,0));
+    //else
+        //ui->cOutput->setTextColor(QColor(0,0,0));
 
     if(!error.endsWith("\n")){
         QTextCursor cursor = ui->cOutput->textCursor();
