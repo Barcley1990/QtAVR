@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     // create QProcess object
-    proc1 = new QProcess();
+    TerminalProcess = new QProcess();
     // Set Window Icon
     setWindowIcon(QIcon(":/images/images/chip03_small.png"));
     // Set Window Size in Startup
@@ -59,8 +59,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->showMessage(p.Workingdir);
 
     /* show output */
-    connect(proc1, SIGNAL(readyReadStandardOutput()),this, SLOT(rightMessage()) );
-    connect(proc1, SIGNAL(readyReadStandardError()), this, SLOT(errorMessage()) );
+    connect(TerminalProcess, SIGNAL(readyReadStandardOutput()),this, SLOT(rightMessage()) );
+    connect(TerminalProcess, SIGNAL(readyReadStandardError()), this, SLOT(errorMessage()) );
     /* buttons */
     connect(ui->bBuild, SIGNAL(clicked()), this, SLOT(Build()));
     connect(ui->bFlash, SIGNAL(clicked()), this, SLOT(Flash()));
@@ -410,7 +410,7 @@ void MainWindow::Build()
     // Generate a new makefile
     generateMakefile();
 
-    proc1->start("make -C " + qtavr->value("project.wdir").toString());
+    TerminalProcess->start("make -C " + qtavr->value("project.wdir").toString());
     if (is_error == false){
 
     }else{
@@ -474,7 +474,7 @@ void MainWindow::Build()
     // Script-File ausfuehren
     // Execute Scriptfile
 
-    proc1->start(BuildFilePath);
+    TerminalProcess->start(BuildFilePath);
     if (is_error == false){        
         ui->cOutput->setTextColor(QColor(0,255,0));
         ui->cOutput->setText("Build OK!");
@@ -497,7 +497,7 @@ void MainWindow::Flash()
     qDebug() << "currentProcessorAvrdudeCommand: " << currentProcessorAvrdudeCommand << " currentProgrammerAvrdudeCommand: " << currentProgrammerAvrdudeCommand << endl;
     qDebug() << "project.wdir: " << qtavr->value("project.wdir").toString();
 
-    proc1->start("make flash -C " + qtavr->value("project.wdir").toString());
+    TerminalProcess->start("make flash -C " + qtavr->value("project.wdir").toString());
     if (is_error == false){
 
     }else{
@@ -532,7 +532,7 @@ void MainWindow::Flash()
 
     // Script-File ausfuehren
     // Execute Scriptfile
-    proc1->start(FlashFilePath);
+    TerminalProcess->start(FlashFilePath);
     if (is_error == false){
         ui->cOutput->setTextColor(QColor(150,200,150));
         ui->cOutput->append("Flash OK!");
@@ -1000,7 +1000,7 @@ void MainWindow::on_actionProject_Settings_triggered()
 // Console output
 void MainWindow::rightMessage()
 {
-    QByteArray message = proc1->readAllStandardOutput();
+    QByteArray message = TerminalProcess->readAllStandardOutput();
     qDebug() << "shell answer: " << message<< endl;
     //ui->cOutput->setTextColor(QColor(0,0,0));
     ui->cOutput->append(message);
@@ -1009,7 +1009,7 @@ void MainWindow::rightMessage()
 void MainWindow::errorMessage()
 {
     is_error = true;
-    QByteArray error = proc1->readAllStandardError();
+    QByteArray error = TerminalProcess->readAllStandardError();
     qDebug() << "shell error: "<< error << endl;
     //if(error.startsWith("avrdude")||error.startsWith("\nReading")||error.startsWith("#")||error.startsWith("\navrdude"))
         //ui->cOutput->setTextColor(QColor(0,0,0));

@@ -37,7 +37,7 @@ public:
     QString setWorkingDirectory(void);
     struct variables *setProjectVariables(void);
 
-    QProcess *proc1;
+    QProcess *TerminalProcess;
 
 private:
     Ui::MainWindow *ui;
