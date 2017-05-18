@@ -34,7 +34,9 @@ SOURCES += main.cpp\
     fusedialog.cpp \
     templateparser.cpp \
     textedit.cpp \
-    projectsettings.cpp
+    projectsettings.cpp \
+    projecttreemodel.cpp \
+    projecttreeitem.cpp
 
 HEADERS  += mainwindow.h \
     mysyntaxhighlighter.h \
@@ -43,7 +45,9 @@ HEADERS  += mainwindow.h \
     fusedialog.h \
     templateparser.h \
     textedit.h \
-    projectsettings.h
+    projectsettings.h \
+    projecttreemodel.h \
+    projecttreeitem.h
 
 FORMS    += mainwindow.ui \
     settings.ui \

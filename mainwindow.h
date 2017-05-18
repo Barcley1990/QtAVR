@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QModelIndex>
 #include <QCloseEvent>
 #include <qprocess.h>
 #include <qdebug.h>
@@ -88,6 +89,10 @@ private:
     void generateMakefile();
     void addDroppedFile(QString file);
 
+public slots:
+    // Update Tree view
+    void updateActions();
+
 private slots:
     void rightMessage();
     void errorMessage();
@@ -96,6 +101,14 @@ private slots:
     void Run();
     void closeTab(int index);
 
+    // Slots for ProjectTree
+    void insertChild();
+    bool insertColumn();
+    void insertRow();
+    bool removeColumn();
+    void removeRow();
+
+    // Action Slots
     void on_actionSave_triggered();
     void on_actionBuild_triggered();
     void on_actionFlash_triggered();
