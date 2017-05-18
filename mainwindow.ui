@@ -123,6 +123,7 @@
     </widget>
     <addaction name="actionNew_Project"/>
     <addaction name="actionOpen_Project"/>
+    <addaction name="actionClose_Project"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_All"/>
     <addaction name="actionSave_as"/>
@@ -521,6 +522,14 @@
   <action name="actionProject_Settings">
    <property name="text">
     <string>Project Settings</string>
+   </property>
+  </action>
+  <action name="actionClose_Project">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Close Project</string>
    </property>
   </action>
  </widget>

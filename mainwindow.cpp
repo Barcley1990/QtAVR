@@ -152,7 +152,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event){
         qDebug() << "dragEnterEvent not acceptet";
     }
 }
-// Drag and Drop Eventfilter
+
 void MainWindow::dropEvent(QDropEvent *event){
     qDebug() << "dropEvent in MainWindow";
     foreach (const QUrl &url, event->mimeData()->urls()) {
@@ -665,6 +665,7 @@ void MainWindow::on_actionOpen_Project_triggered()
         }
 
         // Enable Action- and other buttons (Add-File)
+        ui->actionClose_Project->setEnabled(true);
         ui->actionNew_File->setEnabled(true);
         ui->actionExisting_File->setEnabled(true);
         ui->actionSave->setEnabled(true);
@@ -688,10 +689,25 @@ void MainWindow::on_actionOpen_Project_triggered()
 
         // Save all files and the project at the the end of open all files.
         saveAllFiles();
+
+        // jump to first Tab
+        ui->twMainTab->setCurrentIndex(0);
+
     }else{
         // Project file does not exist
         qDebug() << "ERROR WHILE LOADING PROJECT FILE!!!";
     }
+}
+void MainWindow::on_actionClose_Project_triggered()
+{
+    p.cFileNames.clear();
+    p.hFileNames.clear();
+    p.oFileNames.clear();
+    p.DeviceName = "";
+    p.ProgrammerName = "";
+    p.Workingdir = "";
+    ui->cCfiles->clear();
+    ui->actionClose_Project->setEnabled(false);
 }
 // Save Active File
 void MainWindow::on_actionSave_triggered(){
@@ -868,8 +884,6 @@ void MainWindow::on_actionExisting_File_triggered()
     }
 }
 
-
-
 // Just open an existing file
 void MainWindow::on_actionFile_triggered()
 {
@@ -1010,3 +1024,5 @@ void MainWindow::errorMessage()
     else
         ui->cOutput->append(error);
 }
+
+

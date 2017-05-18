@@ -123,6 +123,8 @@ private slots:
     void on_actionOpen_Project_triggered();
     void on_actionProject_Settings_triggered();
 
+    void on_actionClose_Project_triggered();
+
 protected:
     void closeEvent(QCloseEvent *event);
     void dragEnterEvent(QDragEnterEvent *event);
