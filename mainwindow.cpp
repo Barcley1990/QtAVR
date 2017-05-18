@@ -22,7 +22,6 @@
 // Die Ausgabe in der Konsole colorieren (Warnungen gelb oder Errors rot etc.)
 // Neuer Tab mit "CMD + T"
 // Dateien mit Doppelklick aus Filelist oeffnen
-// Hinzufuegen von Dateien mittels Drag&Drop
 // Reverse Backspace ermöglichen "Shift + Backspace"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -142,11 +141,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
         }
     }
 }
-
-void MainWindow::mousePressEvent(QMouseEvent *event){
-    qDebug() << "mousePressEvent in MainWindow";
-}
-
+// Drag and Drop Eventfilter
 void MainWindow::dragEnterEvent(QDragEnterEvent *event){
     qDebug() << "dragEnterEvent in MainWindow";
     if (event->mimeData()->hasText()){
@@ -157,11 +152,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event){
         qDebug() << "dragEnterEvent not acceptet";
     }
 }
-
-void MainWindow::dragLeaveEvent( QDragLeaveEvent* event ){
-    qDebug() << "dragLeaveEvent in MainWindow";
-}
-
+// Drag and Drop Eventfilter
 void MainWindow::dropEvent(QDropEvent *event){
     qDebug() << "dropEvent in MainWindow";
     foreach (const QUrl &url, event->mimeData()->urls()) {
@@ -170,7 +161,7 @@ void MainWindow::dropEvent(QDropEvent *event){
         addDroppedFile(fileName);
     }
 }
-
+// Load XML-Files
 void MainWindow::loadXMLFiles()
 {
     QDomDocument doc;
@@ -225,8 +216,7 @@ void MainWindow::loadXMLFiles()
  * @brief MainWindow::unsavedFiles
  * @return True if any file modifications are not saved
  */
-bool MainWindow::unsavedFiles()
-{
+bool MainWindow::unsavedFiles(){
     int i;
     for(i=0; i<ui->twMainTab->count(); i++){
         Editor* e = (Editor*)ui->twMainTab->widget(i);
