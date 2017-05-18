@@ -31,7 +31,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void closeEvent(QCloseEvent *event);
+
     QString setPrgrammerName(void);
     QString setDeviceName(void);
     QString setWorkingDirectory(void);
@@ -87,6 +87,7 @@ private:
     void saveProject();
     void reloadProjectSetting();
     void generateMakefile();
+    void addDroppedFile(QString file);
 
 private slots:
     void rightMessage();
@@ -121,6 +122,13 @@ private slots:
     void on_actionSave_as_triggered();
     void on_actionOpen_Project_triggered();
     void on_actionProject_Settings_triggered();
+
+protected:
+    void closeEvent(QCloseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dragLeaveEvent(QDragLeaveEvent* event);
+    void dropEvent(QDropEvent *event);
 };
 
 #endif // MAINWINDOW_H

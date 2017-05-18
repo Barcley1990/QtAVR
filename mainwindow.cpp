@@ -4,10 +4,18 @@
 #include "templateparser.h"
 
 #include <QSettings>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QDragLeaveEvent>
+#include <QDragMoveEvent>
+#include <QDropEvent>
+#include <QDrag>
+#include <QMimeData>
 
 
 // TODO:
 // lernfaehiger Autocompleter
+// Eventuell Snippets in den Completer einbauen (for(), while(), etc.)
 // Bei AddExistingFile wird die Datei zwar in die Liste hinzugefuegt aber die entsprechende Datei nicht ins Projektverzeichnis kopiert.
 // Dateien sollten aus dem Projektverzeichnis auch wieder entfernt werden können.
 // Aendern von Dateinamen zulassen
@@ -76,6 +84,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->treeView->scrollTo(index);
     ui->treeView->setCurrentIndex(index);
     ui->treeView->resizeColumnToContents(0);
+
+    // Accept Drag&Drop
+    this->setAcceptDrops(true);
 }
 
 MainWindow::~MainWindow()
@@ -129,6 +140,34 @@ void MainWindow::closeEvent(QCloseEvent *event)
             saveProject();
             event->accept();
         }
+    }
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *event){
+    qDebug() << "mousePressEvent in MainWindow";
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent *event){
+    qDebug() << "dragEnterEvent in MainWindow";
+    if (event->mimeData()->hasText()){
+        event->accept();
+        qDebug() << "dragEnterEvent acceptet";
+    }else {
+        event->ignore();
+        qDebug() << "dragEnterEvent not acceptet";
+    }
+}
+
+void MainWindow::dragLeaveEvent( QDragLeaveEvent* event ){
+    qDebug() << "dragLeaveEvent in MainWindow";
+}
+
+void MainWindow::dropEvent(QDropEvent *event){
+    qDebug() << "dropEvent in MainWindow";
+    foreach (const QUrl &url, event->mimeData()->urls()) {
+        QString fileName = url.toLocalFile();
+        qDebug() << "Dropped file:" << fileName;
+        addDroppedFile(fileName);
     }
 }
 
@@ -260,6 +299,49 @@ void MainWindow::reloadProjectSetting()
     qDebug() << "   currentProgrammerAvrdudeCommand: " << currentProgrammerAvrdudeCommand;
 }
 
+void MainWindow::addDroppedFile(QString file){
+    qDebug() << "Add Dropped File" << endl;
+    QString selectedFilter = "";
+
+    if(selectedFilter.contains("*.c")){
+        selectedFilter = "c";
+    }else if(selectedFilter.contains("*.h")){
+        selectedFilter = "h";
+    }
+
+    if(file.length() > 0){
+        QString filename        = QFileInfo(file).fileName();
+        QString filepathname    = QFileInfo(file).filePath();
+        QString filepath        = QFileInfo(file).path();
+        QString suffix          = QFileInfo(file).suffix();
+
+        if(suffix.contains("c") || suffix.contains("C")){
+            // Append a new C file to the list
+            // append filepath/name to list
+            p.cFileNames.append(filename);
+        }else{
+            // Append a new H file to the list
+            // append filepath/name to list
+            p.hFileNames.append(filename);
+        }
+
+        reloadFileList();
+
+        // New File in tab-bar
+        Editor* e = new Editor(this, filepath, filename);
+        e->setSettings(userSettings);
+        connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
+        ui->twMainTab->addTab(e, filename);
+        ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
+        ui->actionSave->setEnabled(true);
+        ui->actionSave_All->setEnabled(true);
+        ui->actionSave_as->setEnabled(true);
+
+        saveProject();
+    }
+}
+
+
 /**
  * Generates the project makefile according to the template and the qtavr project settings file
  * @brief MainWindow::generateMakefile
@@ -293,7 +375,6 @@ void MainWindow::generateMakefile()
         }
     }
 }
-
 // Close open Tabwindow
 void MainWindow::closeTab(int index) {
     Editor* e = (Editor*)(ui->twMainTab->widget(index));
@@ -479,34 +560,6 @@ void MainWindow::Run(){
     Build();
     Flash();
 }
-
-void MainWindow::rightMessage()
-{
-    QByteArray message = proc1->readAllStandardOutput();
-    qDebug() << "shell answer: " << message<< endl;
-    //ui->cOutput->setTextColor(QColor(0,0,0));
-    ui->cOutput->append(message);
-}
-
-void MainWindow::errorMessage()
-{
-    is_error = true;
-    QByteArray error = proc1->readAllStandardError();
-    qDebug() << "shell error: "<< error << endl;
-    //if(error.startsWith("avrdude")||error.startsWith("\nReading")||error.startsWith("#")||error.startsWith("\navrdude"))
-        //ui->cOutput->setTextColor(QColor(0,0,0));
-    //else
-        //ui->cOutput->setTextColor(QColor(0,0,0));
-
-    if(!error.endsWith("\n")){
-        QTextCursor cursor = ui->cOutput->textCursor();
-        cursor.movePosition(QTextCursor::End);
-        cursor.insertText(error);
-    }
-    else
-        ui->cOutput->append(error);
-}
-
 
 /* Action Bar */
 // Create New Project
@@ -824,6 +877,9 @@ void MainWindow::on_actionExisting_File_triggered()
         saveProject();
     }
 }
+
+
+
 // Just open an existing file
 void MainWindow::on_actionFile_triggered()
 {
@@ -926,7 +982,6 @@ void MainWindow::on_actionDefault_View_triggered()
     ui->dockWidgetFileList->setFloating(false);
     ui->dockWidgetWorktree->setFloating(false);
 }
-
 // Open project specific settings
 void MainWindow::on_actionProject_Settings_triggered()
 {
@@ -936,4 +991,32 @@ void MainWindow::on_actionProject_Settings_triggered()
         delete settings;
         reloadProjectSetting();
     }
+}
+
+// Console output
+void MainWindow::rightMessage()
+{
+    QByteArray message = proc1->readAllStandardOutput();
+    qDebug() << "shell answer: " << message<< endl;
+    //ui->cOutput->setTextColor(QColor(0,0,0));
+    ui->cOutput->append(message);
+}
+
+void MainWindow::errorMessage()
+{
+    is_error = true;
+    QByteArray error = proc1->readAllStandardError();
+    qDebug() << "shell error: "<< error << endl;
+    //if(error.startsWith("avrdude")||error.startsWith("\nReading")||error.startsWith("#")||error.startsWith("\navrdude"))
+        //ui->cOutput->setTextColor(QColor(0,0,0));
+    //else
+        //ui->cOutput->setTextColor(QColor(0,0,0));
+
+    if(!error.endsWith("\n")){
+        QTextCursor cursor = ui->cOutput->textCursor();
+        cursor.movePosition(QTextCursor::End);
+        cursor.insertText(error);
+    }
+    else
+        ui->cOutput->append(error);
 }

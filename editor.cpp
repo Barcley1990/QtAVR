@@ -119,15 +119,10 @@ Editor::Editor(QWidget *parent, QString path, QString filename, bool mainFile) :
     }
 }
 
-
-
-
 Editor::~Editor(){
     highlighter->deleteLater();
     file->deleteLater();
 }
-
-
 
 bool Editor::saveContent()
 {
