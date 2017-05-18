@@ -11,7 +11,6 @@
 #include <qmessagebox.h>
 #include <qsyntaxhighlighter.h>
 #include <qtextedit.h>
-#include <QDirModel>
 #include "QtXml/qdom.h"
 
 
@@ -76,7 +75,7 @@ private:
     QStringList programmerAvrdudeCommands;
     QString currentProgrammerAvrdudeCommand;
 
-    QDirModel *model;
+    QDirModel *dirmodel;
 
     QSettings* projectFile;
 

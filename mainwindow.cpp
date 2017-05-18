@@ -12,6 +12,8 @@
 #include <QDrag>
 #include <QMimeData>
 
+#include <QDirModel>
+#include <QVariant>
 
 // TODO:
 // lernfaehiger Autocompleter
@@ -36,9 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowIcon(QIcon(":/images/images/chip03_small.png"));
     // Set Window Size in Startup
     this->setWindowState(Qt::WindowMaximized);
-
+    // Load XML-Files
     loadXMLFiles();
-
     // Settings Dialog
     userSettings = new Settings();
     if(userSettings->load()){
@@ -46,18 +47,14 @@ MainWindow::MainWindow(QWidget *parent) :
     }else{
         // TODO: There are no user settings, maybe show a welcome screen or a "first-steps" instruction
     }
-
     // Load layout
     restoreGeometry(userSettings->getGeometry());
     restoreState(userSettings->getWindowState());
-
-    // Fuses Dialog
+    // Create Dialog to set the uCs Fuses
     fuseSettings = new FuseDialog();
-
     // show default file path at start on statusbar
     p.Workingdir= QDir::homePath();
     ui->statusBar->showMessage(p.Workingdir);
-
     /* show output */
     connect(TerminalProcess, SIGNAL(readyReadStandardOutput()),this, SLOT(rightMessage()) );
     connect(TerminalProcess, SIGNAL(readyReadStandardError()), this, SLOT(errorMessage()) );
@@ -74,16 +71,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // Set Workingtree in TreeView Widget
-    model = new QDirModel();
-    model->setReadOnly(false);
-    model->setSorting(QDir::DirsFirst | QDir::IgnoreCase | QDir::Name);
-    ui->treeView->setModel( model );
-    QModelIndex index = model->index(p.Workingdir);
+    dirmodel = new QDirModel();
+    dirmodel->setReadOnly(false);
+    dirmodel->setSorting(QDir::DirsFirst | QDir::IgnoreCase | QDir::Name);
+    ui->treeView->setModel( dirmodel );
+    /*
+    QVariant a = model->index(0, 0, QModelIndex()).data();
+    QModelIndex index = dirmodel->index(p.Workingdir);
     //ui->treeView->expand(index);
     ui->treeView->scrollTo(index);
     ui->treeView->setCurrentIndex(index);
     ui->treeView->resizeColumnToContents(0);
-
+*/
     // Accept Drag&Drop
     this->setAcceptDrops(true);
 }
@@ -604,7 +603,7 @@ void MainWindow::on_actionNew_Project_triggered(){
         ui->bFlash->setEnabled(true);
         ui->bRun->setEnabled(true);
 
-        QModelIndex index = model->index(p.Workingdir);
+        QModelIndex index = dirmodel->index(p.Workingdir);
         //ui->treeView->expand(index);
         ui->treeView->scrollTo(index);
         ui->treeView->setCurrentIndex(index);
@@ -679,7 +678,7 @@ void MainWindow::on_actionOpen_Project_triggered()
         ui->bRun->setEnabled(true);
 
         // Jump to new index in Worktree
-        QModelIndex index = model->index(p.Workingdir);
+        QModelIndex index = dirmodel->index(p.Workingdir);
         ui->treeView->expand(index);
         ui->treeView->scrollTo(index);
         ui->treeView->setCurrentIndex(index);
