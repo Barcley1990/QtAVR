@@ -163,11 +163,20 @@
     <addaction name="actionViewConsole"/>
     <addaction name="actionDefault_View"/>
    </widget>
+   <widget class="QMenu" name="menuTree">
+    <property name="title">
+     <string>Tree</string>
+    </property>
+    <addaction name="actionsetRow"/>
+    <addaction name="actionresRow"/>
+    <addaction name="actionsetChild"/>
+   </widget>
    <addaction name="menuData"/>
    <addaction name="menuDevice"/>
    <addaction name="menuSettings"/>
    <addaction name="menuView"/>
    <addaction name="menuHelp"/>
+   <addaction name="menuTree"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockWidgetWorktree">
@@ -530,6 +539,21 @@
    </property>
    <property name="text">
     <string>Close Project</string>
+   </property>
+  </action>
+  <action name="actionsetRow">
+   <property name="text">
+    <string>setRow</string>
+   </property>
+  </action>
+  <action name="actionresRow">
+   <property name="text">
+    <string>resRow</string>
+   </property>
+  </action>
+  <action name="actionsetChild">
+   <property name="text">
+    <string>setChild</string>
    </property>
   </action>
  </widget>

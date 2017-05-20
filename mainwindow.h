@@ -19,6 +19,7 @@
 #include "settings.h"
 #include "editor.h"
 #include "fusedialog.h"
+#include "projecttreemodel.h"
 
 namespace Ui {
 class MainWindow;
@@ -76,7 +77,13 @@ private:
     QStringList programmerAvrdudeCommands;
     QString currentProgrammerAvrdudeCommand;
 
-    QDirModel *dirmodel;
+    // Varaibels for TreeView
+    TreeModel *model;
+    int posTop = 0;
+    int posHeaders = 0;
+    int posSources = 1;
+    QModelIndex *indexLevel0;
+    QModelIndex *indexLevel1;
 
     QSettings* projectFile;
 
@@ -102,9 +109,9 @@ private slots:
     void closeTab(int index);
 
     // Slots for ProjectTree
-    void insertChild();
+    void insertChild(const QString &data = "");
     bool insertColumn();
-    void insertRow();
+    void insertRow(const QString &data);
     bool removeColumn();
     void removeRow();
 
@@ -136,6 +143,10 @@ private slots:
     void on_actionProject_Settings_triggered();
 
     void on_actionClose_Project_triggered();
+
+    void on_actionsetRow_triggered();
+
+    void on_actionsetChild_triggered();
 
 protected:
     void closeEvent(QCloseEvent *event);

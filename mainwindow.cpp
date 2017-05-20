@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include "projectsettings.h"
 #include "templateparser.h"
-#include "projecttreemodel.h"
 
 #include <QSettings>
 #include <QDragEnterEvent>
@@ -74,33 +73,26 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // Set Workingtree in TreeView Widget
-    dirmodel = new QDirModel();
-
-
-
     QStringList headers;
-    headers << tr("Title") << tr("Description");
-
-
-    TreeModel *model = new TreeModel(headers, "TEST");
+    headers << tr("Title");
+    // New Tree Model with parent "Project" on Top Level (0,0)
+    model = new TreeModel(headers, "Project");
+    indexLevel0 = new QModelIndex();
+    indexLevel1 = new QModelIndex();
     ui->treeView->setModel( model );
+    //connect(ui->treeView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::updateActions);
 
-    for (int column = 0; column < model->columnCount(); ++column)
-        ui->treeView->resizeColumnToContents(column);
+    // insert childitems for header and source files at parent "Project"
+    // New items wil be insert from bottom to top. To insert a new item you first have to
+    // select the parent item.
+    // After this construction, the parent will be "index".
+    *indexLevel0 = model->index(posTop,0);
+    ui->treeView->selectionModel()->setCurrentIndex(*indexLevel0,QItemSelectionModel::Select);
+    insertChild("Sources");
+    *indexLevel0 = model->index(posTop,0);
+    ui->treeView->selectionModel()->setCurrentIndex(*indexLevel0,QItemSelectionModel::Select);
+    insertChild("Headers");
 
-   // connect(exitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
-
-    connect(ui->treeView->selectionModel(), &QItemSelectionModel::selectionChanged,
-            this, &MainWindow::updateActions);
-/*
-    connect(actionsMenu, &QMenu::aboutToShow, this, &MainWindow::updateActions);
-    connect(insertRowAction, &QAction::triggered, this, &MainWindow::insertRow);
-    connect(insertColumnAction, &QAction::triggered, this, &MainWindow::insertColumn);
-    connect(removeRowAction, &QAction::triggered, this, &MainWindow::removeRow);
-    connect(removeColumnAction, &QAction::triggered, this, &MainWindow::removeColumn);
-    connect(insertChildAction, &QAction::triggered, this, &MainWindow::insertChild);
-*/
-    updateActions();
 
     // Accept Drag&Drop
     this->setAcceptDrops(true);
@@ -622,13 +614,6 @@ void MainWindow::on_actionNew_Project_triggered(){
         ui->bFlash->setEnabled(true);
         ui->bRun->setEnabled(true);
 
-        QModelIndex index = dirmodel->index(p.Workingdir);
-        //ui->treeView->expand(index);
-        ui->treeView->scrollTo(index);
-        ui->treeView->setCurrentIndex(index);
-        ui->treeView->resizeColumnToContents(0);
-
-        reloadProjectSetting();
      }
 }
 // Open Existing Project
@@ -669,6 +654,11 @@ void MainWindow::on_actionOpen_Project_triggered()
             connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
             ui->twMainTab->addTab(e, p.cFileNames[i]);
             ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
+
+            // add Files to TreeView
+            *indexLevel1 = model->index(posSources,0, *indexLevel0);
+            ui->treeView->selectionModel()->setCurrentIndex(*indexLevel1,QItemSelectionModel::Select);
+            insertChild(p.cFileNames[i]);
         }
         // open h-files
         for(uint8_t i=0; i<p.hFileNames.length(); i++){
@@ -680,6 +670,11 @@ void MainWindow::on_actionOpen_Project_triggered()
             connect(e, SIGNAL(unsafed(QString)), this, SLOT(on_fileChanged(QString)));
             ui->twMainTab->addTab(e, p.hFileNames[i]);
             ui->twMainTab->setCurrentIndex(ui->twMainTab->count()-1);
+
+            // add Files to TreeView
+            *indexLevel1 = model->index(posHeaders,0, *indexLevel0);
+            ui->treeView->selectionModel()->setCurrentIndex(*indexLevel1,QItemSelectionModel::Select);
+            insertChild(p.hFileNames[i]);
         }
 
         // Enable Action- and other buttons (Add-File)
@@ -696,13 +691,6 @@ void MainWindow::on_actionOpen_Project_triggered()
         ui->bFlash->setEnabled(true);
         ui->bRun->setEnabled(true);
 
-        // Jump to new index in Worktree
-        QModelIndex index = dirmodel->index(p.Workingdir);
-        ui->treeView->expand(index);
-        ui->treeView->scrollTo(index);
-        ui->treeView->setCurrentIndex(index);
-        ui->treeView->resizeColumnToContents(0);
-
         reloadProjectSetting();
 
         // Save all files and the project at the the end of open all files.
@@ -710,6 +698,8 @@ void MainWindow::on_actionOpen_Project_triggered()
 
         // jump to first Tab
         ui->twMainTab->setCurrentIndex(0);
+
+
 
     }else{
         // Project file does not exist
@@ -1043,9 +1033,10 @@ void MainWindow::errorMessage()
         ui->cOutput->append(error);
 }
 
-
+/**********************************/
 // Treeview Functions
-void MainWindow::insertChild()
+/**********************************/
+void MainWindow::insertChild(const QString &data)
 {
     QModelIndex index = ui->treeView->selectionModel()->currentIndex();
     QAbstractItemModel *model = ui->treeView->model();
@@ -1060,7 +1051,7 @@ void MainWindow::insertChild()
 
     for (int column = 0; column < model->columnCount(index); ++column) {
         QModelIndex child = model->index(0, column, index);
-        model->setData(child, QVariant("[No data]"), Qt::EditRole);
+        model->setData(child, QVariant(data), Qt::EditRole);
         if (!model->headerData(column, Qt::Horizontal).isValid())
             model->setHeaderData(column, Qt::Horizontal, QVariant("[No header]"), Qt::EditRole);
     }
@@ -1085,7 +1076,7 @@ bool MainWindow::insertColumn()
     return changed;
 }
 
-void MainWindow::insertRow()
+void MainWindow::insertRow(const QString &data)
 {
     QModelIndex index = ui->treeView->selectionModel()->currentIndex();
     QAbstractItemModel *model = ui->treeView->model();
@@ -1097,7 +1088,7 @@ void MainWindow::insertRow()
 
     for (int column = 0; column < model->columnCount(index.parent()); ++column) {
         QModelIndex child = model->index(index.row()+1, column, index.parent());
-        model->setData(child, QVariant("[No data]"), Qt::EditRole);
+        model->setData(child, QVariant(data), Qt::EditRole);
     }
 }
 
@@ -1146,3 +1137,44 @@ void MainWindow::updateActions()
     }
 }
 
+
+void MainWindow::on_actionsetRow_triggered()
+{
+    QModelIndex index = ui->treeView->selectionModel()->currentIndex();
+    QAbstractItemModel *model = ui->treeView->model();
+
+    if (!model->insertRow(index.row()+1, index.parent()))
+        return;
+
+    updateActions();
+
+    for (int column = 0; column < model->columnCount(index.parent()); ++column) {
+        QModelIndex child = model->index(index.row()+1, column, index.parent());
+        model->setData(child, QVariant("data"), Qt::EditRole);
+    }
+}
+
+void MainWindow::on_actionsetChild_triggered()
+{
+    QModelIndex index = ui->treeView->selectionModel()->currentIndex();
+    QAbstractItemModel *model = ui->treeView->model();
+
+    if (model->columnCount(index) == 0) {
+        if (!model->insertColumn(0, index))
+            return;
+    }
+
+    if (!model->insertRow(0, index))
+        return;
+
+    for (int column = 0; column < model->columnCount(index); ++column) {
+        QModelIndex child = model->index(0, column, index);
+        model->setData(child, QVariant("data"), Qt::EditRole);
+        if (!model->headerData(column, Qt::Horizontal).isValid())
+            model->setHeaderData(column, Qt::Horizontal, QVariant("[No header]"), Qt::EditRole);
+    }
+
+    ui->treeView->selectionModel()->setCurrentIndex(model->index(0, 0, index),
+                                            QItemSelectionModel::ClearAndSelect);
+    updateActions();
+}
